@@ -44,7 +44,7 @@ typedef enum		e_status // pour room
 
 typedef enum		e_available // pour room // pertinent pour multipath complexe?
 {
-	VISITED, NO_VISITED, POSSIBLE_PATH, PATH
+	VISITED, NO_VISITED, POSSIBLE_PATH, PATH // gerer le possible path
 }					t_available;
 /*
 typedef enum 		e_type
@@ -61,6 +61,7 @@ typedef struct		s_map
 
 typedef	struct 		s_room // 
 {
+	int 			room_id;
 	int				number_ants_in_room; //nb_a
 	char 			*name_room; //name
 	int				coord_x_room; // x
@@ -101,15 +102,26 @@ typedef struct 		s_line
 	int 			number_words; // 1 si int nb fourmi si format nom - nom check nom existe sinon voir comment 2 = si pas comment danger 3 = room = texte space int space int
 	t_type			type;
 }					t_line;
+
+typedef struct		s_ret_path
+{
+	t_path			*path;
+	int				size;
+	int				first_ant; (nb path + modulo nb path)
+	int				nb_ant;
+	t_path			**room_ant;
+	int				step;
+}					t_ret_path;
+
 */
 
 typedef struct 		s_all
 {
 	int 			number_ants;
 	int				number_rooms;
-	int				limited_factor;
+	int				limited_factor; // a voir si utile et comment il peut l etre 
 	int 			nbr_lines_in_file;
-	t_line			*line; // lourd pour rien
+//	t_line			*line; // lourd pour rien
 	t_room			*room;
 	int				path_found;
 	t_path			**tab_path;
@@ -118,6 +130,8 @@ typedef struct 		s_all
 	t_room			**ant;
 	t_map			*map;
 	t_room			*cur;
+	int				**matrice;
+	int 			matrice_init;
 }					t_all;
 
 typedef struct		s_lst
@@ -125,7 +139,7 @@ typedef struct		s_lst
 	struct s_lst	*next;
 }					t_lst;
 
-int		ft_one_line_tube_or_room(t_all *elem, char *line);
+int				ft_one_line_tube_or_room(t_all *elem, char *line);
 int				ft_check_nb_ants(t_all *elem, char *str, int *i);
 
 //void			ft_init_elem(t_all *elem); // dans le main
@@ -139,19 +153,19 @@ void			ft_print_path(t_all *elem); // a faire
 **	Parsing Tools 1
 */
 
-void		ft_status_update(t_all *elem, t_room *tmp);
+void			ft_status_update(t_all *elem, t_room *tmp);
 int				ft_tube(t_all *elem, char *line);
 int				ft_room(t_all *elem, char **tab_coor);
-int		ft_one_line_tube_or_room(t_all *elem, char *line);
-int		ft_get_instructions(t_all *elem, char *line);
+int				ft_one_line_tube_or_room(t_all *elem, char *line);
+int				ft_get_instructions(t_all *elem, char *line);
 
 /*
 **	Parsing Tools 2
 */
-void		ft_find_room(t_room **tmp, char *room);
-int		ft_realloc_room_tab(t_room ***tab, t_room *room);
-int		ft_tube_aux(t_room **tmp, t_room **cur);
-int		ft_check_nb(char *s, int *nb);
+void			ft_find_room(t_room **tmp, char *room);
+int				ft_realloc_room_tab(t_room ***tab, t_room *room);
+int				ft_tube_aux(t_all *elem, t_room **tmp, t_room **cur);
+int				ft_check_nb(char *s, int *nb);
 int				ft_check_nb_ants(t_all *elem, char *str, int *i);
 
 /*
@@ -162,13 +176,18 @@ void			ft_save_map(t_all *elem, char *line);
 /*
 **	Fonctions free
 */
-void		ft_free_room(t_lst *lst);
+void			ft_free_room(t_lst *lst);
 void			ft_free_lst(t_lst *lst, void (*f)(t_lst *lst));
 void			ft_free_all(t_all *elem);
 int				ft_free_them(size_t n, ...);
-int		ft_error_tube(char ***tab_tube);
-void	ft_free_path(t_lst *lst);
+int				ft_error_tube(char ***tab_tube);
+void			ft_free_path(t_lst *lst);
 
+/*
+**	Fonctions matrice
+*/
+
+void			ft_print_matrice(int **matrice, t_all *elem);
 
 #endif
 /*

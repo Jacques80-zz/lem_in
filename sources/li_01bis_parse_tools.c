@@ -48,25 +48,111 @@ int		ft_realloc_room_tab(t_room ***tab, t_room *room)
 }
 
 /*
+**	
+**
+*/
+
+void	ft_print_matrice(int **matrice, t_all *elem)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < elem->number_rooms)
+	{
+		j = 0;
+		while (j < elem->number_rooms)
+		{
+			ft_printf(" %d ", matrice[i][j++]);
+		}
+		ft_printf("\n");
+		i++;
+		ft_printf("number_rooms : %d\n", elem->number_rooms);
+	}
+}
+
+/*
+**
+*/
+
+void	ft_set_matrice(t_room **tmp, t_room **cur, int **matrice)
+{
+	int id_first_room;
+	int id_second_room;
+
+	id_first_room = (*tmp)->room_id;
+	id_second_room = (*cur)->room_id;
+	matrice[id_first_room][id_second_room] = 1;
+	matrice[id_second_room][id_first_room] = 1;
+}
+
+/*
+**
+*/
+
+int 	**ft_init_matrice(int number_rooms)
+{
+	int		**matrice;
+	if (!(matrice = (int **)malloc(sizeof(int *) * (number_rooms + 1))))
+		return (NULL);
+	// int matrice[number_rooms][number_rooms];
+	int i;
+	int j;
+	i = 0;
+	while (i < number_rooms)
+	{
+		if (!(matrice[i] = malloc(sizeof(int) * (number_rooms))))
+			return (NULL);
+		j = 0;
+		while(j < number_rooms)
+		{
+			matrice[i][j] = 0;
+			j++;
+		}
+		i++;
+	}
+	matrice[i] = NULL;
+	return (matrice);
+}
+
+
+
+/*
 **	Verfie que le nom de room associé au tube existe
 **	Garanti le malloc des nouveaux tableaux de rooms
 */
 
-int		ft_tube_aux(t_room **tmp, t_room **cur)
+int		ft_tube_aux(t_all *elem, t_room **tmp, t_room **cur)
 {
+	int **matrice;
 	if (*tmp == NULL || *cur == NULL)
 		return (ERROR);
 	if (ft_realloc_room_tab(&(*tmp)->tab, *cur) == ERROR)
 		return (ERROR);
 	if (ft_realloc_room_tab(&(*cur)->tab, *tmp) == ERROR)
 		return (ERROR);
+	if (elem->matrice_init == 0)
+	{
+		matrice = ft_init_matrice(elem->number_rooms);
+		ft_set_matrice(tmp, cur, matrice);
+		elem->matrice = matrice;
+		elem->matrice_init = elem->matrice_init + 1;
+	}
+	else
+	{	matrice = elem->matrice;
+		ft_set_matrice(tmp, cur, matrice);
+		elem->matrice = matrice;
+	}
+//	ft_print_matrice(elem->matrice, elem);
 	return (SUCCESS);
 }
 
 /*
 **	Appelé quand 1 seule str dans la ligne, qui ne commence pas par # et
 **	qui contient '-'. Condition d'erreur ne permettant pas plus d'une 
-**	liaison (et qui suppose qu'une room ne peut contenir de '-'
+**	liaison (et qui suppose qu'une room ne peut pas contenir de '-'
+**	si la room n existe pas tmp ou cur sera set a NULL et tube aux reverra une
+**	erreur
 */
 
 int				ft_tube(t_all *elem, char *line)
@@ -87,13 +173,18 @@ int				ft_tube(t_all *elem, char *line)
 	cur = elem->room;
 	ft_find_room(&tmp, tab_tube[0]); 
 	ft_find_room(&cur, tab_tube[1]);
-	if (ft_tube_aux(&tmp, &cur) == ERROR) 
+	if (ft_tube_aux(elem, &tmp, &cur) == ERROR) 
 		return (ft_error_tube(&tab_tube));
 	i = -1;
 	while (tab_tube[++i])
 		free(tab_tube[i]);
 	return (ft_free_them(1, tab_tube) ? SUCCESS : SUCCESS);
 }
+
+/*
+**	Outil permettant simplement de verifier que les coordonnees des salles et
+**	le nombre de fourmis tiennent bien dans un int 
+*/
 
 int		ft_check_nb(char *s, int *nb)
 {
@@ -113,6 +204,12 @@ int		ft_check_nb(char *s, int *nb)
 	*nb = (int)long_nb;
 	return (SUCCESS);
 }
+
+/*
+**	Est appele pour la premiere ligne (hors commentaire)
+**	utilise check_nb pour verifier que le nombre est bien un int
+**	et ecrire a l'adresse elem->nb_ants la quantite de fourmies a envoyer
+*/
 
 int		ft_check_nb_ants(t_all *elem, char *str, int *i)
 {

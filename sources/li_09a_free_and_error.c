@@ -1,5 +1,9 @@
 #include "../includes/lem_in.h"
 
+/*
+** 
+*/
+
 void	ft_free_room(t_lst *lst)
 {
 	t_room	*room;
@@ -8,6 +12,10 @@ void	ft_free_room(t_lst *lst)
 	free(room->name_room);
 	free(room->tab);
 }
+
+/*
+**
+*/
 
 void		ft_free_lst(t_lst *lst, void (*f)(t_lst *lst))
 {
@@ -21,6 +29,10 @@ void		ft_free_lst(t_lst *lst, void (*f)(t_lst *lst))
 		free(free_lst);
 	}
 }
+
+/*
+**
+*/
 
 void		ft_free_all(t_all *elem)
 {
@@ -37,6 +49,10 @@ void		ft_free_all(t_all *elem)
 	}
 }
 
+/*
+**
+*/
+
 int		ft_free_them(size_t n, ...)
 {
 	void	*del;
@@ -52,6 +68,10 @@ int		ft_free_them(size_t n, ...)
 	return (1);
 }
 
+/*
+**
+*/
+
 int		ft_error_tube(char ***tab_tube)
 {
 	int		i;
@@ -62,6 +82,23 @@ int		ft_error_tube(char ***tab_tube)
 	ft_free_them(1, *tab_tube);
 	return (ERROR);
 }
+
+/*
+**
+*/
+
+void	ft_error(int nb)
+{
+	if (nb == ERROR)
+	{
+		write(STDERR_FILENO, "Error\n", 6);
+		exit(1);
+	}
+}
+
+/*
+**
+*/
 
 void	ft_free_path(t_lst *lst)
 {

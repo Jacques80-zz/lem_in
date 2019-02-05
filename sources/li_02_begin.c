@@ -1,13 +1,11 @@
 #include "../includes/lem_in.h"
 
-void	ft_error(int nb)
-{
-	if (nb == ERROR)
-	{
-		write(STDERR_FILENO, "Error\n", 6);
-		exit(1);
-	}
-}
+/*
+**	Est appellee a chaque ligne valide
+**	si le malloc echoue, on utilise ft_error
+**	cas si 1ere ligne
+**	cas pour toutes les lignes suivantes 
+*/
 
 void	ft_save_map(t_all *elem, char *line)
 {
