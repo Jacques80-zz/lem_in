@@ -57,6 +57,7 @@ int		*ft_get_path(t_all *elem, int **matrice, int start, int end)
 		if (matrice[i][j] == 1)
 		{
 			matrice[i][j] = matrice[i][j] + 1;
+			matrice[j][i] = matrice[j][i] + 1;
 			size = size + 1;
 			tab_of_path[size] = j; 
 			i = 0;
@@ -67,6 +68,7 @@ int		*ft_get_path(t_all *elem, int **matrice, int start, int end)
 		if (matrice[i][j] == 1)
 		{
 			matrice[i][j] = matrice[i][j] + 1;
+			matrice[j][i] = matrice[j][i] + 1;
 			size = size + 1;
 			tab_of_path[size] = i; 
 			j = 0;
