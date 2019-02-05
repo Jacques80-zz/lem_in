@@ -43,6 +43,7 @@ void			ft_init_elem(t_all *elem)
 	elem->map = NULL;
 	elem->next_is_start = 0;
 	elem->next_is_end = 0;
+	elem->path_found = 0;
 }
 
 /*

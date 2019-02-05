@@ -67,8 +67,9 @@ void	ft_print_matrice(int **matrice, t_all *elem)
 		}
 		ft_printf("\n");
 		i++;
-		ft_printf("number_rooms : %d\n", elem->number_rooms);
+		
 	}
+	ft_printf("\n\n\n");
 }
 
 /*

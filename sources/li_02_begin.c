@@ -45,10 +45,15 @@ int		*ft_get_path(t_all *elem, int **matrice, int start, int end)
 	if(!(tab_of_path = malloc(sizeof(int) * (elem->number_rooms + 1))))
 		return (NULL);
 	tab_of_path[size] = i;
-	while ((i != end || j != end) && matrice[i][j] < 1)
+	//ft_print_matrice(matrice, elem);
+	while (elem->path_found == 0)//i != end && matrice[i][j] < 1)
 	{
+		ft_printf("je suis ici\n");
 		while(j < elem->number_rooms && matrice[i][j] != 1)
-			j++;
+			{
+				j++;
+				ft_printf("ici j = %d", j);
+			}
 		if (matrice[i][j] == 1)
 		{
 			matrice[i][j] = matrice[i][j] + 1;
@@ -57,7 +62,8 @@ int		*ft_get_path(t_all *elem, int **matrice, int start, int end)
 			i = 0;
 		}
 		while( i < elem->number_rooms && matrice[i][j] != 1)
-			i++;
+			{i++;
+			ft_printf("ici i = %d", i);}
 		if (matrice[i][j] == 1)
 		{
 			matrice[i][j] = matrice[i][j] + 1;
@@ -66,8 +72,9 @@ int		*ft_get_path(t_all *elem, int **matrice, int start, int end)
 			j = 0;
 		}
 	}
+
 	ft_print_matrice(matrice, elem);
-	
+
 	return (tab_of_path);
 	//if ((i == end || j == end)  && matrice[i][j] == 1)
 
