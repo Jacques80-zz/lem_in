@@ -27,3 +27,48 @@ void	ft_save_map(t_all *elem, char *line)
 	}
 	last->next = new;
 }
+
+/*
+**
+*/
+
+int		*ft_get_path(t_all *elem, int **matrice, int start, int end)
+{
+	int *tab_of_path;
+	int i;
+	int j;
+	int size;
+
+	size = 0;
+	i = start;
+	j = 0;
+	if(!(tab_of_path = malloc(sizeof(int) * (elem->number_rooms + 1))))
+		return (NULL);
+	tab_of_path[size] = i;
+	while ((i != end || j != end) && matrice[i][j] < 1)
+	{
+		while(j < elem->number_rooms && matrice[i][j] != 1)
+			j++;
+		if (matrice[i][j] == 1)
+		{
+			matrice[i][j] = matrice[i][j] + 1;
+			size = size + 1;
+			tab_of_path[size] = j; 
+			i = 0;
+		}
+		while( i < elem->number_rooms && matrice[i][j] != 1)
+			i++;
+		if (matrice[i][j] == 1)
+		{
+			matrice[i][j] = matrice[i][j] + 1;
+			size = size + 1;
+			tab_of_path[size] = i; 
+			j = 0;
+		}
+	}
+	ft_print_matrice(matrice, elem);
+	
+	return (tab_of_path);
+	//if ((i == end || j == end)  && matrice[i][j] == 1)
+
+}

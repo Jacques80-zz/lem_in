@@ -40,6 +40,9 @@ void			ft_init_elem(t_all *elem)
 	elem->path_found = 0;
 	elem->matrice_init = 0;
 	elem->matrice = NULL;
+	elem->map = NULL;
+	elem->next_is_start = 0;
+	elem->next_is_end = 0;
 }
 
 /*
@@ -103,10 +106,35 @@ void	ft_print_infos(t_all *elem)
 **	on free le tout avant de quitter
 */
 
+int 	ft_init_start(t_all *elem)
+{
+	t_room *tmp;
+
+	tmp = elem->room;
+	while (tmp->status != START)
+	{
+		tmp = tmp->next;
+	}
+	return (tmp->room_id);
+}
+
+int		ft_init_end(t_all *elem)
+{
+	t_room *tmp;
+
+	tmp = elem->room;
+	while (tmp->status != END)
+	{
+		tmp = tmp->next;
+	}
+	return (tmp->room_id);
+}
+
 int				main(int ac, char **av)
 {
 	t_all		elem;
 
+	int i, j;
 	(void)av;
 	(void)ac;
 	if (ft_read(&elem) == FAIL)
@@ -117,8 +145,13 @@ int				main(int ac, char **av)
 	}
 	else
 	{	
+		i = ft_init_start(&elem);
+		j = ft_init_end(&elem);
+		ft_printf("ici i = %d\n", i);
+		ft_printf("ici j = %d\n", j);
 			//	if (ft_init_ant(&elem) == SUCCESS)
 		ft_print_matrice(elem.matrice, &elem);
+		ft_get_path(&elem, elem.matrice, i, j);
 		ft_print_infos(&elem); // a faire
 //		ft_print_path(&elem); // a faire
 	}
