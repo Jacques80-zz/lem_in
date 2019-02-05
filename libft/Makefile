@@ -6,31 +6,24 @@
 #    By: jdouniol <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/30 10:34:30 by jdouniol          #+#    #+#              #
-#    Updated: 2019/01/28 20:07:42 by jdouniol         ###   ########.fr        #
+#    Updated: 2019/02/05 16:01:24 by fallouch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 
 CC			=	gcc
-FLAGS		= 	-Wall -Werror -Wextra	
+FLAGS		= 	-Wall -Werror -Wextra
 
-_SRC 		= 	ft_0_printf.c \
-				ft_1_parser.c \
-				ft_1bis_parser_flags.c \
-				ft_2_handler.c \
-				ft_3a_int_and_uint_handler.c \
-				ft_3abis_int_tools.c \
-				ft_3b_str_handler.c \
-				ft_3c_str_w_handler.c \
-				ft_3cbis_w_char_bytes.c \
-				ft_3d_error_handler.c \
-				ft_3e_roman.c \
-				ft_4a_width.c \
-				ft_4b_precision.c \
-				ft_4bbis_extend_w_char.c \
-				ft_5a_chainfct.c \
-				ft_5b_recognize.c 
+_SRC 		= 	basic_print.c \
+				buffer.c \
+				conv_d.c \
+				ft_aux.c \
+				ft_lltoa.c \
+				ft_print.c \
+				ft_printf.c \
+				ft_putfloat.c \
+				parsing.c
 
 _LSRC 		=	ft_putchar.c ft_putstr.c ft_memset.c ft_bzero.c ft_memcpy.c \
 				ft_memccpy.c ft_strlen.c ft_strdup.c ft_tolower.c \
@@ -52,7 +45,7 @@ _LSRC 		=	ft_putchar.c ft_putstr.c ft_memset.c ft_bzero.c ft_memcpy.c \
 	  			ft_strdupifexist.c ft_strtrim_c.c ft_strtolower.c \
 	  			ft_strtoupper.c get_next_line.c ft_split_whitespaces.c \
 	  			ft_islower.c ft_isspace.c ft_istrim.c ft_isupper.c \
-	  			ft_atol.c ft_isint.c
+	  			ft_atol.c ft_isint.c ft_atoll.c ft_to_lower.c
 
 HEADER		= ../includes/libft.h ../includes/ft_printf.h
 PRINTF_DIR	= pf_sources
@@ -75,7 +68,7 @@ $(NAME) : $(BIN) $(HEADER)
 
 %.o : %.c $(HEADER)
 	@printf "\033[1:92mCompiling $(NAME)\033[0m %-31s\033[32m[$<]\033[0m\n" ""
-	@$(CC) $(FLAGS) -c $< -o $@ -I includes/
+	@$(CC) $(FLAGS) -c $< -o $@ -I ../includes
 	@printf "\033[A\033[2K"
 # clean : elle permet de supprimer tout les fichiers intermédiaires.
 clean :

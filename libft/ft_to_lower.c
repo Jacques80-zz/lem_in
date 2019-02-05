@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isint.c                                         :+:      :+:    :+:   */
+/*   ft_to_lower.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdouniol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fallouch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/28 20:06:54 by jdouniol          #+#    #+#             */
-/*   Updated: 2019/02/05 16:12:55 by fallouch         ###   ########.fr       */
+/*   Created: 2018/12/21 17:34:40 by fallouch          #+#    #+#             */
+/*   Updated: 2019/02/05 16:00:11 by fallouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
-
-int		ft_isint(long long nbr)
+char		*ft_to_lower(char *str)
 {
-	if (nbr >= INT_MIN && nbr <= INT_MAX)
-		return (1);
-	else
-		return (0);
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] >= 'A' && str[i] <= 'Z')
+			str[i] += 32;
+		i++;
+	}
+	return (str);
 }
