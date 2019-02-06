@@ -129,7 +129,7 @@ typedef struct 		s_all
 	t_room			**ant;
 	t_map			*map;
 	t_room			*cur;
-	int				**matrice;
+	t_room			***matrice;
 	int 			matrice_init;
 }					t_all;
 
@@ -186,8 +186,9 @@ void			ft_free_path(t_lst *lst);
 **	Fonctions matrice
 */
 
-void			ft_print_matrice(int **matrice, t_all *elem);
-int				*ft_get_path(t_all *elem, int **matrice, int start, int end);
+void			ft_print_matrice(t_room ***matrice, t_all *elem);
+//int				*ft_get_path(t_all *elem, int **matrice, int start, int end);
+void			ft_set_poid(t_all elem, int ***matrice, int distance, int start, int end);
 
 #endif
 /*
