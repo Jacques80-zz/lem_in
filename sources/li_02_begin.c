@@ -27,3 +27,30 @@ void	ft_save_map(t_all *elem, char *line)
 	}
 	last->next = new;
 }
+
+typedef struct					s_path
+{
+	t_room			*room;
+	struct s_path	*next;
+}								t_path;
+
+typedef struct					s_tab_path
+{
+	
+}
+
+void		empile(t_path **pile, t_room *room)
+{
+	t_stack			*new;
+
+	if (!(new = malloc(sizeof(t_path))))
+		return ;
+	new->room = room;
+	new->next = *pile;
+	*pile = new;
+}
+
+void		find_path(t_room ***matrice, t_all elem)
+{
+	t_path		**tab_path
+}

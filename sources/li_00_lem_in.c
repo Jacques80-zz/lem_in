@@ -148,11 +148,9 @@ int				main(int ac, char **av)
 	{	
 		i = ft_init_start(&elem);
 		j = ft_init_end(&elem);
-		ft_printf("ici i = %d\n", i);
-		ft_printf("ici j = %d\n", j);
 			//	if (ft_init_ant(&elem) == SUCCESS)
 		ft_print_matrice(elem.matrice, &elem);
-		ft_get_path(&elem, elem.matrice, i, j);
+//		ft_get_path(&elem, elem.matrice, i, j);
 		ft_print_infos(&elem); // a faire
 //		ft_print_path(&elem); // a faire
 	}

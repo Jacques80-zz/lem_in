@@ -15,7 +15,7 @@ void	ft_print_path(int *tab_of_path)
 /*
 **
 */
-
+/*
 int		*ft_get_path(t_all *elem, int **matrice, int start, int end, int *delay) // TODO ecrire dans une matrice temporaire
 {
 	int *tab_of_path;
@@ -84,4 +84,4 @@ int		*ft_get_path(t_all *elem, int **matrice, int start, int end, int *delay) //
 	return (tab_of_path);
 	//if ((i == end || j == end)  && matrice[i][j] == 1)
 
-}
+}*/

@@ -78,7 +78,7 @@ void	print_room(t_all elem, int nb)
 	i = 0;
 	while (i++ < nb)
 		elem.room = elem.room->next;
-	ft_printf("%10s |", elem.room->name_room);
+	ft_printf("%-9s|", elem.room->name_room);
 }
 
 void	print_all_name(t_all elem)
@@ -86,16 +86,16 @@ void	print_all_name(t_all elem)
 	int			i;
 
 	i = 0;
-	ft_printf("%10s", "");
+	ft_printf("%-10s", "");
 	while (elem.room)
 	{
-		ft_printf("%10s|", elem.room->name_room);
+		ft_printf("%-10s", elem.room->name_room);
 		elem.room = elem.room->next;
 	}
 	ft_putchar('\n');
-	ft_printf("%10s", "");
-	while (i++ < elem.number_rooms)
-		ft_printf("____________");
+	ft_printf("%-10s", "");
+	while (++i < elem.number_rooms)
+		ft_printf("___________");
 	ft_putchar('\n');
 }
 
@@ -113,9 +113,9 @@ void	ft_print_matrice(t_room ***matrice, t_all *elem)
 		while (j < elem->number_rooms)
 		{
 			if (matrice[i][j])
-				ft_printf("%10s", matrice[i][j]->name_room);
+				ft_printf("%-10s", matrice[i][j]->name_room);
 			else
-				ft_printf("%10d", 0);
+				ft_printf("%-10d", 0);
 			j++;
 		}
 		ft_printf("\n");
@@ -136,8 +136,8 @@ void	ft_set_matrice(t_room **tmp, t_room **cur, t_room ***matrice)
 
 	id_first_room = (*tmp)->room_id;
 	id_second_room = (*cur)->room_id;
-	matrice[id_first_room][id_second_room] = *tmp;
-	matrice[id_second_room][id_first_room] = *cur;
+	matrice[id_first_room][id_second_room] = *cur;
+	matrice[id_second_room][id_first_room] = *tmp;
 }
 
 /*
