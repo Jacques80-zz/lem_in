@@ -104,22 +104,22 @@ void	ft_print_matrice(t_room ***matrice, t_all *elem)
 	int i;
 	int j;
 
-	i = 0;
+	i = -1;
 	print_all_name(*elem);
-	while (i < elem->number_rooms)
+	while (++i < elem->number_rooms)
 	{
-		j = 0;
+		j = -1;
 		print_room(*elem, i);
-		while (j < elem->number_rooms)
+		while (++j < elem->number_rooms)
 		{
 			if (matrice[i][j])
 				ft_printf("%-10s", matrice[i][j]->name_room);
 			else
 				ft_printf("%-10d", 0);
-			j++;
+	//		j++;
 		}
 		ft_printf("\n");
-		i++;
+	//	i++;
 	}
 	ft_printf("\n\n\n");
 }

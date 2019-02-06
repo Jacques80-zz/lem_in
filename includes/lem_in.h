@@ -81,7 +81,7 @@ typedef	struct 		s_room //
 	t_status		status;
 	t_available		available;
 }					t_room; 
-
+/*
 typedef struct 		s_path // a creer
 {
 	int				name_path;
@@ -90,7 +90,7 @@ typedef struct 		s_path // a creer
 	int 			distance;
 	struct s_path 	*next;
 }					t_path;
-
+*/
 //utile? 
 /*
 typedef struct 		s_line
@@ -123,7 +123,7 @@ typedef struct 		s_all
 //	t_line			*line; // lourd pour rien
 	t_room			*room;
 	int				path_found;
-	t_path			**tab_path;
+//	t_path			**tab_path;
 	int				next_is_start;
 	int				next_is_end;
 	t_room			**ant;
@@ -137,6 +137,18 @@ typedef struct		s_lst
 {
 	struct s_lst	*next;
 }					t_lst;
+
+typedef struct		s_path
+{
+	t_room			*room;
+	struct s_path	*next;
+}					t_path;
+
+typedef struct		s_tab_path
+{
+	t_path						*path;
+	struct s_tab_pathpath		*next;
+}					t_tab_path;
 
 int				ft_one_line_tube_or_room(t_all *elem, char *line);
 int				ft_check_nb_ants(t_all *elem, char *str, int *i);
