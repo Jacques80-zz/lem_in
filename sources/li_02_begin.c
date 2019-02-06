@@ -37,7 +37,7 @@ typedef struct					s_path
 typedef struct					s_tab_path
 {
 	
-}
+};
 
 void		empile(t_path **pile, t_room *room)
 {
