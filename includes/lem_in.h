@@ -8,7 +8,6 @@
 # define PATH_END		4
 
 # include "libft.h"
-// # include "ft_printf.h"
 
 /*
 gestion d'erreurs:
@@ -147,7 +146,7 @@ void 			ft_save_map(t_all *elem, char *line); // a faire
 //void 			ft_free_all(t_all *elem);
 int				ft_init_ant(t_all *elem); // a faire
 void			ft_print_infos(t_all *elem);
-void			ft_print_path(t_all *elem); // a faire
+void			ft_print_path(int *tab_of_path); // a faire
 
 /*
 **	Parsing Tools 1
@@ -188,6 +187,7 @@ void			ft_free_path(t_lst *lst);
 */
 
 void			ft_print_matrice(int **matrice, t_all *elem);
+int				*ft_get_path(t_all *elem, int **matrice, int start, int end);
 
 #endif
 /*

@@ -6,7 +6,7 @@
 /*   By: jdouniol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/01 14:46:42 by jdouniol          #+#    #+#             */
-/*   Updated: 2019/02/05 16:14:41 by fallouch         ###   ########.fr       */
+/*   Updated: 2018/11/04 14:31:38 by jdouniol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,30 @@
 # include <string.h>
 # include <limits.h>
 # include "ft_printf.h"
-# define GNL_ERROR		-1
-# define GNL_END		0
-# define GNL_LINE_READ	1
 # define GNL_BUFF_SIZE 4096
-# define ABS(Value) (Value < 0 ? -Value : Value)
+# define GNL_END 0
+# define GNL_LINE_READ 1
+# define GNL_SUCCESS 1
+# define GNL_ERROR -1
 # define MAX_INT_POS 2147483647
 # define MAX_INT_NEG -2147483648
 # define ULL unsigned long long
 # define UL unsigned long
 
 typedef unsigned char	t_byte;
-
 typedef struct			s_list
 {
-	void			*content;
-	size_t			content_size;
-	struct s_list	*next;
+	void				*content;
+	size_t				content_size;
+	struct s_list		*next;
 }						t_list;
+
+typedef struct			s_file
+{
+	int					fd;
+	char				*s;
+	struct s_file		*next;
+}						t_file;
 
 void					*ft_memset(void *b, int c, size_t len);
 size_t					ft_strlen(const char *str);
@@ -113,6 +119,7 @@ int						ft_lstsize(t_list *begin_list);
 t_list					*ft_lstlast(t_list *begin_list);
 void					ft_lstaddafter(t_list **alst, t_list **neww);
 void					ft_listmerge(t_list **begin_list1, t_list *begin_list2);
+t_list					*ft_lstget(t_list *lst, int n);
 int						ft_islower(int c);
 int						ft_isupper(int c);
 int						ft_isspace(int c);
@@ -120,11 +127,20 @@ char					*ft_strtoupper(char *str);
 char					*ft_strtolower(char *str);
 char					**ft_split_whitespaces(char *str);
 int						ft_istrim(int c);
-int						get_next_line(int const fd, char **line);
+int						get_next_line (int const fd, char **line);
+int						ft_match(const char *s1, const char *s2);
+long long				ft_atol(const char *nptr);
+int						ft_isint(long long nbr);
+unsigned int			ft_absolute_int(int i);
+unsigned long long		ft_absolute_ll(long long i);
+void					*ft_realloc(void *ptr, size_t original_size,
+							size_t new_size);
+char					*ft_strjoinfree(char *s1, char *s2);
 int						ft_match(const char *s1, const char *s2);
 long long				ft_atol(const char *nptr);
 long long				ft_atoll(const char *nptr);
 int						ft_isint(long long nbr);
 char					*ft_to_lower(const char *str);
+t_list					*ft_lstget(t_list *lst, int n);
 
 #endif

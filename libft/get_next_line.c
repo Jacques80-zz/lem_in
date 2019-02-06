@@ -10,109 +10,120 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/uio.h>
+#include <unistd.h>
 #include "../includes/libft.h"
 
-/*
-** Fonction endline takes the last buffered string char *buff,
-** return an int of how may char before the next '\n', else return (-1)
-*/
-
-static int		endline(char *buff)
+static int		ft_free_it(t_file **f, size_t n)
 {
-	int	count;
+	t_file		*to_del;
 
-	count = 0;
-	while (buff[count] != '\n' && buff[count])
-		count++;
-	if (buff[count] == '\n')
+	to_del = ((t_file*)ft_lstget((t_list*)*f, n));
+	if (n > 0)
 	{
-		buff[count] = '\0';
-		return (count);
+		((t_file*)ft_lstget((t_list*)*f, n - 1))->next =
+			((t_file*)ft_lstget((t_list*)*f, n + 1));
 	}
 	else
-		return (-1);
+	{
+		to_del = *f;
+		*f = (*f)->next;
+	}
+	free(to_del->s);
+	free(to_del);
+	return (GNL_SUCCESS);
 }
 
-/*
-** Fonction join takes the two string to concatenate, we use successivly
-** ft_strlen / ft_memcpy / and ft_bzero (for put to '\0' the first n bytes
-** (buff_size + 1) pointed by tab)
-*/
-
-static char		*join(char *buff, char *tab)
+static int		ft_create_struct(t_file **f, int fd, size_t *n)
 {
-	size_t	i;
-	size_t	j;
-	char	*ptr;
+	t_file		*new;
+
+	*n = 0;
+	while (((t_file*)ft_lstget((t_list*)*f, *n)))
+	{
+		if (((t_file*)ft_lstget((t_list*)*f, *n))->fd == fd)
+			return (GNL_SUCCESS);
+		(*n)++;
+	}
+	*n = 0;
+	if (!(new = malloc(sizeof(t_file))))
+		return (GNL_ERROR);
+	new->fd = fd;
+	if (!(new->s = malloc(sizeof(char))))
+		return (GNL_ERROR);
+	new->s[0] = '\0';
+	new->next = *f;
+	*f = new;
+	return (GNL_SUCCESS);
+}
+
+static int		ft_get_line(t_file *tmp, char **line)
+{
+	size_t	size_line;
+	size_t	len_file;
+
+	len_file = ft_strlen(tmp->s);
+	size_line = 0;
+	while (tmp->s[size_line] != '\n' && tmp->s[size_line] != '\r' &&
+			tmp->s[size_line] != '\0')
+		size_line++;
+	if (!(*line = malloc(sizeof(**line) * (size_line + 1))))
+		return (GNL_ERROR);
+	ft_strncpy(*line, tmp->s, size_line);
+	(*line)[size_line] = '\0';
+	ft_memmove(tmp->s, tmp->s + size_line + 1, len_file - size_line);
+	if (!(tmp->s = ft_realloc(tmp->s, len_file + 1, len_file - size_line + 1)))
+		return (GNL_ERROR);
+	tmp->s[len_file - size_line] = '\0';
+	return (GNL_LINE_READ);
+}
+
+static int		ft_read(t_file *f, char **line, size_t n)
+{
+	int		i;
+	t_file	*tmp;
+	char	buf[GNL_BUFF_SIZE + 1];
+	int		ret_read;
 
 	i = 0;
-	j = 0;
-	if (buff)
-		i = ft_strlen(buff);
-	if (tab)
-		j = ft_strlen(tab);
-	ptr = (char *)malloc(sizeof(*ptr) * (i + j + 1));
-	ft_memcpy(ptr, buff, i);
-	ft_memcpy(ptr + i, tab, j);
-	ptr[i + j] = '\0';
-	free(buff);
-	ft_bzero(tab, GNL_BUFF_SIZE + 1);
-	return (ptr);
+	tmp = ((t_file*)ft_lstget((t_list*)f, n));
+	while (tmp->s[i] != '\n' && tmp->s[i] != '\r' && tmp->s[i])
+		i++;
+	if (tmp->s[i] == '\n' || tmp->s[i] == '\r')
+		return (ft_get_line(tmp, line));
+	if ((ret_read = read(tmp->fd, buf, GNL_BUFF_SIZE)) > 0)
+	{
+		buf[ret_read] = '\0';
+		if (!(tmp->s = ft_realloc(tmp->s, ft_strlen(tmp->s) + 1,
+						ft_strlen(tmp->s) + ret_read + 1)))
+			return (GNL_ERROR);
+		ft_strncat(tmp->s, buf, ret_read);
+		return (ft_read(f, line, n));
+	}
+	else if (ret_read == 0 && ft_strlen(tmp->s) == 0)
+		return (GNL_END);
+	else if (ret_read == 0)
+		return (ft_get_line(tmp, line));
+	return (GNL_ERROR);
 }
 
-/*
-** Fonction Verif use fonction final to know if there is a rest after \n,
-** if yes, ft_verif add   return = 1, if not, return 0
-*/
-
-static int		verif(char **buff, char **tab, char **line)
+int				get_next_line(const int fd, char **line)
 {
-	char	*ptr;
-	int		final;
+	static t_file	*f = NULL;
+	size_t			n;
+	int				ret;
 
-	*buff = join(*buff, *tab);
-	final = endline(*buff);
-	if (final > -1)
-	{
-		*line = ft_strdup(*buff);
-		ptr = *buff;
-		*buff = ft_strdup(*buff + final + 1);
-		free(ptr);
-		return (1);
-	}
-	return (0);
-}
-
-/*
-** Fonction get next line, first check error case (-1),  return 1 if there is
-** still a line to display, return 0 if this is the last line
-*/
-
-int				get_next_line(int const fd, char **line)
-{
-	static char *buff[12000];
-	char		*tmp;
-	int			result;
-	int			ret;
-
-	tmp = ft_strnew(GNL_BUFF_SIZE);
-	if (!line || GNL_BUFF_SIZE <= 0 || fd < 0 || (ret = read(fd, tmp, 0)) < 0)
-		return (-1);
-	while ((ret = read(fd, tmp, GNL_BUFF_SIZE)) > 0)
-	{
-		result = verif(&buff[fd], &tmp, line);
-		free(tmp);
-		if (result == 1)
-			return (1);
-		tmp = ft_strnew(GNL_BUFF_SIZE);
-	}
-	if ((result = verif(&buff[fd], &tmp, line)))
-		return (1);
-	else if (ft_strlen(buff[fd]) > 0)
-	{
-		*line = ft_strdup(buff[fd]);
-		ft_strdel(&buff[fd]);
-		return (1);
-	}
-	return (result);
+	if (fd < 0 || line == NULL)
+		return (GNL_ERROR);
+	*line = NULL;
+	ret = 0;
+	if (ft_create_struct(&f, fd, &n) == GNL_ERROR)
+		return (GNL_ERROR);
+	ret = ft_read(f, line, n);
+	if (ret == GNL_END)
+		if (ft_free_it(&f, n) == GNL_ERROR)
+			return (GNL_ERROR);
+	return (ret);
 }

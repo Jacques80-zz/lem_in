@@ -50,7 +50,7 @@ char				*ft_itoa_ll(long long n)
 
 	y = 0;
 	sign = (n < 0) ? 1 : 0;
-	x = ABS(n);
+	x = ft_absolute_int(n);
 	len = ft_len_int(x);
 	if (!(res = ft_strnew(len + sign)))
 		return (NULL);

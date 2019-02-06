@@ -22,7 +22,7 @@ void	ft_putnbr_fd(int n, int fd)
 
 	if (n < 0)
 		ft_putchar_fd('-', fd);
-	x = ABS(n);
+	x = ft_absolute_int(n);
 	if (n == 0)
 		ft_putchar_fd('0', fd);
 	else if (x > 0 && x < 10)
