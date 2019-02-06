@@ -69,7 +69,7 @@ typedef	struct 		s_room //
 	int				*linked_to_end;
 	int 			*names_path_available; //
 	int				number_path_availbale;
-	int				distance; // *distance ?
+	int				weight; // *distance ?
 	int				compteur_from_start;
 	int				compteur_from_end;
 	int				you_should_not_pass;
@@ -80,8 +80,9 @@ typedef	struct 		s_room //
 	struct s_room	**tab;
 	t_status		status;
 	t_available		available;
-}					t_room; 
 
+}					t_room; 
+/*
 typedef struct 		s_path // a creer
 {
 	int				name_path;
@@ -90,7 +91,7 @@ typedef struct 		s_path // a creer
 	int 			distance;
 	struct s_path 	*next;
 }					t_path;
-
+*/ // a voir, nouvelle dans 02.
 //utile? 
 /*
 typedef struct 		s_line
@@ -123,7 +124,7 @@ typedef struct 		s_all
 //	t_line			*line; // lourd pour rien
 	t_room			*room;
 	int				path_found;
-	t_path			**tab_path;
+//	t_path			**tab_path;
 	int				next_is_start;
 	int				next_is_end;
 	t_room			**ant;
@@ -131,6 +132,11 @@ typedef struct 		s_all
 	t_room			*cur;
 	t_room			***matrice;
 	int 			matrice_init;
+	int 			all_rooms_are_parsed;
+	int				start_id;
+	int				end_id;
+	int				*tmp_tab_room;
+	int				size_tmp_tab_room;		
 }					t_all;
 
 typedef struct		s_lst
@@ -189,6 +195,7 @@ void			ft_free_path(t_lst *lst);
 void			ft_print_matrice(t_room ***matrice, t_all *elem);
 //int				*ft_get_path(t_all *elem, int **matrice, int start, int end);
 void			ft_set_poid(t_all elem, int ***matrice, int distance, int start, int end);
+int				ft_add_weight(t_all *elem, t_room ***matrice, int weight, int current_room_id);
 
 #endif
 /*

@@ -116,6 +116,8 @@ int 	ft_init_start(t_all *elem)
 	{
 		tmp = tmp->next;
 	}
+	elem->start_id = tmp->room_id;
+	tmp->weight = 0;
 	return (tmp->room_id);
 }
 
@@ -128,6 +130,8 @@ int		ft_init_end(t_all *elem)
 	{
 		tmp = tmp->next;
 	}
+	tmp->weight = -1;
+	elem->end_id = tmp->room_id;
 	return (tmp->room_id);
 }
 
@@ -150,6 +154,7 @@ int				main(int ac, char **av)
 		j = ft_init_end(&elem);
 			//	if (ft_init_ant(&elem) == SUCCESS)
 		ft_print_matrice(elem.matrice, &elem);
+		ft_add_weight(&elem, elem.matrice, 1, i);
 //		ft_get_path(&elem, elem.matrice, i, j);
 		ft_print_infos(&elem); // a faire
 //		ft_print_path(&elem); // a faire

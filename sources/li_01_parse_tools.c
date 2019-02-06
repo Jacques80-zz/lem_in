@@ -22,7 +22,7 @@ void		ft_status_update(t_all *elem, t_room *tmp)
 		tmp->linked_to_start = 0;
 		elem->next_is_end = 0;
 	}
-	//tmp->weight = -1;
+	tmp->weight = -1;
 	tmp->available = NO_VISITED;
 	if (elem->room == NULL)
 	{
