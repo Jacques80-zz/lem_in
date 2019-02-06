@@ -83,12 +83,19 @@ void	print_room(t_all elem, int nb)
 
 void	print_all_name(t_all elem)
 {
+	int			i;
+
+	i = 0;
 	ft_printf("%10s", "");
 	while (elem.room)
 	{
 		ft_printf("%10s|", elem.room->name_room);
 		elem.room = elem.room->next;
 	}
+	ft_putchar('\n');
+	ft_printf("%10s", "");
+	while (i++ < elem.number_rooms)
+		ft_printf("____________");
 	ft_putchar('\n');
 }
 
