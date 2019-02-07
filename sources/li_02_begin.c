@@ -28,20 +28,9 @@ void	ft_save_map(t_all *elem, char *line)
 	last->next = new;
 }
 
-typedef struct					s_path
-{
-	t_room			*room;
-	struct s_path	*next;
-}								t_path;
-
-typedef struct					s_tab_path
-{
-	
-};
-
 void		empile(t_path **pile, t_room *room)
 {
-	t_stack			*new;
+	t_path			*new;
 
 	if (!(new = malloc(sizeof(t_path))))
 		return ;
@@ -50,9 +39,19 @@ void		empile(t_path **pile, t_room *room)
 	*pile = new;
 }
 
-void		find_path(t_room ***matrice, t_all elem)
+t_path		*new_elem_path(t_room *room)
 {
-<<<<<<< HEAD
+	t_path			*new;
+
+	if (!(new = malloc(sizeof(t_path))))
+		return (NULL);
+	new->next = NULL;
+	new->room = room;
+	return (new);
+}
+
+void		print_path(t_path *path)
+{
 	while (path)
 	{
 		ft_printf("%s\n", path->room->name_room);
@@ -117,7 +116,4 @@ t_path		*find_path(t_room ***matrice, t_all elem, t_room *start, t_tab_path **ta
 		j++;
 	}
 	return (NULL);
-=======
-	t_path		**tab_path
->>>>>>> 854fcbf2034cb01d8c175cce62e0e9eb8cc53a0a
 }
