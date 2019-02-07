@@ -1,17 +1,5 @@
 #include "../includes/lem_in.h"
 
-void	ft_print_path(int *tab_of_path)
-{
-	int i;
-
-	i = 0;
-	while(tab_of_path[i] >= 0)
-	{
-		ft_printf("~%d~",tab_of_path[i]);
-		i++;
-	} 
-}
-
 /*
 typedef	struct 		s_room // 
 {

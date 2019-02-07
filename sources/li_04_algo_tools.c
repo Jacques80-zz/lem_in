@@ -1,5 +1,5 @@
 #include "../includes/lem_in.h"
-
+/*
 t_path		*ft_bfs(t_all *elem, t_room ***matrice, int i_room, t_path *path)// i_room, d abord end, puis les autres // y ajouter un int de numero de path?
 {
 //	int i;
@@ -60,4 +60,56 @@ t_path		*ft_bfs(t_all *elem, t_room ***matrice, int i_room, t_path *path)// i_ro
 	else
 		return (NULL);
 		//ft_bfs(elem, matrice, j )
+}
+*/
+
+t_path		*ft_bfs(t_all elem, t_room ***matrice, t_path *path)
+{
+	int i;
+	int j;
+	int ret_j;
+	int min_weight;
+	t_path	*tmp;
+
+	i = path->room->room_id;
+	j = 0;
+//	t_room ***matrice_tmp; // avoir une copie de matrice
+	ret_j = -1;
+	min_weight = -1;
+	if (path->room->status == START)
+	{
+	//	print_path(path);
+		return (path);
+	}
+	while (j < elem.number_rooms)
+	{
+		if (matrice[i][j])
+		{
+			if (matrice[i][j]->weight < min_weight || min_weight == -1)
+			{
+				min_weight = matrice[i][j]->weight;
+				ret_j = j;
+			}
+		}
+		j++;
+	}
+/*	if (path->prev == NULL)
+			path->prev = ft_init_path(matrice[i][ret_j]);
+	path->prev->room = matrice[i][ret_j];
+	tmp = path;
+	path = path->prev;
+	path->prev = NULL;
+	path->next = tmp;
+*/
+
+	if (ret_j == -1)
+		return (NULL);
+	tmp = ft_init_path(matrice[i][ret_j]);
+	if (!tmp)
+		ft_printf("tmp est NULL\n");
+	tmp->room = matrice[i][ret_j];
+	tmp->next = path;
+	path->prev = tmp;
+	path = tmp;
+	return (ft_bfs(elem, matrice, path));
 }

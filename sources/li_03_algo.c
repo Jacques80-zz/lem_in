@@ -1,13 +1,18 @@
 #include "../includes/lem_in.h"
 
-void		ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start)
+void		ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start) // voir si en largeur n est pas plus rapide
 {
 	int				i;
 	int				j;
-	t_room			*tmp;
 
 	i = start->room_id;
 	j = 0;
+//	matrice[j][i]->weight = weight;
+	if (start->status == END && (start->weight >= weight || start->weight == -1))
+	{
+		start->weight = weight;
+		return;
+	}
 	while (j < elem.number_rooms)
 	{
 		if (matrice[i][j])
@@ -15,7 +20,6 @@ void		ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start)
 			if (matrice[i][j]->weight >= weight || matrice[i][j]->weight == -1)
 			{
 				matrice[j][i]->weight = weight;
-				tmp = matrice[i][j];
 				ft_add_weight(elem, matrice, weight + 1, matrice[i][j]);
 			}
 		}

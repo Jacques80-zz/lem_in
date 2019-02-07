@@ -203,7 +203,7 @@ void			ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start);
 **	li_04 Algo Tools
 */
 
-t_path			*ft_bfs(t_all *elem, t_room ***matrice, int i_room, t_path *path);
+t_path			*ft_bfs(t_all elem, t_room ***matrice, t_path *path);
 
 /*
 **	li_09a Free and error
@@ -250,7 +250,7 @@ t_path			*new_elem_path(t_room *room);
 void			print_path(t_path *path);
 void			print_tab_path(t_tab_path *tab);
 void			save_path(t_tab_path **tab, t_path *path);
-t_path			*ft_init_path(void);
+t_path			*ft_init_path(t_room *room);
 
 
 
