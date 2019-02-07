@@ -45,7 +45,7 @@ void	ft_print_matrice(t_room ***matrice, t_all *elem)
 			if (matrice[i][j])
 				ft_printf("%-10s", matrice[i][j]->name_room);
 			else
-				ft_printf("%-10d", 0);
+				ft_printf("%-10s", "~");
 			j++;
 		}
 		ft_printf("\n");
