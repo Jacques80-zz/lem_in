@@ -54,12 +54,12 @@ void		save_path(t_tab_path **tab, t_path *path)
 
 t_path	*ft_init_path(t_room *room)
 {
-	t_path	*path;
+	t_path	*new;
 
-	if (!(path = (t_path *)malloc(sizeof(t_path) * 4096)))
+	if (!(new = malloc(sizeof(t_path))))
 		return (NULL);
-	path->room = room;
-	path->next = NULL;
-	path->prev = NULL;
-	return (path);
+	new->room = room;
+	new->next = NULL;
+	new->prev = NULL;
+	return (new);
 }

@@ -8,6 +8,8 @@ void		ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start) //
 	i = start->room_id;
 	j = 0;
 //	matrice[j][i]->weight = weight;
+	if (start->weight == -1 || start->weight >= weight)
+		start->weight = weight;
 	if (start->status == END && (start->weight >= weight || start->weight == -1))
 	{
 		start->weight = weight;
@@ -19,7 +21,7 @@ void		ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start) //
 		{
 			if (matrice[i][j]->weight >= weight || matrice[i][j]->weight == -1)
 			{
-				matrice[j][i]->weight = weight;
+			//	matrice[j][i]->weight = weight;
 				ft_add_weight(elem, matrice, weight + 1, matrice[i][j]);
 			}
 		}

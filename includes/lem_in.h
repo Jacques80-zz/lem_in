@@ -239,6 +239,7 @@ void			ft_set_matrice(t_room **tmp, t_room **cur, t_room ***matrice);
 t_room			***ft_init_matrice(int number_rooms);
 void			ft_print_matrice_weight(t_room ***matrice, t_all *elem);
 int 			ft_limited_factor(t_all *elem, t_room ***matrice);
+t_room			***matrice_cpy(t_all elem, t_room ***matrice);
 
 
 /*

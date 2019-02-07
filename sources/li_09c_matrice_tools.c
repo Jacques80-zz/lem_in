@@ -132,8 +132,8 @@ int 	ft_limited_factor(t_all *elem, t_room ***matrice)
 	int links_to_end;
 	int k;
 
-	i = ft_get_start_id(elem);
-	j = ft_get_end_id(elem);
+	i = elem->start_id;
+	j = elem->end_id;
 	links_to_end = 0;
 	links_to_start = 0;
 	k = 0;
@@ -146,5 +146,29 @@ int 	ft_limited_factor(t_all *elem, t_room ***matrice)
 		k++;
 	}
 	return (ft_min(links_to_start, links_to_end));
-	
+}
+
+t_room		***matrice_cpy(t_all elem, t_room ***matrice)
+{
+	int				i;
+	int				j;
+	t_room			***new_matrice;
+
+	i = 0;
+	if (!(new_matrice = malloc(sizeof(t_room**) * (elem.number_rooms + 1))))
+		return (NULL);
+	while (i < elem.number_rooms)
+	{
+		j = 0;
+		if (!(new_matrice[i] = malloc(sizeof(t_room*) * elem.number_rooms)))
+			return (NULL);
+		while (j < elem.number_rooms)
+		{
+			new_matrice[i][j] = matrice[i][j];
+			j++;
+		}
+		i++;
+	}
+	new_matrice[i] = NULL;
+	return (new_matrice);
 }
