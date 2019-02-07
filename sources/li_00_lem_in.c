@@ -88,6 +88,37 @@ int				ft_read(t_all *elem)
 	return (SUCCESS);//(Si carte resolvable) ? SUCCESS : FAIL); //  if path found retourne success sinon fail
 }
 
+int				ft_read_2(t_all *elem, char *file)
+{
+	int		i;
+	char	*line;
+	int 	fd;
+
+	ft_init_elem(elem);
+	i = GNL_LINE_READ;
+	line = NULL;
+	fd = open(file, 'r');
+	while (i == GNL_LINE_READ)
+	{
+		line = NULL;
+		if ((i = get_next_line(fd, &line)) == GNL_ERROR)
+			return (FAIL);
+		if (i == GNL_END)
+		{
+			free(line);
+			break ;
+		}
+		if (ft_get_instructions(elem, line) == ERROR)
+		{
+			free(line);
+			return (ERROR);//( Si carte reseolvable ? ERROR : FAIL); //cas ou la carte esr resolvable malgre une ligne d'erreur
+		}
+		ft_save_map(elem, line);
+		free(line);
+	}
+	return (SUCCESS);//(Si carte resolvable) ? SUCCESS : FAIL); //  if path found retourne success sinon fail
+}
+
 /*
  **	Imprime toute la map jusqu'a la derniere ligne valide
  */
@@ -106,69 +137,23 @@ void	ft_print_infos(t_all *elem)
  **	si un chemin est possible, si oui, on active le dispatch, si non
  **	on free le tout avant de quitter
  */
-t_room	*ft_init_start(t_all *elem)
-{
-	t_room *tmp;
 
-	tmp = elem->room;
-	while(tmp->status != START)
-	{
-		tmp = tmp->next;
-	}
-	elem->start_id = tmp->room_id;
-	tmp->weight = 0;
-	return (tmp);
-}
-
-
-t_room	*ft_init_end(t_all *elem)
-{
-	t_room *tmp;
-
-	tmp = elem->room;
-	while(tmp->status != END)
-	{
-		tmp = tmp->next;
-	}
-	elem->end_id = tmp->room_id;
-	return (tmp);
-}
-
-int		ft_get_start_id(t_all *elem)
-{
-	t_room *tmp;
-
-	tmp = elem->room;
-	while (tmp->status != START)
-	{
-		tmp = tmp->next;
-	}
-	elem->start_id = tmp->room_id;
-	tmp->weight = 0;
-	return (tmp->room_id);
-}
-
-int		ft_get_end_id(t_all *elem)
-{
-	t_room *tmp;
-
-	tmp = elem->room;
-	while (tmp->status != END)
-	{
-		tmp = tmp->next;
-	}
-	tmp->weight = -1;
-	elem->end_id = tmp->room_id;
-	return (tmp->room_id);
-}
 int		main(int ac, char **av)
 {
 	t_all		elem;
 	t_tab_path	*tab;
+	t_path		*path;
 
 	(void)av;
 	(void)ac;
 	tab = NULL;
+	path = ft_init_path();
+	/*if (ac == 2 && ft_read_2(&elem, av[1]) == FAIL)
+	{
+		ft_free_all(&elem);
+		ft_printf("Error\n");
+		return (EXIT_FAILURE);
+	}*/
 	if (ft_read(&elem) == FAIL)
 	{
 		ft_free_all(&elem);
@@ -183,6 +168,7 @@ int		main(int ac, char **av)
 //		print_tab_path(tab);
 		ft_add_weight(elem, elem.matrice, 0, ft_init_start(&elem));
 		ft_print_matrice_weight(elem.matrice, &elem);
+		ft_bfs(&elem, elem.matrice, ft_get_end_id(&elem), path);
 		//		ft_get_path(&elem, elem.matrice, i, j);
 		ft_print_infos(&elem); // a faire
 		//		ft_print_path(&elem); // a faire

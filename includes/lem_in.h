@@ -117,6 +117,7 @@ typedef struct		s_ret_path
 typedef struct				s_path
 {
 	t_room			*room;
+	struct s_path	*prev;
 	struct s_path	*next;
 }							t_path;
 
@@ -213,6 +214,19 @@ void			ft_set_poid(t_all elem, int ***matrice, int distance, int start, int end)
 void			ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start);
 t_path			*find_path(t_room ***matrice, t_all elem, t_room *start, t_tab_path **tab);
 void			print_tab_path(t_tab_path *tab);
+
+/*
+**	Search Tools
+*/
+
+t_room			*ft_init_start(t_all *elem);
+t_room			*ft_init_end(t_all *elem);
+int				ft_get_start_id(t_all *elem);
+int				ft_get_end_id(t_all *elem);
+t_room			*ft_get_room_by_id(t_all *elem, int room_id);
+t_path			*ft_bfs(t_all *elem, t_room ***matrice, int i_room, t_path *path);
+t_path			*ft_init_path(void);
+void			print_path(t_path *path);
 
 #endif
 /*
