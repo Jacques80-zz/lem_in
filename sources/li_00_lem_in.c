@@ -116,7 +116,13 @@ t_room		*ft_init_start(t_all *elem)
 	{
 		tmp = tmp->next;
 	}
+<<<<<<< HEAD
 	return (tmp);
+=======
+	elem->start_id = tmp->room_id;
+	tmp->weight = 0;
+	return (tmp->room_id);
+>>>>>>> 854fcbf2034cb01d8c175cce62e0e9eb8cc53a0a
 }
 
 int		ft_init_end(t_all *elem)
@@ -128,6 +134,8 @@ int		ft_init_end(t_all *elem)
 	{
 		tmp = tmp->next;
 	}
+	tmp->weight = -1;
+	elem->end_id = tmp->room_id;
 	return (tmp->room_id);
 }
 
@@ -149,8 +157,13 @@ int				main(int ac, char **av)
 	{	
 			//	if (ft_init_ant(&elem) == SUCCESS)
 		ft_print_matrice(elem.matrice, &elem);
+<<<<<<< HEAD
 		find_path(elem.matrice, elem, ft_init_start(&elem), &tab);
 		print_tab_path(tab);
+=======
+		ft_add_weight(&elem, elem.matrice, 1, i);
+//		ft_get_path(&elem, elem.matrice, i, j);
+>>>>>>> 854fcbf2034cb01d8c175cce62e0e9eb8cc53a0a
 		ft_print_infos(&elem); // a faire
 //		ft_print_path(&elem); // a faire
 	}

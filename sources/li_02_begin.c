@@ -1,11 +1,11 @@
 #include "../includes/lem_in.h"
 
 /*
- **	Est appellee a chaque ligne valide
- **	si le malloc echoue, on utilise ft_error
- **	cas si 1ere ligne
- **	cas pour toutes les lignes suivantes 
- */
+**	Est appellee a chaque ligne valide
+**	si le malloc echoue, on utilise ft_error
+**	cas si 1ere ligne
+**	cas pour toutes les lignes suivantes 
+*/
 
 void	ft_save_map(t_all *elem, char *line)
 {
@@ -28,19 +28,20 @@ void	ft_save_map(t_all *elem, char *line)
 	last->next = new;
 }
 
-t_room*find_n_room(t_all elem, int nb)
+typedef struct					s_path
 {
-	int			i;
+	t_room			*room;
+	struct s_path	*next;
+}								t_path;
 
-	i = 0;
-	while (i++ < nb)
-		elem.room = elem.room->next;
-	return (elem.room);
-}
+typedef struct					s_tab_path
+{
+	
+};
 
 void		empile(t_path **pile, t_room *room)
 {
-	t_path		*new;
+	t_stack			*new;
 
 	if (!(new = malloc(sizeof(t_path))))
 		return ;
@@ -49,19 +50,9 @@ void		empile(t_path **pile, t_room *room)
 	*pile = new;
 }
 
-t_path		*new_elem_path(t_room *room)
+void		find_path(t_room ***matrice, t_all elem)
 {
-	t_path*new;
-
-	if (!(new = malloc(sizeof(t_path))))
-		return (NULL);
-	new->room = room;
-	new->next = NULL;
-	return (new);
-}
-
-void		print_path(t_path *path)
-{
+<<<<<<< HEAD
 	while (path)
 	{
 		ft_printf("%s\n", path->room->name_room);
@@ -126,4 +117,7 @@ t_path		*find_path(t_room ***matrice, t_all elem, t_room *start, t_tab_path **ta
 		j++;
 	}
 	return (NULL);
+=======
+	t_path		**tab_path
+>>>>>>> 854fcbf2034cb01d8c175cce62e0e9eb8cc53a0a
 }

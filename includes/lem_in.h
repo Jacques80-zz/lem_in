@@ -207,8 +207,11 @@ void			ft_print_matrice(t_room ***matrice, t_all *elem);
 //int				*ft_get_path(t_all *elem, int **matrice, int start, int end);
 void			ft_set_poid(t_all elem, int ***matrice, int distance, int start, int end);
 int				ft_add_weight(t_all *elem, t_room ***matrice, int weight, int current_room_id);
+<<<<<<< HEAD
 t_path			*find_path(t_room ***matrice, t_all elem, t_room *start, t_tab_path **tab);
 void			print_tab_path(t_tab_path *tab);
+=======
+>>>>>>> 854fcbf2034cb01d8c175cce62e0e9eb8cc53a0a
 
 #endif
 /*
