@@ -46,7 +46,7 @@ _LSRC 		=	ft_putchar.c ft_putstr.c ft_memset.c ft_bzero.c ft_memcpy.c \
 	  			ft_strtoupper.c get_next_line.c ft_split_whitespaces.c \
 	  			ft_islower.c ft_isspace.c ft_istrim.c ft_isupper.c \
 	  			ft_atol.c ft_isint.c ft_atoll.c ft_to_lower.c ft_lstget.c \
-	  			ft_realloc.c \
+	  			ft_realloc.c ft_min.c \
 
 HEADER		= ../includes/libft.h ../includes/ft_printf.h
 PRINTF_DIR	= pf_sources

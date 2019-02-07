@@ -77,9 +77,9 @@ void	ft_set_matrice(t_room **tmp, t_room **cur, t_room ***matrice)
 t_room	***ft_init_matrice(int number_rooms)
 {
 	t_room		***matrice;
+
 	if (!(matrice = (t_room ***)malloc(sizeof(t_room**) * (number_rooms + 1))))
 		return (NULL);
-	// int matrice[number_rooms][number_rooms];
 	int i;
 	int j;
 	i = 0;
@@ -122,4 +122,29 @@ void	ft_print_matrice_weight(t_room ***matrice, t_all *elem)
 		i++;
 	}
 	ft_printf("\n\n\n");
+}
+
+int 	ft_limited_factor(t_all *elem, t_room ***matrice)
+{
+	int i;
+	int j;
+	int links_to_start;
+	int links_to_end;
+	int k;
+
+	i = ft_get_start_id(elem);
+	j = ft_get_end_id(elem);
+	links_to_end = 0;
+	links_to_start = 0;
+	k = 0;
+	while (k < elem->number_rooms)
+	{
+		if (matrice[i][k])
+			links_to_start++;
+		if (matrice[j][k])
+			links_to_end++;
+		k++;
+	}
+	return (ft_min(links_to_start, links_to_end));
+	
 }

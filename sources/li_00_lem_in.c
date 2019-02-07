@@ -168,6 +168,7 @@ int		main(int ac, char **av)
 //		print_tab_path(tab);
 		ft_add_weight(elem, elem.matrice, 0, ft_init_start(&elem));
 		ft_print_matrice_weight(elem.matrice, &elem);
+		ft_printf("limited factor: %d\n", ft_limited_factor(&elem, elem.matrice));
 		ft_bfs(&elem, elem.matrice, ft_get_end_id(&elem), path);
 		//		ft_get_path(&elem, elem.matrice, i, j);
 		ft_print_infos(&elem); // a faire

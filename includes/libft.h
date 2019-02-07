@@ -142,5 +142,6 @@ long long				ft_atoll(const char *nptr);
 int						ft_isint(long long nbr);
 char					*ft_to_lower(const char *str);
 t_list					*ft_lstget(t_list *lst, int n);
+int						ft_min(int a, int b);
 
 #endif

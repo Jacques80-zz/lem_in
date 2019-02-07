@@ -37,6 +37,10 @@ t_path		*ft_bfs(t_all *elem, t_room ***matrice, int i_room, t_path *path)// i_ro
 			return (NULL);
 		i_room = j;
 		j = 0;
+		ft_printf("path prev : %p\n", path->prev);
+
+		if (path->prev == NULL)
+			path->prev = ft_init_path();
 		path->prev->room = ft_get_room_by_id(elem, ret_j);
 		tmp = path;
 		path = path->prev;
