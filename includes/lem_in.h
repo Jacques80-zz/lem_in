@@ -156,67 +156,69 @@ typedef struct		s_lst
 	struct s_lst	*next;
 }					t_lst;
 
-int				ft_one_line_tube_or_room(t_all *elem, char *line);
-int				ft_check_nb_ants(t_all *elem, char *str, int *i);
+/*
+**	li_00 initialisation
+*/
 
-//void			ft_init_elem(t_all *elem); // dans le main
-void 			ft_save_map(t_all *elem, char *line); // a faire
-//void 			ft_free_all(t_all *elem);
-int				ft_init_ant(t_all *elem); // a faire
+void			ft_init_elem(t_all *elem);
+int				ft_read(t_all *elem);
 void			ft_print_infos(t_all *elem);
-void			ft_print_path(int *tab_of_path); // a faire
 
 /*
-**	Parsing Tools 1
+**	li_01 Parse Tools
 */
 
 void			ft_status_update(t_all *elem, t_room *tmp);
-int				ft_tube(t_all *elem, char *line);
 int				ft_room(t_all *elem, char **tab_coor);
 int				ft_one_line_tube_or_room(t_all *elem, char *line);
 int				ft_get_instructions(t_all *elem, char *line);
 
+
+
 /*
-**	Parsing Tools 2
+**	li_01bis Parse Tools 
 */
-void			ft_find_room(t_room **tmp, char *room);
+
 int				ft_realloc_room_tab(t_room ***tab, t_room *room);
 int				ft_tube_aux(t_all *elem, t_room **tmp, t_room **cur);
+int				ft_tube(t_all *elem, char *line);
 int				ft_check_nb(char *s, int *nb);
 int				ft_check_nb_ants(t_all *elem, char *str, int *i);
 
 /*
-**	Begin
+**	li_02 begin
 */
-void			ft_error(int nb);
+
 void			ft_save_map(t_all *elem, char *line);
+t_path			*find_path(t_room ***matrice, t_all elem, t_room *start, t_tab_path **tab);
+
+
 /*
-**	Fonctions free
+**	li_03 Algo
 */
+
+void			ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start);
+
+/*
+**	li_04 Algo Tools
+*/
+
+t_path			*ft_bfs(t_all *elem, t_room ***matrice, int i_room, t_path *path);
+
+/*
+**	li_09a Free and error
+*/
+
 void			ft_free_room(t_lst *lst);
 void			ft_free_lst(t_lst *lst, void (*f)(t_lst *lst));
 void			ft_free_all(t_all *elem);
 int				ft_free_them(size_t n, ...);
 int				ft_error_tube(char ***tab_tube);
+void			ft_error(int nb);
 void			ft_free_path(t_lst *lst);
 
 /*
-**	Fonctions matrice
-*/
-
-
-void			print_room(t_all elem, int nb);
-void			print_all_name(t_all elem);
-void			ft_print_matrice(t_room ***matrice, t_all *elem);
-void			ft_print_matrice_weight(t_room ***matrice, t_all *elem);
-//int				*ft_get_path(t_all *elem, int **matrice, int start, int end);
-void			ft_set_poid(t_all elem, int ***matrice, int distance, int start, int end);
-void			ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start);
-t_path			*find_path(t_room ***matrice, t_all elem, t_room *start, t_tab_path **tab);
-void			print_tab_path(t_tab_path *tab);
-
-/*
-**	Search Tools
+**	li_09b Search and Init Tools
 */
 
 t_room			*ft_init_start(t_all *elem);
@@ -224,9 +226,31 @@ t_room			*ft_init_end(t_all *elem);
 int				ft_get_start_id(t_all *elem);
 int				ft_get_end_id(t_all *elem);
 t_room			*ft_get_room_by_id(t_all *elem, int room_id);
-t_path			*ft_bfs(t_all *elem, t_room ***matrice, int i_room, t_path *path);
-t_path			*ft_init_path(void);
+void			ft_find_room(t_room **tmp, char *room);
+
+/*
+**	li_09c Matrice Tools
+*/
+
+void			print_room(t_all elem, int nb);
+void			print_all_name(t_all elem);
+void			ft_print_matrice(t_room ***matrice, t_all *elem);
+void			ft_set_matrice(t_room **tmp, t_room **cur, t_room ***matrice);
+t_room			***ft_init_matrice(int number_rooms);
+void			ft_print_matrice_weight(t_room ***matrice, t_all *elem);
+
+/*
+**	li_09d Path Tools
+*/
+
+void			empile(t_path **pile, t_room *room);
+t_path			*new_elem_path(t_room *room);
 void			print_path(t_path *path);
+void			print_tab_path(t_tab_path *tab);
+void			save_path(t_tab_path **tab, t_path *path);
+t_path			*ft_init_path(void);
+
+
 
 #endif
 /*

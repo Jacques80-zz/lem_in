@@ -1,21 +1,6 @@
 #include "../includes/lem_in.h"
 
 /*
-**	Parcours la liste chainee jusqu'à trouver le nom exact de la piece
-**	Si pas de piece identique => pointeur sur NULL (donc erreur de l'ot cote)
-*/
-
-void		ft_find_room(t_room **tmp, char *room)
-{
-	while (*tmp)
-	{
-		if (ft_strcmp((*tmp)->name_room, room) == 0)
-			break ;
-		(*tmp) = (*tmp)->next;
-	}
-}
-
-/*
 **	Réalloue la mémoire nécessaire à l'implémentation d'un nouveau pipe
 */
 
@@ -46,167 +31,6 @@ int		ft_realloc_room_tab(t_room ***tab, t_room *room)
 	*tab = new;
 	return (SUCCESS);
 }
-
-/*
-**	
-**
-*/
-
-/*void	ft_print_matrice(int **matrice, t_all *elem)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while (i < elem->number_rooms)
-	{
-		j = 0;
-		while (j < elem->number_rooms)
-		{
-			ft_printf(" %d ", matrice[i][j++]);
-		}
-		ft_printf("\n");
-		i++;
-	}
-	ft_printf("\n\n\n");
-}*/
-
-void	print_room(t_all elem, int nb)
-{
-	int			i;
-
-	i = 0;
-	while (i++ < nb)
-		elem.room = elem.room->next;
-	ft_printf("%-9s|", elem.room->name_room);
-}
-
-void	print_all_name(t_all elem)
-{
-	int			i;
-
-	i = 0;
-	ft_printf("%-10s", "");
-	while (elem.room)
-	{
-		ft_printf("%-10s", elem.room->name_room);
-		elem.room = elem.room->next;
-	}
-	ft_putchar('\n');
-	ft_printf("%-10s", "");
-	while (++i < elem.number_rooms)
-		ft_printf("___________");
-	ft_putchar('\n');
-}
-
-void	ft_print_matrice(t_room ***matrice, t_all *elem)
-{
-	int i;
-	int j;
-
-	i = 0;
-	print_all_name(*elem);
-	while (i < elem->number_rooms)
-	{
-		j = 0;
-		print_room(*elem, i);
-		while (j < elem->number_rooms)
-		{
-			if (matrice[i][j])
-				ft_printf("%-10s", matrice[i][j]->name_room);
-			else
-				ft_printf("%-10d", 0);
-			j++;
-		}
-		ft_printf("\n");
-		i++;
-	}
-	ft_printf("\n\n\n");
-}
-
-/*
-**
-*/
-
-
-void	ft_set_matrice(t_room **tmp, t_room **cur, t_room ***matrice)
-{
-	int id_first_room;
-	int id_second_room;
-
-	id_first_room = (*tmp)->room_id;
-	id_second_room = (*cur)->room_id;
-	matrice[id_first_room][id_second_room] = *cur;
-	matrice[id_second_room][id_first_room] = *tmp;
-}
-
-/*
-**
-*/
-
-t_room	***ft_init_matrice(int number_rooms)
-{
-	t_room		***matrice;
-	if (!(matrice = (t_room ***)malloc(sizeof(t_room**) * (number_rooms + 1))))
-		return (NULL);
-	// int matrice[number_rooms][number_rooms];
-	int i;
-	int j;
-	i = 0;
-	while (i < number_rooms)
-	{
-		if (!(matrice[i] = malloc(sizeof(t_room*) * (number_rooms))))
-			return (NULL);
-		j = 0;
-		while(j < number_rooms)
-		{
-			matrice[i][j] = NULL;
-			j++;
-		}
-		i++;
-	}
-	matrice[i] = NULL;
-	return (matrice);
-}
-
-/*
-void	ft_set_matrice(t_room **tmp, t_room **cur, int **matrice)
-{
-	int id_first_room;
-	int id_second_room;
-
-	id_first_room = (*tmp)->room_id;
-	id_second_room = (*cur)->room_id;
-	matrice[id_first_room][id_second_room] = 1;
-	matrice[id_second_room][id_first_room] = 1;
-}
-
-int 	**ft_init_matrice(int number_rooms)
-{
-	int		**matrice;
-	if (!(matrice = (int **)malloc(sizeof(int *) * (number_rooms + 1))))
-		return (NULL);
-	// int matrice[number_rooms][number_rooms];
-	int i;
-	int j;
-	i = 0;
-	while (i < number_rooms)
-	{
-		if (!(matrice[i] = malloc(sizeof(int) * (number_rooms))))
-			return (NULL);
-		j = 0;
-		while(j < number_rooms)
-		{
-			matrice[i][j] = 0;
-			j++;
-		}
-		i++;
-	}
-	matrice[i] = NULL;
-	return (matrice);
-}
-*/
-
 
 /*
 **	Verfie que le nom de room associé au tube existe
@@ -311,3 +135,5 @@ int		ft_check_nb_ants(t_all *elem, char *str, int *i)
 	++(*i);
 	return (SUCCESS);
 }
+
+

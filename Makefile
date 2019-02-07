@@ -1,6 +1,6 @@
-NAME_LEM_IN = lem_in
+NAME_LEM_IN = lem-in
 
-LEM_IN		=	lem_in
+LEM_IN		=	lem-in
 
 CC			=	gcc
 CFLAGS		=	-Wall -Werror -Wextra -g #3 -fsanitize=address
@@ -12,7 +12,9 @@ _LI_SRCS	= 	li_00_lem_in.c \
 			  	li_03_algo.c \
 			  	li_04_algo_tools.c \
 			  	li_09a_free_and_error.c \
-			  	li_09b_search_and_init_tools.c
+			  	li_09b_search_and_init_tools.c \
+			  	li_09c_matrice_tools.c \
+			  	li_09d_path_tools.c
 
 _LIBFT		=	libft.a
 

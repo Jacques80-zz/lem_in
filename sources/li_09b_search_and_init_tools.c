@@ -68,14 +68,17 @@ t_room	*ft_get_room_by_id(t_all *elem, int room_id)
 	return (tmp);
 }
 
-t_path	*ft_init_path(void)
-{
-	t_path	*path;
+/*
+**	Parcours la liste chainee jusqu'à trouver le nom exact de la piece
+**	Si pas de piece identique => pointeur sur NULL (donc erreur de l'ot cote)
+*/
 
-	if (!(path = (t_path *)malloc(sizeof(t_path) * 256)))
-		return (NULL);
-	path->room = NULL;
-	path->next = NULL;
-	path->prev = NULL;
-	return (path);
+void		ft_find_room(t_room **tmp, char *room)
+{
+	while (*tmp)
+	{
+		if (ft_strcmp((*tmp)->name_room, room) == 0)
+			break ;
+		(*tmp) = (*tmp)->next;
+	}
 }
