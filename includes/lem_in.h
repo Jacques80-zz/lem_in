@@ -203,10 +203,14 @@ void			ft_free_path(t_lst *lst);
 **	Fonctions matrice
 */
 
+
+void			print_room(t_all elem, int nb);
+void			print_all_name(t_all elem);
 void			ft_print_matrice(t_room ***matrice, t_all *elem);
+void			ft_print_matrice_weight(t_room ***matrice, t_all *elem);
 //int				*ft_get_path(t_all *elem, int **matrice, int start, int end);
 void			ft_set_poid(t_all elem, int ***matrice, int distance, int start, int end);
-int				ft_add_weight(t_all *elem, t_room ***matrice, int weight, int current_room_id);
+void			ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start);
 t_path			*find_path(t_room ***matrice, t_all elem, t_room *start, t_tab_path **tab);
 void			print_tab_path(t_tab_path *tab);
 

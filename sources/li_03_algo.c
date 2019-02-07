@@ -38,6 +38,7 @@ typedef	struct 		s_room //
 }
 */
 
+
 void	ft_print_matrice_weight(t_room ***matrice, t_all *elem)
 {
 	int i;
@@ -62,8 +63,8 @@ void	ft_print_matrice_weight(t_room ***matrice, t_all *elem)
 	}
 	ft_printf("\n\n\n");
 }
-
-int		ft_anybody_else_here(t_all *elen, t_room ***matrice, int current_room_id)
+/*
+int		ft_anybody_else_here(t_all *elem, t_room ***matrice, int current_room_id)
 {
 	int j;
 
@@ -75,20 +76,15 @@ int		ft_anybody_else_here(t_all *elen, t_room ***matrice, int current_room_id)
 		else
 			j++;
 	}
-	if (j == elem->number_rooms)
-		return (0);
+	return (0);
 
 }
-
-	int				*tmp_tab_room;
-	int				size_tmp_tab_room;
 
 int		ft_add_weight(t_all *elem, t_room ***matrice, int weight, int current_room_id)
 {
 	int i;
 	int j;
 	int k;
-	t_room *tmp;
 
 	i = current_room_id;
 	j = 0;
@@ -101,9 +97,9 @@ int		ft_add_weight(t_all *elem, t_room ***matrice, int weight, int current_room_
 				{
 					elem->tmp_tab_room[elem->size_tmp_tab_room] = j;
 					elem->size_tmp_tab_room = elem->size_tmp_tab_room + 1;
-					matrice[i][j]->weight == weight;
+					matrice[i][j]->weight = weight;
 				}
-			j++
+			j++;
 		}
 		if (j == elem->number_rooms)
 		{
@@ -111,12 +107,36 @@ int		ft_add_weight(t_all *elem, t_room ***matrice, int weight, int current_room_
 			{
 				i = elem->tmp_tab_room[elem->size_tmp_tab_room - 1];
 				weight= weight + 1;
-				ft_add_weight(elem, matrice, weight, i)
+				ft_add_weight(elem, matrice, weight, i);
 				elem->size_tmp_tab_room = elem->size_tmp_tab_room - 1;
 			}
 		}
 	}
 	ft_print_matrice_weight(matrice, elem);
+	return (0);
+}*/
+
+void		ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start)
+{
+	int				i;
+	int				j;
+	t_room			*tmp;
+
+	i = start->room_id;
+	j = 0;
+	while (j < elem.number_rooms)
+	{
+		if (matrice[i][j])
+		{
+			if (matrice[i][j]->weight >= weight || matrice[i][j]->weight == -1)
+			{
+				matrice[j][i]->weight = weight;
+				tmp = matrice[i][j];
+				ft_add_weight(elem, matrice, weight + 1, matrice[i][j]);
+			}
+		}
+		j++;
+	}
 }
 
 /*

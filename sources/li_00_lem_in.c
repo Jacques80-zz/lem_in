@@ -1,33 +1,33 @@
 #include "../includes/lem_in.h"
 # include <stdarg.h>
 
-	/*
-	struct s_path *tab;
+/*
+   struct s_path *tab;
 
-	tab = malloc( 10 * sizeof(struct s_path) );
+   tab = malloc( 10 * sizeof(struct s_path) );
 
-	tab[2].distance = 0;
+   tab[2].distance = 0;
 
 */
 
 /*
-malloc de s_room
+   malloc de s_room
 
-faire
-ft_free_all
-ft_get_instructions
-ft_save_map
-ft_init_ant
-ft_print_path
-ft tube
-ft_coord
-ft_check_nb_ants
-	*/
+   faire
+   ft_free_all
+   ft_get_instructions
+   ft_save_map
+   ft_init_ant
+   ft_print_path
+   ft tube
+   ft_coord
+   ft_check_nb_ants
+   */
 
 /*
-**	ft_init_elem est appele au debut de ft_read
-**	elle met tous les int a 0 et les tableaux (char ou room) a NULL
-*/
+ **	ft_init_elem est appele au debut de ft_read
+ **	elle met tous les int a 0 et les tableaux (char ou room) a NULL
+ */
 
 void			ft_init_elem(t_all *elem)
 {
@@ -35,7 +35,7 @@ void			ft_init_elem(t_all *elem)
 	elem->number_rooms = 0;
 	elem->limited_factor = 0;
 	elem->nbr_lines_in_file = 0;
-//	elem->line = NULL;
+	//	elem->line = NULL;
 	elem->room = NULL;
 	elem->path_found = 0;
 	elem->matrice_init = 0;
@@ -47,17 +47,17 @@ void			ft_init_elem(t_all *elem)
 }
 
 /*
-**	ft_read est appele au debut du lem in
-**	il lit le fichier entre en parametre ligne par ligne 
-**	Si GNL renvoie une erreur (-1) le programme s'arrete ici (apres avoir free)
-**	tant que get_instructions est valide, on enregistre les datas avec
-**		ft_save_map
-**	Si get_instructions lit une ligne invalide, on checke si l'ensemble de la
-**	map lue ( a ce stade donc save dans elem)  permet d'aller de start a end
-**	Si oui retourne ERROR (1), sinon retourne FAIL (2)
-**	Si GNL = 0, on checke si la charte est resolvable
-**	Si oui on retourne SUCCESS, sinon retourne FAIL
-*/
+ **	ft_read est appele au debut du lem in
+ **	il lit le fichier entre en parametre ligne par ligne 
+ **	Si GNL renvoie une erreur (-1) le programme s'arrete ici (apres avoir free)
+ **	tant que get_instructions est valide, on enregistre les datas avec
+ **		ft_save_map
+ **	Si get_instructions lit une ligne invalide, on checke si l'ensemble de la
+ **	map lue ( a ce stade donc save dans elem)  permet d'aller de start a end
+ **	Si oui retourne ERROR (1), sinon retourne FAIL (2)
+ **	Si GNL = 0, on checke si la charte est resolvable
+ **	Si oui on retourne SUCCESS, sinon retourne FAIL
+ */
 
 int				ft_read(t_all *elem)
 {
@@ -89,8 +89,8 @@ int				ft_read(t_all *elem)
 }
 
 /*
-**	Imprime toute la map jusqu'a la derniere ligne valide
-*/
+ **	Imprime toute la map jusqu'a la derniere ligne valide
+ */
 
 void	ft_print_infos(t_all *elem)
 {
@@ -102,12 +102,39 @@ void	ft_print_infos(t_all *elem)
 }
 
 /*
-**	Le main quoi, d'abord les cas d erreur de ft_read, puis on cherche
-**	si un chemin est possible, si oui, on active le dispatch, si non
-**	on free le tout avant de quitter
-*/
+ **	Le main quoi, d'abord les cas d erreur de ft_read, puis on cherche
+ **	si un chemin est possible, si oui, on active le dispatch, si non
+ **	on free le tout avant de quitter
+ */
+t_room	*ft_init_start(t_all *elem)
+{
+	t_room *tmp;
 
-t_room		*ft_init_start(t_all *elem)
+	tmp = elem->room;
+	while(tmp->status != START)
+	{
+		tmp = tmp->next;
+	}
+	elem->start_id = tmp->room_id;
+	tmp->weight = 0;
+	return (tmp);
+}
+
+
+t_room	*ft_init_end(t_all *elem)
+{
+	t_room *tmp;
+
+	tmp = elem->room;
+	while(tmp->status != END)
+	{
+		tmp = tmp->next;
+	}
+	elem->end_id = tmp->room_id;
+	return (tmp);
+}
+
+int		ft_get_start_id(t_all *elem)
 {
 	t_room *tmp;
 
@@ -116,16 +143,12 @@ t_room		*ft_init_start(t_all *elem)
 	{
 		tmp = tmp->next;
 	}
-<<<<<<< HEAD
-	return (tmp);
-=======
 	elem->start_id = tmp->room_id;
 	tmp->weight = 0;
 	return (tmp->room_id);
->>>>>>> 854fcbf2034cb01d8c175cce62e0e9eb8cc53a0a
 }
 
-int		ft_init_end(t_all *elem)
+int		ft_get_end_id(t_all *elem)
 {
 	t_room *tmp;
 
@@ -138,8 +161,7 @@ int		ft_init_end(t_all *elem)
 	elem->end_id = tmp->room_id;
 	return (tmp->room_id);
 }
-
-int				main(int ac, char **av)
+int		main(int ac, char **av)
 {
 	t_all		elem;
 	t_tab_path	*tab;
@@ -155,28 +177,26 @@ int				main(int ac, char **av)
 	}
 	else
 	{	
-			//	if (ft_init_ant(&elem) == SUCCESS)
+		//	if (ft_init_ant(&elem) == SUCCESS)
 		ft_print_matrice(elem.matrice, &elem);
-<<<<<<< HEAD
-		find_path(elem.matrice, elem, ft_init_start(&elem), &tab);
-		print_tab_path(tab);
-=======
-		ft_add_weight(&elem, elem.matrice, 1, i);
-//		ft_get_path(&elem, elem.matrice, i, j);
->>>>>>> 854fcbf2034cb01d8c175cce62e0e9eb8cc53a0a
+//		find_path(elem.matrice, elem, ft_init_start(&elem), &tab);
+//		print_tab_path(tab);
+		ft_add_weight(elem, elem.matrice, 0, ft_init_start(&elem));
+		ft_print_matrice_weight(elem.matrice, &elem);
+		//		ft_get_path(&elem, elem.matrice, i, j);
 		ft_print_infos(&elem); // a faire
-//		ft_print_path(&elem); // a faire
+		//		ft_print_path(&elem); // a faire
 	}
 	/*
-		if (ft_init_ant(&a) == SUCCESS)
-	{
-		if (ft_algo(&a) == ERROR)
-		{
-			ft_fruit_a(&a);
-			return (EXIT_FAILURE);
-		}
-		ft_dispatch(&a);
-	}
-	ft_fruit_a(&a);
-	*/
+	   if (ft_init_ant(&a) == SUCCESS)
+	   {
+	   if (ft_algo(&a) == ERROR)
+	   {
+	   ft_fruit_a(&a);
+	   return (EXIT_FAILURE);
+	   }
+	   ft_dispatch(&a);
+	   }
+	   ft_fruit_a(&a);
+	   */
 }
