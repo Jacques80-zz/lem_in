@@ -115,7 +115,7 @@ void	ft_print_matrice_weight(t_room ***matrice, t_all *elem)
 			if (matrice[i][j])
 				ft_printf("%-10d", matrice[i][j]->weight);
 			else
-				ft_printf("%-10d", 0);
+				ft_printf("%-10s", "~");
 			j++;
 		}
 		ft_printf("\n");
