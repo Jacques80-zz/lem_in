@@ -107,7 +107,7 @@ void	ft_print_infos(t_all *elem)
 **	on free le tout avant de quitter
 */
 
-int 	ft_init_start(t_all *elem)
+t_room		*ft_init_start(t_all *elem)
 {
 	t_room *tmp;
 
@@ -116,7 +116,7 @@ int 	ft_init_start(t_all *elem)
 	{
 		tmp = tmp->next;
 	}
-	return (tmp->room_id);
+	return (tmp);
 }
 
 int		ft_init_end(t_all *elem)
@@ -134,10 +134,11 @@ int		ft_init_end(t_all *elem)
 int				main(int ac, char **av)
 {
 	t_all		elem;
+	t_tab_path	*tab;
 
-	int i, j;
 	(void)av;
 	(void)ac;
+	tab = NULL;
 	if (ft_read(&elem) == FAIL)
 	{
 		ft_free_all(&elem);
@@ -146,11 +147,10 @@ int				main(int ac, char **av)
 	}
 	else
 	{	
-		i = ft_init_start(&elem);
-		j = ft_init_end(&elem);
 			//	if (ft_init_ant(&elem) == SUCCESS)
 		ft_print_matrice(elem.matrice, &elem);
-//		ft_get_path(&elem, elem.matrice, i, j);
+		find_path(elem.matrice, elem, ft_init_start(&elem), &tab);
+		print_tab_path(tab);
 		ft_print_infos(&elem); // a faire
 //		ft_print_path(&elem); // a faire
 	}

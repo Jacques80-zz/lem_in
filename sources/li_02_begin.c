@@ -67,36 +67,60 @@ void		print_path(t_path *path)
 		ft_printf("%s\n", path->room->name_room);
 		path = path->next;
 	}
+	ft_printf("_______________________________\n");
 }
 
-t_path		*find_path(t_room ***matrice, t_all elem, int start, int end)
+void		print_tab_path(t_tab_path *tab)
 {
-	t_tab_path	*tab;
+	while (tab)
+	{
+		print_path(tab->path);
+		tab = tab->next;
+	}
+}
+
+void		save_path(t_tab_path **tab, t_path *path)
+{
+	t_tab_path		*new;
+
+	if (!(new = malloc(sizeof(t_tab_path))))
+		return ;
+	new->path = path;
+	new->next = *tab;
+	*tab = new;
+}
+
+t_path		*find_path(t_room ***matrice, t_all elem, t_room *start, t_tab_path **tab)
+{
 	t_path		*pile;
+	t_room		*tmp;
 	int			i;
 	int			j;
 
-	pile = NULL;
-	tab = NULL;
-	i = start;
+	i = start->room_id;
 	j = 0;
-	if (start == end)
-	{
-		empile(&pile, find_n_room(elem, start));
-		return (pile);
-	}
+	pile = NULL;
+	if (start->status == END)
+		return (new_elem_path(start));
 	while (j < elem.number_rooms)
 	{
 		if (matrice[i][j])
 		{
+			tmp = matrice[i][j];
 			matrice[i][j] = NULL;
 			matrice[j][i] = NULL;
-			pile = find_path(matrice, elem, j, end);
+			pile = find_path(matrice, elem, tmp, tab);
 		}
-		if (pile)
+		if (pile && start->status == START)
 		{
-			empile(&pile, find_n_room(elem, start));
-			print_path(pile);
+			empile(&pile, start);
+			save_path(tab, pile);
+			pile = NULL;
+			find_path(matrice, elem, tmp, tab);
+		}
+		else if (pile)
+		{
+			empile(&pile, start);
 			return (pile);
 		}
 		j++;
