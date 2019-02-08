@@ -63,7 +63,7 @@ t_path		*ft_bfs(t_all *elem, t_room ***matrice, int i_room, t_path *path)// i_ro
 }
 */
 
-t_path		*ft_bfs(t_all elem, t_room ***matrice, t_path *path)
+t_path		*ft_bfs(t_all elem, t_room ***matrice, t_path *path) // TODO ajouter matrice temp
 {
 	int i;
 	int j;
@@ -118,3 +118,10 @@ t_path		*ft_bfs(t_all elem, t_room ***matrice, t_path *path)
 	path = tmp;
 	return (ft_bfs(elem, matrice, path));
 }
+// 	TODO ajouter matrice_tmp a la fonction bfs et a son appel
+//	TODO ecrire path dans matrice temp avec pour valeur 2 
+//	TODO si on croise un chemin qui est deja possiblement utilise on sette a 0 les liens entre toutes les salles reliees par possible path et uniquement a celle ci, en remontant vers start
+//	TODO rappeler bfs avec matrice temp tant que le nombre de matrice_tmp[i_end][j++] egal a  2 est inferieur a (ft_minimun(nombre de salles reliees a end / facteur limitant)) // peut etre pas toujours pertinent a voir
+
+//	TODO de plus tard le dispatch des fourmies dans chaque path quand on en sera la on sera bien
+// 	TODO cas d erreur / gestion des leaks / norminette
