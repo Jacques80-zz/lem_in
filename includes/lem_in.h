@@ -8,6 +8,7 @@
 # define PATH_END		4
 
 # include "libft.h"
+# include <stdio.h>
 
 /*
 gestion d'erreurs:
@@ -19,18 +20,13 @@ aucun chemin possible pas encore
 multipath complexe pas encore
 // une salle definie deux fois donc redefinie // coordonnées redefinies
 // un tiret dans la salle? // OK considere comme erreur
-
 gestion des commentaires:
 accepter les commentaires ok
-
 commandes autre que start et end // ?? ##debug?
-
 Format de sortie
-
 composition de la fourmilire doit etre repetee sur la sortie
 les commandes et commentaires sont repetes sur la sortie
 chemin au bon format 1 ligne par tour et N deplacements par tour, Lx-y (x fourmi y salle)
-
 validité du chemin
 */
 
@@ -102,7 +98,6 @@ typedef struct 		s_line
 	int 			number_words; // 1 si int nb fourmi si format nom - nom check nom existe sinon voir comment 2 = si pas comment danger 3 = room = texte space int space int
 	t_type			type;
 }					t_line;
-
 typedef struct		s_ret_path
 {
 	t_path			*path;
@@ -112,7 +107,6 @@ typedef struct		s_ret_path
 	t_path			**room_ant;
 	int				step;
 }					t_ret_path;
-
 */
 typedef struct				s_path
 {
@@ -156,6 +150,12 @@ typedef struct		s_lst
 	struct s_lst	*next;
 }					t_lst;
 
+typedef struct		s_files
+{
+	t_room			*room;
+	struct s_files	*next;
+}					t_files;
+
 /*
 **	li_00 initialisation
 */
@@ -190,7 +190,9 @@ int				ft_check_nb_ants(t_all *elem, char *str, int *i);
 */
 
 void			ft_save_map(t_all *elem, char *line);
-t_path			*find_path(t_room ***matrice, t_all elem, t_room *start, t_tab_path **tab);
+void			find_path(t_all elem, t_room ***matrice, t_room *start, t_path *path, t_tab_path **tab);
+void			bfs(t_all elem, t_room ***matrice, t_room *start);
+void			add_path(t_tab_path **tab, t_path *path);
 
 
 /*
@@ -204,6 +206,7 @@ void			ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start);
 */
 
 t_path			*ft_bfs(t_all elem, t_room ***matrice, t_path *path);
+t_path		*ft_rec_bfs(t_all elem, t_room ***matrice, t_path *path);
 
 /*
 **	li_09a Free and error
@@ -240,6 +243,7 @@ t_room			***ft_init_matrice(int number_rooms);
 void			ft_print_matrice_weight(t_room ***matrice, t_all *elem);
 int 			ft_limited_factor(t_all *elem, t_room ***matrice);
 t_room			***matrice_cpy(t_all elem, t_room ***matrice);
+void			ft_free_matrice(t_room ***matrice);
 
 
 /*
@@ -257,11 +261,8 @@ t_path			*ft_init_path(t_room *room);
 
 #endif
 /*
-
 la room start est linked to start a 0 (par defaut -1), la room end est llinked to end a 0
 On etudie tous les liens d abord au premier tour start puis end puis start puis end etc...
 on set limited factor avec le plus petit des deux mouvements
 // puis de ces x chemins, chaque fois que path is dead on applique -1
-
-
 */

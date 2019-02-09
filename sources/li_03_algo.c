@@ -1,10 +1,9 @@
 #include "../includes/lem_in.h"
 
-void		ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start) // voir si en largeur n est pas plus rapide
+/*void		ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start) // voir si en largeur n est pas plus rapide
 {
 	int				i;
 	int				j;
-
 	i = start->room_id;
 	j = 0;
 //	matrice[j][i]->weight = weight;
@@ -27,8 +26,68 @@ void		ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start) //
 		}
 		j++;
 	}
+}*/
+
+void		add_file(t_files **file, t_room *room)
+{
+	t_files		*new;
+	t_files		*tmp;
+
+	if (!(new = malloc(sizeof(t_files))))
+		return ;
+	new->room = room;
+	new->next = NULL;
+	if (!*file)
+		*file = new;
+	else
+	{
+		tmp = *file;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
 }
 
+t_room		*remove_file(t_files **file)
+{
+	t_room		*tmp;
+	t_files		*temp;
+
+	temp = *file;
+	tmp = (*file)->room;
+	*file = (*file)->next;
+	free(temp);
+	return (tmp);
+}
+
+
+void		ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start) // voir si en largeur n est pas plus rapide
+{
+		int			i;
+		int			j;
+		t_files		*file;
+		t_room		*tmp;
+
+		add_file(&file, start);
+		start->weight = weight;
+		start->available = VISITED;
+		while (file)
+		{
+			tmp = remove_file(&file);
+			i = tmp->room_id;
+			j = 0;
+			while (j < elem.number_rooms)
+			{
+				if (matrice[i][j] && matrice[i][j]->available != VISITED)
+				{
+					add_file(&file, matrice[i][j]);
+					matrice[i][j]->available = VISITED;
+					matrice[i][j]->weight = tmp->weight + 1;
+				}
+				j++;
+			}
+		}
+}
 /*
 **
 */
@@ -39,7 +98,6 @@ int		*ft_get_path(t_all *elem, int **matrice, int start, int end, int *delay) //
 	int i;
 	int j;
 	int size;
-
 	size = 0;
 	i = start;
 	j = 0;
@@ -92,7 +150,6 @@ int		*ft_get_path(t_all *elem, int **matrice, int start, int end, int *delay) //
 			j = 0;
 		}
 	//	if (i == elem->number_rooms)
-
 	}
 	size = size + 1;
 	tab_of_path[size] = -1;
@@ -100,5 +157,4 @@ int		*ft_get_path(t_all *elem, int **matrice, int start, int end, int *delay) //
 	ft_print_path(tab_of_path);
 	return (tab_of_path);
 	//if ((i == end || j == end)  && matrice[i][j] == 1)
-
 }*/

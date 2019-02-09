@@ -3,12 +3,21 @@
 void		empile(t_path **pile, t_room *room)
 {
 	t_path			*new;
+	t_path			*tmp;
 
 	if (!(new = malloc(sizeof(t_path))))
 		return ;
 	new->room = room;
-	new->next = *pile;
-	*pile = new;
+	new->next = NULL;
+	if (!*pile)
+		*pile = new;
+	else
+	{
+		tmp = *pile;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
 }
 
 t_path		*new_elem_path(t_room *room)

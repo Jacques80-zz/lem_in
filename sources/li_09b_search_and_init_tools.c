@@ -51,7 +51,7 @@ int		ft_get_end_id(t_all *elem)
 	{
 		tmp = tmp->next;
 	}
-	tmp->weight = -1;
+//	tmp->weight = -1;
 	elem->end_id = tmp->room_id;
 	return (tmp->room_id);
 }

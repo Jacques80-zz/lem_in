@@ -28,40 +28,104 @@ void	ft_save_map(t_all *elem, char *line)
 	last->next = new;
 }
 
-t_path		*find_path(t_room ***matrice, t_all elem, t_room *start, t_tab_path **tab)
+/*void		empile(t_path **path, t_room *room)
 {
-	t_path		*pile;
-	t_room		*tmp;
+	t_path		*new;
+	t_path		*tmp;
+	if (!(new = malloc(sizeof(t_path))))
+		return ;
+	new->room = room;
+	new->next = NULL;
+	new->prev = NULL;
+	if (!path)
+		*path = new;
+	else
+	{
+		tmp = *path;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
+}*/
+
+t_path			*path_cpy(t_path *path)
+{
+	t_path			*new;
+
+	new = NULL;
+	while (path)
+	{
+		empile(&new, path->room);
+		path = path->next;
+	}
+	return (new);
+}
+
+void		add_path(t_tab_path **tab, t_path *path)
+{
+	t_tab_path			*new;
+	t_tab_path			*tmp;
+
+	tmp = *tab;
+	if (!(new = malloc(sizeof(t_tab_path))))
+		return ;
+	new->next = NULL;
+	new->path = path;
+	if (!*tab)
+		*tab = new;
+	else
+	{
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
+}
+
+void		find_path(t_all elem, t_room ***matrice, t_room *start, t_path *path, t_tab_path **tab)
+{
 	int			i;
 	int			j;
 
 	i = start->room_id;
 	j = 0;
-	pile = NULL;
+	empile(&path, start);
 	if (start->status == END)
-		return (new_elem_path(start));
+	{
+		add_path(tab, path);
+		return ;
+	}
+	start->available = VISITED;
 	while (j < elem.number_rooms)
 	{
-		if (matrice[i][j])
-		{
-			tmp = matrice[i][j];
-			matrice[i][j] = NULL;
-			matrice[j][i] = NULL;
-			pile = find_path(matrice, elem, tmp, tab);
-		}
-		if (pile && start->status == START)
-		{
-			empile(&pile, start);
-			save_path(tab, pile);
-			pile = NULL;
-			find_path(matrice, elem, tmp, tab);
-		}
-		else if (pile)
-		{
-			empile(&pile, start);
-			return (pile);
-		}
+		if (matrice[i][j] && matrice[i][j]->available != VISITED)
+			find_path(elem, matrice, matrice[i][j], path_cpy(path), tab);
 		j++;
 	}
-	return (NULL);
 }
+
+/*
+void		bfs(t_all elem, t_room ***matrice, t_room *start)
+{
+	int				i;
+	int				j;
+	t_files			*file;
+	t_room			*tmp;
+	file = NULL;
+	add_file(&file, start);
+	file->room->available = VISITED;
+	while (file)
+	{
+		tmp = remove_file(&file);
+		i = tmp->room_id;
+		j = 0;
+		while (j < elem.number_rooms)
+		{
+			if (matrice[i][j] && matrice[i][j]->available == NO_VISITED)
+			{
+				add_file(&file, matrice[i][j]);
+				matrice[i][j]->available = VISITED;
+			}
+			j++;
+		}
+	}
+}*/

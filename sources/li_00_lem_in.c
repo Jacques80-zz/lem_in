@@ -3,16 +3,12 @@
 
 /*
    struct s_path *tab;
-
    tab = malloc( 10 * sizeof(struct s_path) );
-
    tab[2].distance = 0;
-
 */
 
 /*
    malloc de s_room
-
    faire
    ft_free_all
    ft_get_instructions
@@ -143,7 +139,6 @@ int		main(int ac, char **av)
 	t_all		elem;
 	t_tab_path	*tab;
 	t_path		*path;
-	t_room		***new;
 
 	(void)av;
 	(void)ac;
@@ -169,16 +164,17 @@ int		main(int ac, char **av)
 //		find_path(elem.matrice, elem, ft_init_start(&elem), &tab);
 //		print_tab_path(tab);
 		ft_add_weight(elem, elem.matrice, 0, ft_init_start(&elem));
-		new = matrice_cpy(elem, elem.matrice);
-		ft_print_matrice(elem.matrice, &elem);
-		ft_print_matrice(new, &elem);
-		ft_printf("limited factor: %d\n", ft_limited_factor(&elem, elem.matrice));
+//		new = matrice_cpy(elem, elem.matrice);
+//		ft_print_matrice(elem.matrice, &elem);
+//		ft_print_matrice(new, &elem);
 	//	path->room = ft_init_end(&elem);
-//		ft_print_matrice_weight(elem.matrice, &elem);
-		path = ft_bfs(elem, elem.matrice, path);
-		//ft_get_path(&elem, elem.matrice, i, j);
+		ft_print_matrice_weight(elem.matrice, &elem);
+//		ft_printf("limited factor: %d\n", ft_limited_factor(&elem, elem.matrice));
+		//find_path(elem, matrice_cpy(elem, elem.matrice), ft_init_start(&elem), NULL, &tab);
+//		bfs(elem, elem.matrice, ft_init_start(&elem));
+//		print_tab_path(tab);
 //		ft_print_infos(&elem); // a faire
-		print_path(path); // a faire
+//		print_path(path); // a faire
 	}
 	/*
 	   if (ft_init_ant(&a) == SUCCESS)

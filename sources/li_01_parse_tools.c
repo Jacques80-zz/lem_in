@@ -1,4 +1,3 @@
-
 #include "../includes/lem_in.h"
 
 /*
@@ -69,6 +68,7 @@ int				ft_room(t_all *elem, char **tab_coor)
 	elem->number_rooms = elem->number_rooms + 1;
 	tmp->room_id = room_id;
 	tmp->weight = -1;
+	tmp->available = NO_VISITED;
 	tmp->name_room = ft_strnew(ft_strlen(tab_coor[0]));
 	tmp->name_room = ft_strcpy(tmp->name_room, tab_coor[0]);
 	tmp->number_ants_in_room = 0;

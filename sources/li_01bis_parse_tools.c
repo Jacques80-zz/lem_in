@@ -135,5 +135,3 @@ int		ft_check_nb_ants(t_all *elem, char *str, int *i)
 	++(*i);
 	return (SUCCESS);
 }
-
-
