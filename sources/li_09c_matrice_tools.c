@@ -172,3 +172,14 @@ t_room		***matrice_cpy(t_all elem, t_room ***matrice)
 	new_matrice[i] = NULL;
 	return (new_matrice);
 }
+
+void		ft_free_matrice(t_room ***matrice)
+{
+	int			i;
+
+	i = 0;
+	while (matrice[i])
+		free(matrice[i++]);
+	free(matrice);
+
+}

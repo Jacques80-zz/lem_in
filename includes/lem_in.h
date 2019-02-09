@@ -190,7 +190,7 @@ int				ft_check_nb_ants(t_all *elem, char *str, int *i);
 */
 
 void			ft_save_map(t_all *elem, char *line);
-t_path			*find_path(t_room ***matrice, t_all elem, t_room *start, t_tab_path **tab);
+void		find_path(t_all elem, t_room ***matrice, t_room *start, t_path *path, t_tab_path **tab);
 
 
 /*
@@ -240,6 +240,7 @@ t_room			***ft_init_matrice(int number_rooms);
 void			ft_print_matrice_weight(t_room ***matrice, t_all *elem);
 int 			ft_limited_factor(t_all *elem, t_room ***matrice);
 t_room			***matrice_cpy(t_all elem, t_room ***matrice);
+void			ft_free_matrice(t_room ***matrice);
 
 
 /*
