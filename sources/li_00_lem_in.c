@@ -172,12 +172,12 @@ int		main(int ac, char **av)
 //		ft_print_matrice(elem.matrice, &elem);
 //		ft_print_matrice(new, &elem);
 	//	path->room = ft_init_end(&elem);
-//		ft_print_matrice_weight(elem.matrice, &elem);
-//		path = ft_bfs(elem, elem.matrice, path);
+		ft_print_matrice_weight(elem.matrice, &elem);
 //		ft_printf("limited factor: %d\n", ft_limited_factor(&elem, elem.matrice));
-		find_path(elem, matrice_cpy(elem, elem.matrice), ft_init_start(&elem), NULL, &tab);
-		print_tab_path(tab);
-		//		ft_print_infos(&elem); // a faire
+		//find_path(elem, matrice_cpy(elem, elem.matrice), ft_init_start(&elem), NULL, &tab);
+//		bfs(elem, elem.matrice, ft_init_start(&elem));
+//		print_tab_path(tab);
+//		ft_print_infos(&elem); // a faire
 //		print_path(path); // a faire
 	}
 	/*

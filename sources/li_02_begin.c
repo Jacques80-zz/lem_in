@@ -82,45 +82,6 @@ void		add_path(t_tab_path **tab, t_path *path)
 	}
 }
 
-int			G = 0;
-
-/*void		find_path(t_all elem, t_room ***matrice, t_room *start, t_path *path, t_tab_path **tab)
-{
-	int			i;
-	int			j;
-	t_room		*tmp;
-
-	i = start->room_id;
-	j = 0;
-	empile(&path, start);
-	if (start->status == END)
-	{
-		ft_printf("G = %d\n", G);
-		add_path(tab, path);
-//		ft_free_matrice(matrice);
-		return ;
-	}
-	while (j < elem.number_rooms)
-	{
-		G++;
-		if (matrice[i][j] && matrice[i][j]->weight >= start->weight)
-		{
-			tmp = matrice[i][j];
-			matrice[i][j] = NULL;
-			matrice[j][i] = NULL;
-//			find_path(elem, matrice_cpy(elem, matrice), tmp, path_cpy(path), tab);
-			find_path(elem, matrice, tmp, path_cpy(path), tab);
-			matrice[i][j] = tmp;
-			matrice[j][i] = start;
-		}
-		j++;
-	}
-//	ft_free_matrice(matrice);
-	return ;
-}*/
-
-
-
 void		find_path(t_all elem, t_room ***matrice, t_room *start, t_path *path, t_tab_path **tab)
 {
 	int			i;
@@ -134,14 +95,39 @@ void		find_path(t_all elem, t_room ***matrice, t_room *start, t_path *path, t_ta
 		add_path(tab, path);
 		return ;
 	}
+	start->available = VISITED;
 	while (j < elem.number_rooms)
 	{
-		if (matrice[i][j] && matrice[i][j]->available == NO_VISITED && matrice[i][j]->weight >= start->weight)
-		{
-			start->available = VISITED;
+		if (matrice[i][j] && matrice[i][j]->available != VISITED)
 			find_path(elem, matrice, matrice[i][j], path_cpy(path), tab);
-			start->available = NO_VISITED;
-		}
 		j++;
 	}
 }
+
+/*
+void		bfs(t_all elem, t_room ***matrice, t_room *start)
+{
+	int				i;
+	int				j;
+	t_files			*file;
+	t_room			*tmp;
+
+	file = NULL;
+	add_file(&file, start);
+	file->room->available = VISITED;
+	while (file)
+	{
+		tmp = remove_file(&file);
+		i = tmp->room_id;
+		j = 0;
+		while (j < elem.number_rooms)
+		{
+			if (matrice[i][j] && matrice[i][j]->available == NO_VISITED)
+			{
+				add_file(&file, matrice[i][j]);
+				matrice[i][j]->available = VISITED;
+			}
+			j++;
+		}
+	}
+}*/

@@ -8,6 +8,7 @@
 # define PATH_END		4
 
 # include "libft.h"
+# include <stdio.h>
 
 /*
 gestion d'erreurs:
@@ -156,6 +157,12 @@ typedef struct		s_lst
 	struct s_lst	*next;
 }					t_lst;
 
+typedef struct		s_files
+{
+	t_room			*room;
+	struct s_files	*next;
+}					t_files;
+
 /*
 **	li_00 initialisation
 */
@@ -190,7 +197,9 @@ int				ft_check_nb_ants(t_all *elem, char *str, int *i);
 */
 
 void			ft_save_map(t_all *elem, char *line);
-void		find_path(t_all elem, t_room ***matrice, t_room *start, t_path *path, t_tab_path **tab);
+void			find_path(t_all elem, t_room ***matrice, t_room *start, t_path *path, t_tab_path **tab);
+void			bfs(t_all elem, t_room ***matrice, t_room *start);
+void			add_path(t_tab_path **tab, t_path *path);
 
 
 /*
@@ -204,6 +213,7 @@ void			ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start);
 */
 
 t_path			*ft_bfs(t_all elem, t_room ***matrice, t_path *path);
+t_path		*ft_rec_bfs(t_all elem, t_room ***matrice, t_path *path);
 
 /*
 **	li_09a Free and error

@@ -6,7 +6,7 @@
 /*   By: jdouniol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/01 14:46:42 by jdouniol          #+#    #+#             */
-/*   Updated: 2018/11/04 14:31:38 by jdouniol         ###   ########.fr       */
+/*   Updated: 2019/02/09 02:39:26 by fallouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct			s_list
 	size_t				content_size;
 	struct s_list		*next;
 }						t_list;
+
 
 typedef struct			s_file
 {

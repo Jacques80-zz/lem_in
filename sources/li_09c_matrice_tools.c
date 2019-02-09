@@ -181,5 +181,4 @@ void		ft_free_matrice(t_room ***matrice)
 	while (matrice[i])
 		free(matrice[i++]);
 	free(matrice);
-
 }
