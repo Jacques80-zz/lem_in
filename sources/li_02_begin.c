@@ -138,6 +138,21 @@ t_path	*return_path(t_tab_path *tab_path, int n)
 	return (NULL);
 }
 
+void	block_end(t_all elem, t_room ***matrice)
+{
+	int			i;
+	int			j;
+
+	j = 0;
+	i = elem.end_id;
+	while (j < elem.number_rooms)
+	{
+		if (matrice[i][j])
+			matrice[i][j] = NULL;
+		j++;
+	}
+}
+
 void	find_paths(t_all elem, t_room ***matrice, t_room *start, t_tab_path **tab)
 {
 	t_files			*file;
@@ -156,12 +171,13 @@ void	find_paths(t_all elem, t_room ***matrice, t_room *start, t_tab_path **tab)
 		tmp = remove_files(&file);
 		i = tmp->room_id;
 		j = 0;
-		print_tab_path(*tab);
+//		print_tab_path(*tab);
 		while (j < elem.number_rooms)
 		{
 			if (matrice[i][j] && matrice[i][j]->weight >= tmp->weight)
 			{
-				add_files(&file, matrice[i][j], n);
+				if (matrice[i][j]->status != END)
+					add_files(&file, matrice[i][j], n);
 				add_path_to_tab(tab, matrice[i][j], n++, tmp_path);
 			}
 			j++;
