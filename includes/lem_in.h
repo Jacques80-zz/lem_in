@@ -160,6 +160,7 @@ typedef struct		s_lst
 typedef struct		s_files
 {
 	t_room			*room;
+	int				n;
 	struct s_files	*next;
 }					t_files;
 
@@ -200,6 +201,7 @@ void			ft_save_map(t_all *elem, char *line);
 void			find_path(t_all elem, t_room ***matrice, t_room *start, t_path *path, t_tab_path **tab);
 void			bfs(t_all elem, t_room ***matrice, t_room *start);
 void			add_path(t_tab_path **tab, t_path *path);
+void			find_paths(t_all elem, t_room ***matrice, t_room *start, t_tab_path **tab);
 
 
 /*
@@ -207,6 +209,8 @@ void			add_path(t_tab_path **tab, t_path *path);
 */
 
 void			ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start);
+void			add_file(t_files **file, t_room *room);
+t_room			*remove_file(t_files **file);
 
 /*
 **	li_04 Algo Tools

@@ -28,106 +28,143 @@ void	ft_save_map(t_all *elem, char *line)
 	last->next = new;
 }
 
-/*void		empile(t_path **path, t_room *room)
+void		add_files(t_files **file, t_room *room, int n)
 {
-	t_path		*new;
+	t_files		*new;
+	t_files		*tmp;
+
+	if (!(new = malloc(sizeof(t_files))))
+		return ;
+	new->room = room;
+	new->n = n;
+	new->next = NULL;
+	if (!*file)
+		*file = new;
+	else
+	{
+		tmp = *file;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
+}
+
+t_room		*remove_files(t_files **file)
+{
+	t_room		*tmp;
+	t_files		*temp;
+
+	temp = *file;
+	tmp = (*file)->room;
+	*file = (*file)->next;
+	free(temp);
+	return (tmp);
+}
+
+
+void	add_to_path(t_path **path, t_room *room)
+{
 	t_path		*tmp;
+	t_path		*new;
 
 	if (!(new = malloc(sizeof(t_path))))
 		return ;
 	new->room = room;
 	new->next = NULL;
-	new->prev = NULL;
-	if (!path)
+	tmp = *path;
+	if (!*path)
 		*path = new;
 	else
 	{
-		tmp = *path;
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new;
 	}
-}*/
+}
 
-t_path			*path_cpy(t_path *path)
+t_path		*path_copy(t_path *path)
 {
 	t_path			*new;
 
 	new = NULL;
 	while (path)
 	{
-		empile(&new, path->room);
+		add_to_path(&new, path->room);
 		path = path->next;
 	}
 	return (new);
 }
 
-void		add_path(t_tab_path **tab, t_path *path)
-{
-	t_tab_path			*new;
-	t_tab_path			*tmp;
-
-	tmp = *tab;
-	if (!(new = malloc(sizeof(t_tab_path))))
-		return ;
-	new->next = NULL;
-	new->path = path;
-	if (!*tab)
-		*tab = new;
-	else
-	{
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
-	}
-}
-
-void		find_path(t_all elem, t_room ***matrice, t_room *start, t_path *path, t_tab_path **tab)
+void	add_path_to_tab(t_tab_path **tab, t_room *room, int n, t_path *path)
 {
 	int			i;
-	int			j;
+	t_tab_path	*tmp;
+	t_tab_path	*new;
 
-	i = start->room_id;
-	j = 0;
-	empile(&path, start);
-	if (start->status == END)
+	i = 0;
+	tmp = *tab;
+	while (i < n - 1)
 	{
-		add_path(tab, path);
-		return ;
+		tmp = tmp->next;
+		i++;
 	}
-	start->available = VISITED;
-	while (j < elem.number_rooms)
+	if (i == n && *tab)
+		add_to_path(&(tmp->path), room);
+	else
 	{
-		if (matrice[i][j] && matrice[i][j]->available != VISITED)
-			find_path(elem, matrice, matrice[i][j], path_cpy(path), tab);
-		j++;
+		if (!(new = malloc(sizeof(t_tab_path))))
+			return ;
+		new->path = path_copy(path);
+		add_to_path(&(new->path), room);
+		if (*tab)
+			tmp->next = new;
+		else
+			*tab = new;
 	}
 }
 
-/*
-void		bfs(t_all elem, t_room ***matrice, t_room *start)
+t_path	*return_path(t_tab_path *tab_path, int n)
 {
+	int		i;
+
+	i = 0;
+	while (i < n)
+	{
+		tab_path = tab_path->next;
+		i++;
+	}
+	if (i == n && tab_path)
+		return (tab_path->path);
+	return (NULL);
+}
+
+void	find_paths(t_all elem, t_room ***matrice, t_room *start, t_tab_path **tab)
+{
+	t_files			*file;
+	t_path			*tmp_path;
+	t_room			*tmp;
 	int				i;
 	int				j;
-	t_files			*file;
-	t_room			*tmp;
+	int				n;
 
 	file = NULL;
-	add_file(&file, start);
-	file->room->available = VISITED;
+	add_files(&file, start, 0);
 	while (file)
 	{
-		tmp = remove_file(&file);
+		n = file->n;
+		tmp_path = return_path(*tab, n); 
+		tmp = remove_files(&file);
 		i = tmp->room_id;
 		j = 0;
+		print_tab_path(*tab);
 		while (j < elem.number_rooms)
 		{
-			if (matrice[i][j] && matrice[i][j]->available == NO_VISITED)
+			if (matrice[i][j] && matrice[i][j]->weight >= tmp->weight)
 			{
-				add_file(&file, matrice[i][j]);
-				matrice[i][j]->available = VISITED;
+				add_files(&file, matrice[i][j], n);
+				add_path_to_tab(tab, matrice[i][j], n++, tmp_path);
 			}
 			j++;
 		}
 	}
-}*/
+}
