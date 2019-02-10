@@ -64,7 +64,7 @@ typedef	struct 		s_room //
 	int				*linked_to_start;
 	int				*linked_to_end;
 	int 			*names_path_available; //
-	int				number_path_availbale;
+	int				possible_path_id;
 	int				weight; // *distance ?
 	int				compteur_from_start;
 	int				compteur_from_end;
@@ -118,6 +118,7 @@ typedef struct				s_path
 typedef struct				s_tab_path
 {
 	t_path				*path;
+	struct s_tab_path	*prev;
 	struct s_tab_path	*next;
 }							t_tab_path;
 
@@ -142,7 +143,8 @@ typedef struct 		s_all
 	int				start_id;
 	int				end_id;
 	int				*tmp_tab_room;
-	int				size_tmp_tab_room;		
+	int				size_tmp_tab_room;
+	int  			path_id;
 }					t_all;
 
 typedef struct		s_lst
@@ -206,7 +208,8 @@ void			ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start);
 */
 
 t_path			*ft_bfs(t_all elem, t_room ***matrice, t_path *path);
-t_path		*ft_rec_bfs(t_all elem, t_room ***matrice, t_path *path);
+//t_path		*ft_rec_bfs(t_all elem, t_room ***matrice, t_path *path);
+t_path			*ft_rec_bfs(t_all elem, t_room ***matrice, t_path *path, t_room ***matrice_cpy, int path_id);
 
 /*
 **	li_09a Free and error
@@ -244,6 +247,7 @@ void			ft_print_matrice_weight(t_room ***matrice, t_all *elem);
 int 			ft_limited_factor(t_all *elem, t_room ***matrice);
 t_room			***matrice_cpy(t_all elem, t_room ***matrice);
 void			ft_free_matrice(t_room ***matrice);
+int				ft_all_rooms_linked_to_end_are_pp(t_all elem, t_room ***matrice, t_room ***new);
 
 
 /*
@@ -256,6 +260,8 @@ void			print_path(t_path *path);
 void			print_tab_path(t_tab_path *tab);
 void			save_path(t_tab_path **tab, t_path *path);
 t_path			*ft_init_path(t_room *room);
+t_path 			**ft_add_path_to_tab_path(t_path **tab_path, t_path *path);
+t_path			**ft_init_tab_path(t_path *path);
 
 
 

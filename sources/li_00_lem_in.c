@@ -40,6 +40,7 @@ void			ft_init_elem(t_all *elem)
 	elem->next_is_start = 0;
 	elem->next_is_end = 0;
 	elem->path_found = 0;
+	elem->path_id = 0;
 }
 
 /*
@@ -139,6 +140,8 @@ int		main(int ac, char **av)
 	t_all		elem;
 	t_tab_path	*tab;
 	t_path		*path;
+	t_path		**tab_path;
+	t_room		***new; //(matrice_cpy)
 
 	(void)av;
 	(void)ac;
@@ -157,21 +160,27 @@ int		main(int ac, char **av)
 	}
 	else
 	{	
-
 		path = ft_init_path(ft_init_end(&elem));
+		tab_path = ft_init_tab_path(path);
 		//	if (ft_init_ant(&elem) == SUCCESS)
 //		ft_print_matrice(elem.matrice, &elem);
 //		find_path(elem.matrice, elem, ft_init_start(&elem), &tab);
 //		print_tab_path(tab);
 		ft_add_weight(elem, elem.matrice, 0, ft_init_start(&elem));
-//		new = matrice_cpy(elem, elem.matrice);
+		new = matrice_cpy(elem, elem.matrice);
 //		ft_print_matrice(elem.matrice, &elem);
 //		ft_print_matrice(new, &elem);
 	//	path->room = ft_init_end(&elem);
-		ft_print_matrice_weight(elem.matrice, &elem);
+//		ft_print_matrice_weight(elem.matrice, &elem);
 //		ft_printf("limited factor: %d\n", ft_limited_factor(&elem, elem.matrice));
-		//find_path(elem, matrice_cpy(elem, elem.matrice), ft_init_start(&elem), NULL, &tab);
-//		bfs(elem, elem.matrice, ft_init_start(&elem));
+//		find_path(elem, matrice_cpy(elem, elem.matrice), ft_init_start(&elem), NULL, &tab);
+//		ft_bfs(elem, elem.matrice, path);
+		while (!(ft_all_rooms_linked_to_end_are_pp(elem, elem.matrice, new)))
+			{
+				path = ft_rec_bfs(elem, elem.matrice, path, new, elem.path_id);
+				tab_path = ft_add_path_to_tab_path(tab_path, path); // on peut aussi utiliser tab_path[elem->path_id] = path;
+			//	path_id++; // ajoute dans bfs 
+			}
 //		print_tab_path(tab);
 //		ft_print_infos(&elem); // a faire
 //		print_path(path); // a faire

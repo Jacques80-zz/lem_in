@@ -182,3 +182,20 @@ void		ft_free_matrice(t_room ***matrice)
 		free(matrice[i++]);
 	free(matrice);
 }
+
+int			ft_all_rooms_linked_to_end_are_pp(t_all elem, t_room ***matrice, t_room ***new)
+{
+	int i;
+	int limited_factor;
+	int j;
+
+	i = elem.end_id;
+	j = 0;
+	limited_factor = ft_limited_factor(&elem, matrice);
+	while (((new[i][j] && new[i][j]->available == POSSIBLE_PATH) || new[i][j] == NULL) && j < elem.number_rooms)
+		j++;
+	if (j == elem.number_rooms)
+		return (1);
+	else
+		return (0);
+}
