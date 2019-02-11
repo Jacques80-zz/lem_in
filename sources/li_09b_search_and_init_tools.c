@@ -20,7 +20,7 @@ t_room	*ft_init_end(t_all *elem)
 	t_room *tmp;
 
 	tmp = elem->room;
-	while(tmp->status != END)
+	while (tmp->status != END)
 	{
 		tmp = tmp->next;
 	}

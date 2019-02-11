@@ -160,6 +160,7 @@ typedef struct		s_lst
 typedef struct		s_files
 {
 	t_room			*room;
+	t_path			*path;
 	int				n;
 	struct s_files	*next;
 }					t_files;
@@ -200,8 +201,9 @@ int				ft_check_nb_ants(t_all *elem, char *str, int *i);
 void			ft_save_map(t_all *elem, char *line);
 void			find_path(t_all elem, t_room ***matrice, t_room *start, t_path *path, t_tab_path **tab);
 void			bfs(t_all elem, t_room ***matrice, t_room *start);
-void			add_path(t_tab_path **tab, t_path *path);
+void			add_path(t_path **path, t_room *room);
 void			find_paths(t_all elem, t_room ***matrice, t_room *start, t_tab_path **tab);
+void		search_path(t_all elem, t_room ***matrice, t_room *start, t_tab_path **tab);
 
 
 /*
