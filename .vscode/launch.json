@@ -8,7 +8,7 @@
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/lem_in",
+            "program": "${workspaceFolder}/lem-in",
             "args": ["${workspaceFolder}/map/casse_bonbon.txt"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}", ///Users/jdouniol/projets/lem_in/git

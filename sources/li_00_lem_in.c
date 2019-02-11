@@ -41,6 +41,8 @@ void			ft_init_elem(t_all *elem)
 	elem->next_is_end = 0;
 	elem->path_found = 0;
 	elem->path_id = 0;
+	elem->is_done = 0;
+	elem->weight_is_set = 0;
 }
 
 /*
@@ -116,6 +118,7 @@ int				ft_read_2(t_all *elem, char *file)
 	return (SUCCESS);//(Si carte resolvable) ? SUCCESS : FAIL); //  if path found retourne success sinon fail
 }
 
+
 /*
  **	Imprime toute la map jusqu'a la derniere ligne valide
  */
@@ -140,34 +143,41 @@ int		main(int ac, char **av)
 	t_all		elem;
 	t_tab_path	*tab;
 	t_path		*path;
-	t_path		**tab_path;
+	t_tab_path		*tab_path;
 	t_room		***new; //(matrice_cpy)
 
 	(void)av;
 	(void)ac;
 	tab = NULL;
-	/*if (ac == 2 && ft_read_2(&elem, av[1]) == FAIL)
+	tab_path = NULL;
+/*
+	if (ac == 2 && ft_read_2(&elem, av[1]) == FAIL)
 	{
-		ft_free_all(&elem);
+//		ft_free_all(&elem);
 		ft_printf("Error\n");
 		return (EXIT_FAILURE);
-	}*/
+	}
+*/
+//	/*
 	if (ft_read(&elem) == FAIL)
 	{
 		ft_free_all(&elem);
 		ft_printf("Error\n");
 		return (EXIT_FAILURE);
 	}
+//	*/
 	else
 	{	
-		path = ft_init_path(ft_init_end(&elem));
-		tab_path = ft_init_tab_path(path);
+		//path = ft_init_path(ft_init_end(&elem));
+		//add_path(&tab_path, path);
 		//	if (ft_init_ant(&elem) == SUCCESS)
 //		ft_print_matrice(elem.matrice, &elem);
 //		find_path(elem.matrice, elem, ft_init_start(&elem), &tab);
 //		print_tab_path(tab);
 		ft_add_weight(elem, elem.matrice, 0, ft_init_start(&elem));
 		new = matrice_cpy(elem, elem.matrice);
+		//ft_add_weight(elem, new, 0, ft_init_start(&elem));
+		ft_print_matrice_weight(elem.matrice, &elem);
 //		ft_print_matrice(elem.matrice, &elem);
 //		ft_print_matrice(new, &elem);
 	//	path->room = ft_init_end(&elem);
@@ -175,13 +185,43 @@ int		main(int ac, char **av)
 //		ft_printf("limited factor: %d\n", ft_limited_factor(&elem, elem.matrice));
 //		find_path(elem, matrice_cpy(elem, elem.matrice), ft_init_start(&elem), NULL, &tab);
 //		ft_bfs(elem, elem.matrice, path);
-		while (!(ft_all_rooms_linked_to_end_are_pp(elem, elem.matrice, new)))
+		int a = 0;
+	//	while (a < 5)
+	//	{
+		//while ((!(ft_all_rooms_linked_to_end_are_pp(elem, elem.matrice, new))) && a < 5) 
+		//while (elem.is_done != 1)
+		while (a < 1)
 			{
-				path = ft_rec_bfs(elem, elem.matrice, path, new, elem.path_id);
-				tab_path = ft_add_path_to_tab_path(tab_path, path); // on peut aussi utiliser tab_path[elem->path_id] = path;
-			//	path_id++; // ajoute dans bfs 
+				path = ft_init_path(ft_init_end(&elem));
+				//add_path(&tab_path, path);
+				ft_add_weight(elem, new, 0, ft_init_start(&elem));
+		//		ft_print_matrice_weight(new, &elem);
+		//		ft_print_status_room(new, &elem);
+				path = ft_rec_bfs2(elem, elem.matrice, path, new, elem.path_id);
+			//	ft_add_weight(elem, new, 0, ft_init_start(&elem));
+			//	ft_print_matrice_weight(new, &elem);
+		//		ft_print_status_room(new, &elem);
+				add_path(&tab_path, path); // on peut aussi utiliser tab_path[elem->path_id] = path;
+				print_tab_path(tab);
+				a++;
+				path = ft_init_path(ft_init_end(&elem));
+				//add_path(&tab_path, path);
+				ft_add_weight(elem, new, 0, ft_init_start(&elem));
+		//		ft_print_matrice_weight(new, &elem);
+		//		ft_print_status_room(new, &elem);
+				ft_printf("nouvel appel \n");
+				ft_print_status_room(new, &elem);
+				path = ft_rec_bfs2(elem, elem.matrice, path, new, elem.path_id);
+			//	ft_add_weight(elem, new, 0, ft_init_start(&elem));
+			//	ft_print_matrice_weight(new, &elem);
+		//		ft_print_status_room(new, &elem);
+				add_path(&tab_path, path); // on peut aussi utiliser tab_path[elem->path_id] = path;
+				print_tab_path(tab);
+				a++;
+		//		path_id++; // ajoute dans bfs 
 			}
-//		print_tab_path(tab);
+		//}
+		print_tab_path(tab);
 //		ft_print_infos(&elem); // a faire
 //		print_path(path); // a faire
 	}

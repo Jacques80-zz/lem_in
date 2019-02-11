@@ -72,23 +72,25 @@ t_path	*ft_init_path(t_room *room)
 	new->prev = NULL;
 	return (new);
 }
-
+/*
 t_path	**ft_init_tab_path(t_path *path) // cette fonction ne marche pas, je n' ai plus les yeux en face des trous, je galere un peu j arrete la... 
 {
-	t_path	**tab_path;
+	t_tab_path	*tab_path;
 	(void)path; // pour contrer l erreur de compil qui me dit unused identifier, mais on devrait peut etre appeler init tab path avec un vrai chemin en parametre
 
-	if (!(tab_path = (t_path **)malloc(sizeof(t_path *) * 100)))
+	if (!(tab_path = (t_path *)malloc(sizeof(t_path))))
 		return (NULL);
 	tab_path.path = path;
 	tab_path->next = NULL;
 	tab_path->prev = NULL;
 	return (tab_path);
 }
-
+*/
+/*
 t_path **ft_add_path_to_tab_path(t_path **tab_path, t_path *path)//, int path_id)
 {
 	int i;
+//	t_tab_path *new;
 
 	i = 0;
 	while(tab_path[i] != NULL)
@@ -98,4 +100,4 @@ t_path **ft_add_path_to_tab_path(t_path **tab_path, t_path *path)//, int path_id
 	tab_path[i] = NULL;
 	return (tab_path);
 
-}
+}*/

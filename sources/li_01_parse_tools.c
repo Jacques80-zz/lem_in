@@ -75,6 +75,7 @@ int				ft_room(t_all *elem, char **tab_coor)
 	tmp->tab = NULL;
 	tmp->prev = NULL;
 	tmp->next = NULL;
+	tmp->possible_path_id = -1;
 	ft_status_update(elem, tmp);
 	return (SUCCESS);
 }

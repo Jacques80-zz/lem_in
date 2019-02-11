@@ -16,10 +16,13 @@ void	ft_bzero(void *str, size_t n)
 {
 	unsigned char *ch;
 
+	if (!(str))
+		return;
 	ch = (unsigned char *)str;
 	while (n--)
 	{
 		*ch = '\0';
 		ch++;
 	}
+
 }

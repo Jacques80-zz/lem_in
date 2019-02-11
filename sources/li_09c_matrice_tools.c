@@ -188,14 +188,57 @@ int			ft_all_rooms_linked_to_end_are_pp(t_all elem, t_room ***matrice, t_room **
 	int i;
 	int limited_factor;
 	int j;
+	int nb_pp;
 
 	i = elem.end_id;
 	j = 0;
+	nb_pp = 0;
 	limited_factor = ft_limited_factor(&elem, matrice);
-	while (((new[i][j] && new[i][j]->available == POSSIBLE_PATH) || new[i][j] == NULL) && j < elem.number_rooms)
-		j++;
-	if (j == elem.number_rooms)
-		return (1);
+	while (j < elem.number_rooms)
+	{
+		if ((new[i][j] && new[i][j]->available == POSSIBLE_PATH) || new[i][j] == NULL)
+			{
+				j++;
+				if (new[i][j] && new[i][j]->available == POSSIBLE_PATH)
+					nb_pp++;
+			}
+		else
+			break;
+	}
+	if (j == elem.number_rooms || nb_pp == limited_factor)
+		{
+			//ft_printf("ok room link to end\n");
+			ft_print_matrice_weight(new, &elem);
+			ft_print_status_room(new, &elem);
+			return (1);}
 	else
-		return (0);
+		{ft_printf("cherche encore\n");return (0);}
 }
+
+void		ft_print_status_room(t_room ***matrice, t_all *elem)
+{
+		int i;
+	int j;
+
+	i = 0;
+	print_all_name(*elem);
+	while (i < elem->number_rooms)
+	{
+		j = 0;
+		print_room(*elem, i);
+		while (j < elem->number_rooms)
+		{
+			if (matrice[i][j] && matrice[i][j]->available == POSSIBLE_PATH)
+				ft_printf("%-10s", "PP");
+			else if ( matrice[i][j] && matrice[i][j]->available == VISITED)
+				ft_printf("%-10s", "VI");
+			else
+				ft_printf("%-10s", "~");
+			j++;
+		}
+		ft_printf("\n");
+		i++;
+	}
+	ft_printf("\n\n\n");
+}
+

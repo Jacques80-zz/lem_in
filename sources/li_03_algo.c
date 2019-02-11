@@ -78,15 +78,21 @@ void		ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start) //
 			j = 0;
 			while (j < elem.number_rooms)
 			{
-				if (matrice[i][j] && matrice[i][j]->available != VISITED)
+				if (matrice[i][j] && matrice[i][j]->weight == -1 && elem.weight_is_set == 0)
 				{
 					add_file(&file, matrice[i][j]);
 					matrice[i][j]->available = VISITED;
 					matrice[i][j]->weight = tmp->weight + 1;
 				}
+				else if (matrice[i][j] && elem.weight_is_set == 1)
+				{
+					add_file(&file, matrice[i][j]);
+					matrice[i][j]->weight = tmp->weight + 1;
+				}
 				j++;
 			}
 		}
+		elem.weight_is_set++;
 }
 /*
 **
