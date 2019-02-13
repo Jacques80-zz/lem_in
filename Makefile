@@ -2,7 +2,7 @@ NAME_LEM_IN = lem-in
 
 LEM_IN		=	lem-in
 
-CC			=	gcc
+CC			=	gcc -g3 -fsanitize=address
 CFLAGS		=	-Wall -Werror -Wextra -g -Ofast #3 -fsanitize=address
 
 _LI_SRCS	= 	li_00_lem_in.c \

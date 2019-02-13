@@ -76,6 +76,7 @@ typedef	struct 		s_room //
 	int				you_should_not_pass;
 	int				*linked_to;
 	int				number_rooms_linked;
+	int				bfs;
 	struct s_room	*prev;
 	struct s_room	*next;
 	struct s_room	**tab;
@@ -144,6 +145,7 @@ typedef struct 		s_all
 	t_map			*map;
 	t_room			*cur;
 	t_room			***matrice;
+	int				**matrice_flow;
 	int 			matrice_init;
 	int 			all_rooms_are_parsed;
 	int				start_id;
@@ -204,6 +206,7 @@ void			bfs(t_all elem, t_room ***matrice, t_room *start);
 void			add_path(t_path **path, t_room *room);
 void			find_paths(t_all elem, t_room ***matrice, t_room *start, t_tab_path **tab);
 void		search_path(t_all elem, t_room ***matrice, t_room *start, t_tab_path **tab);
+int		edmond_karp(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start);
 
 
 /*
@@ -257,6 +260,7 @@ void			ft_print_matrice_weight(t_room ***matrice, t_all *elem);
 int 			ft_limited_factor(t_all *elem, t_room ***matrice);
 t_room			***matrice_cpy(t_all elem, t_room ***matrice);
 void			ft_free_matrice(t_room ***matrice);
+int			**create_matrice_flow(t_all elem);
 
 
 /*

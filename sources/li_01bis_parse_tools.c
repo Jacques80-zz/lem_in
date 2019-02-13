@@ -54,7 +54,9 @@ int		ft_tube_aux(t_all *elem, t_room **tmp, t_room **cur)
 		elem->matrice_init = elem->matrice_init + 1;
 	}
 	else
-	{	matrice = elem->matrice;
+	{
+		matrice = elem->matrice;
+//		ft_print_matrice(matrice, elem);
 		ft_set_matrice(tmp, cur, matrice);
 		elem->matrice = matrice;
 	}

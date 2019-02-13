@@ -1,11 +1,11 @@
 #include "../includes/lem_in.h"
 
 /*
-**	Est appellee a chaque ligne valide
-**	si le malloc echoue, on utilise ft_error
-**	cas si 1ere ligne
-**	cas pour toutes les lignes suivantes 
-*/
+ **	Est appellee a chaque ligne valide
+ **	si le malloc echoue, on utilise ft_error
+ **	cas si 1ere ligne
+ **	cas pour toutes les lignes suivantes 
+ */
 
 void	ft_save_map(t_all *elem, char *line)
 {
@@ -28,43 +28,92 @@ void	ft_save_map(t_all *elem, char *line)
 	last->next = new;
 }
 
-void		add_files(t_files **files, t_room *room, t_path *path)
+void	print_room_flow(t_all elem, int nb)
 {
-	t_files			*new;
-	t_files			*tmp;
+	int			i;
 
-	tmp = *files;
-	if (!(new = malloc(sizeof(t_files))))
-		return ;
-	add_path(&path, room);
-	new->path = path;
-	new->room = room;
-	new->next = NULL;
-	if (!*files)
-		*files = new;
-	else
-	{
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
-	}
+	i = 0;
+	while (i++ < nb)
+		elem.room = elem.room->next;
+	ft_printf("%-9s|", elem.room->name_room);
 }
 
-t_files			*pop_file(t_files **file)
+void	print_all_name_flow(t_all elem)
 {
-	t_files		*tmp;
+	int			i;
 
-	tmp = *file;
-	if (!*file)
-		return (NULL);
-	*file = (*file)->next;
-	return (tmp);
+	i = 0;
+	ft_printf("%-10s", "");
+	while (elem.room)
+	{
+		ft_printf("%-10s", elem.room->name_room);
+		elem.room = elem.room->next;
+	}
+	ft_putchar('\n');
+	ft_printf("%-10s", "");
+	while (++i < elem.number_rooms)
+		ft_printf("___________");
+	ft_putchar('\n');
+}
+
+
+void	ft_print_matrice_flow(int **matrice, t_all *elem)
+{
+	int i;
+	int j;
+
+	i = 0;
+	print_all_name_flow(*elem);
+	while (i < elem->number_rooms)
+	{
+		j = 0;
+		print_room_flow(*elem, i);
+		while (j < elem->number_rooms)
+		{
+			ft_printf("%-10d", matrice[i][j]);
+			j++;
+		}
+		ft_printf("\n");
+		i++;
+	}
+	ft_printf("\n\n\n");
+}
+
+
+
+void			break_start_end(t_all elem, t_room ***matrice)
+{
+	int				start_id;
+	int				end_id;
+	t_room			*tmp;
+	int				i;
+	int				j;
+
+	start_id = 0;
+	end_id = 0;
+	tmp = elem.room;
+	while (tmp && (!start_id || !end_id))
+	{
+		if (tmp->status == START)
+			start_id = tmp->room_id;
+		if (tmp->status == END)
+			end_id = tmp->room_id;
+		tmp = tmp->next;
+	}
+	i = 0;
+	j = start_id;
+	while (i < elem.number_rooms)
+		matrice[i++][j] = NULL;
+	i = end_id;
+	j = 0;
+	while (j < elem.number_rooms)
+		matrice[i][j++] = NULL;
 }
 
 void			add_path(t_path **path, t_room *room)
 {
-	t_path			*tmp;
-	t_path			*new;
+	t_path		*new;
+	t_path		*tmp;
 
 	if (!(new = malloc(sizeof(t_path))))
 		return ;
@@ -79,26 +128,43 @@ void			add_path(t_path **path, t_room *room)
 			tmp = tmp->next;
 		tmp->next = new;
 	}
+
 }
 
-void		break_start_end(t_all elem, t_room ***matrice)
+void			push_file(t_files **files, t_room *room, t_path *path)
 {
-	int			i;
-	int			j;
+	t_files		*new;
+	t_files		*tmp;
 
-	i = elem.end_id;
-	j = 0;
-	while (j < elem.number_rooms)
-		matrice[i][j++] = NULL;
-	i = 0;
-	j = elem.start_id;
-	while (i < elem.number_rooms)
-		matrice[i++][j] = NULL;
+	if (!(new = malloc(sizeof(t_files))))
+		return ;
+	new->room = room;
+	add_path(&path, room);
+	new->path = path;
+	new->next = NULL;
+	if (!*files)
+		*files = new;
+	else
+	{
+		tmp = *files;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
 }
 
-t_path		*path_cpy(t_path *path)
+t_files			*pop_file(t_files **file)
 {
-	t_path		*new;
+	t_files		*tmp;
+
+	tmp = *file;
+	(*file) = (*file)->next;
+	return (tmp);
+}
+
+t_path			*path_cpy(t_path *path)
+{
+	t_path			*new;
 
 	new = NULL;
 	while (path)
@@ -109,179 +175,95 @@ t_path		*path_cpy(t_path *path)
 	return (new);
 }
 
-int			is_not_in(t_path *path, t_room *room)
+int				is_not_in_path(t_path *path, t_room *room)
 {
 	while (path)
 	{
-		if (path->room == room && room->status != END && room->status != START)
+		if (path->room == room)
 			return (0);
 		path = path->next;
 	}
 	return (1);
 }
 
-int			compare_path(t_path *path1, t_path *path2)
-{
-	while (path1)
-	{
-		if (!is_not_in(path2, path1->room))
-			return (0);
-		path1 = path1->next;
-	}
-	return (1);
-}
-
-void		add_path_to_tab(t_tab_path **tab, t_path *path)
-{
-	t_tab_path			*new;
-
-	if (!(new = malloc(sizeof(t_tab_path))))
-		return ;
-	new->path = path;
-	new->next = *tab;
-	*tab = new;
-}
-
-int		compare_tab_path(t_tab_path **tab, int len)
-{
-	int				i;
-	int				j;
-
-	i = 0;
-	while (i < len - 1)
-	{
-		j = i + 1;
-		while (j < len)
-		{
-			if (!compare_path(tab[i]->path, tab[j]->path))
-				return (0);
-			j++;
-		}
-		i++;
-	}
-	return (1);
-}
-
-void	print_tab_of_path(t_tab_path **tab, int len)
-{
-	int			i;
-
-	i = 0;
-	while (i < len)
-	{
-		print_path(tab[i]->path);
-		i++;
-	}
-}
-
-int		old_bruteforce(t_all elem, t_tab_path *tab, t_room ***matrice)
-{
-	t_tab_path		**tab_bf;
-	int				limit;
-
-	limit = ft_limited_factor(&elem, matrice);
-	tab_bf = malloc(sizeof(t_tab_path) * 2);
-	tab_bf[0] = tab;
-	while (tab_bf[0])
-	{
-		tab_bf[1] = tab_bf[0]->next;
-		while (tab_bf[1])
-		{
-			if (compare_tab_path(tab_bf, 2))
-			{
-				ft_printf("YYOUPPPI!!!!\n");
-				print_tab_of_path(tab_bf, 2);
-				ft_printf("_____________FIN_____________\n");
-				return (1);
-			}
-			tab_bf[1] = tab_bf[1]->next;
-		}
-		tab_bf[0] = tab_bf[0]->next;
-	}
-	return (0);
-}
-
-t_tab_path	**from_list_to_tab(t_tab_path *tab, int *len_tab)
-{
-	int			i;
-	int			len;
-	t_tab_path	*tmp;
-	t_tab_path	**new;
-
-	tmp = tab;
-	len = 0;
-	while (tmp)
-	{
-		tmp = tmp->next;
-		i++;
-	}
-	new = malloc(sizeof(t_tab_path) * (len + 1));
-	i = 0;
-	while (i < len)
-	{
-		new[i++] = tab;
-		tab = tab->next;
-	}
-	*len_tab = len + 1;
-	new[i] = NULL;
-	return (new);
-}
-
-int		ft_bruteforce(t_all elem, t_tab_path *path_tab, t_room ***matrice)
-{
-	int			limit;
-	int			i;
-	int			len;
-	int			tmp_i;
-	t_tab_path	*tmp;
-	t_tab_path	**tab_bf;
-	t_tab_path	**tab;
-
-	i = 0;
-	tmp = path_tab;
-	limit = ft_limited_factor(&elem, matrice);
-	if (!(tab_bf = malloc(sizeof(t_tab_path*) * limit)))
-		return (0);
-	tab = from_list_to_tab(path_tab, &len);
-	while (i < limit)
-	{
-		tab_bf[i] = tab[i];
-		i++;
-	}
-	while (tab_bf[0])
-	{
-		if (compare_tab_path(tab_bf, limit))
-			return (1);
-	}
-	return (0);
-}
-
-void		search_path(t_all elem, t_room ***matrice, t_room *start,  t_tab_path **tab)
+t_path			*ft_bfs_(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start, int bfs)
 {
 	int				i;
 	int				j;
 	t_files			*file;
 	t_files			*tmp;
 
-	add_files(&file, start, NULL);
-	break_start_end(elem, matrice);
+	file = NULL;
+	push_file(&file, start, NULL);
 	while (file)
 	{
 		tmp = pop_file(&file);
 		i = tmp->room->room_id;
 		j = 0;
 		if (tmp->room->status == END)
-		{
-			print_path(tmp->path);
-			add_path_to_tab(tab, tmp->path);
-			if (old_bruteforce(elem, *tab, matrice))
-				return ;
-		}
+			return (tmp->path);
 		while (j < elem.number_rooms)
 		{
-			if (matrice[i][j] && matrice[i][j]->weight >= tmp->room->weight && is_not_in(tmp->path, matrice[i][j]))
-				add_files(&file, matrice[i][j], path_cpy(tmp->path));
+			if (matrice[i][j] && matrice_flow[i][j] != 1 && is_not_in_path(tmp->path, matrice[i][j]) && matrice[i][j]->bfs != bfs)
+			{
+				matrice[i][j]->bfs = bfs;
+				push_file(&file, matrice[i][j], path_cpy(tmp->path));
+			}
 			j++;
 		}
 	}
+	return (NULL);
+}
+
+void			put_flow_in_matrice( int **matrice_flow, t_path *path)
+{
+	int			i;
+	int			j;
+
+	while (path->room->status != END)
+	{
+		i = path->room->room_id;
+		j = path->next->room->room_id;
+		matrice_flow[i][j]++;
+		path = path->next;
+	}
+}
+
+void			delete_bad_link(t_all elem, int **matrice_flow)
+{
+	int			i;
+	int			j;
+
+	i = 0;
+	while (i < elem.number_rooms)
+	{
+		//printf("dwefefwefe\n");
+		j = 0;
+		while (j < elem.number_rooms)
+		{
+			if (matrice_flow[i][j] && matrice_flow[j][i])
+			{
+				matrice_flow[i][j] = 0;
+				matrice_flow[j][i] = 0;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+int				edmond_karp(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start)
+{
+	t_path		*path;
+	int			bfs;
+
+	bfs = 0;
+	while ((path = ft_bfs_(elem, matrice, matrice_flow, start, bfs++)))
+	{
+		print_path(path);
+		put_flow_in_matrice(matrice_flow, path);
+		delete_bad_link(elem, matrice_flow);
+	}
+//	ft_print_matrice_flow(matrice_flow, &elem);
+	return (1);
 }
