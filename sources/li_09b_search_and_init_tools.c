@@ -1,6 +1,42 @@
 #include "../includes/lem_in.h"
 
-t_room	*ft_init_start(t_all *elem)
+t_room		***ft_init_matrice(int number_rooms)
+{
+	t_room		***matrice;
+
+	if (!(matrice = (t_room ***)malloc(sizeof(t_room**) * (number_rooms + 1))))
+		return (NULL);
+	int i;
+	int j;
+	i = 0;
+	while (i < number_rooms)
+	{
+		if (!(matrice[i] = malloc(sizeof(t_room*) * (number_rooms))))
+			return (NULL);
+		j = 0;
+		while(j < number_rooms)
+		{
+			matrice[i][j] = NULL;
+			j++;
+		}
+		i++;
+	}
+	matrice[i] = NULL;
+	return (matrice);
+}
+
+void		ft_set_matrice(t_room **tmp, t_room **cur, t_room ***matrice)
+{
+	int id_first_room;
+	int id_second_room;
+
+	id_first_room = (*tmp)->room_id;
+	id_second_room = (*cur)->room_id;
+	matrice[id_first_room][id_second_room] = *cur;
+	matrice[id_second_room][id_first_room] = *tmp;
+}
+
+t_room		*ft_init_start(t_all *elem)
 {
 	t_room *tmp;
 
@@ -14,8 +50,7 @@ t_room	*ft_init_start(t_all *elem)
 	return (tmp);
 }
 
-
-t_room	*ft_init_end(t_all *elem)
+t_room		*ft_init_end(t_all *elem)
 {
 	t_room *tmp;
 
@@ -27,51 +62,6 @@ t_room	*ft_init_end(t_all *elem)
 	elem->end_id = tmp->room_id;
 	return (tmp);
 }
-
-int		ft_get_start_id(t_all *elem)
-{
-	t_room *tmp;
-
-	tmp = elem->room;
-	while (tmp->status != START)
-	{
-		tmp = tmp->next;
-	}
-	elem->start_id = tmp->room_id;
-	tmp->weight = 0;
-	return (tmp->room_id);
-}
-
-int		ft_get_end_id(t_all *elem)
-{
-	t_room *tmp;
-
-	tmp = elem->room;
-	while (tmp->status != END)
-	{
-		tmp = tmp->next;
-	}
-	tmp->weight = -1;
-	elem->end_id = tmp->room_id;
-	return (tmp->room_id);
-}
-
-t_room	*ft_get_room_by_id(t_all *elem, int room_id)
-{
-	t_room *tmp;
-
-	tmp = elem->room;
-	while (tmp->room_id != room_id)
-	{
-		tmp = tmp->next;	
-	}
-	return (tmp);
-}
-
-/*
-**	Parcours la liste chainee jusqu'à trouver le nom exact de la piece
-**	Si pas de piece identique => pointeur sur NULL (donc erreur de l'ot cote)
-*/
 
 void		ft_find_room(t_room **tmp, char *room)
 {

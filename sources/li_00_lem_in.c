@@ -159,40 +159,13 @@ int		main(int ac, char **av)
 		return (EXIT_FAILURE);
 	}
 	else
-	{	
-
+	{
 		elem.matrice_flow = create_matrice_flow(elem);
-		printf("ALGO \n");
-		edmond_karp(elem, elem.matrice, elem.matrice_flow, ft_init_start(&elem));
-//		path = ft_init_path(ft_init_end(&elem));
-		//	if (ft_init_ant(&elem) == SUCCESS)
-//		ft_print_matrice(elem.matrice, &elem);
-//		find_path(elem.matrice, elem, ft_init_start(&elem), &tab);
-//		print_tab_path(tab);
-//		ft_add_weight(elem, elem.matrice, 0, ft_init_start(&elem));
-//		new = matrice_cpy(elem, elem.matrice);
-//		ft_print_matrice(elem.matrice, &elem);
-//		ft_print_matrice(new, &elem);
-	//	path->room = ft_init_end(&elem);
-//		ft_print_matrice_weight(elem.matrice, &elem);
-		ft_printf("limited factor: %d\n", ft_limited_factor(&elem, elem.matrice));
-//		search_path(elem, elem.matrice, ft_init_start(&elem), &tab);
-		//find_path(elem, matrice_cpy(elem, elem.matrice), ft_init_start(&elem), NULL, &tab);
-//		bfs(elem, elem.matrice, ft_init_start(&elem));
-//		print_tab_path(tab);
-//		ft_print_infos(&elem); // a faire
-//		print_path(path); // a faire
+		tab = edmond_karp(elem, elem.matrice, elem.matrice_flow, ft_init_start(&elem));
+		ft_free_matrice(elem.matrice);
+		ft_free_matrice_flow(elem.matrice_flow);
+		free_tab_path(tab);
+		ft_free_room((t_lst*)elem.room);
 	}
-	/*
-	   if (ft_init_ant(&a) == SUCCESS)
-	   {
-	   if (ft_algo(&a) == ERROR)
-	   {
-	   ft_fruit_a(&a);
-	   return (EXIT_FAILURE);
-	   }
-	   ft_dispatch(&a);
-	   }
-	   ft_fruit_a(&a);
-	   */
+	//exit(1);
 }

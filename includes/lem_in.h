@@ -151,7 +151,7 @@ typedef struct 		s_all
 	int				start_id;
 	int				end_id;
 	int				*tmp_tab_room;
-	int				size_tmp_tab_room;		
+	int				size_tmp_tab_room;
 }					t_all;
 
 typedef struct		s_lst
@@ -201,28 +201,16 @@ int				ft_check_nb_ants(t_all *elem, char *str, int *i);
 */
 
 void			ft_save_map(t_all *elem, char *line);
-void			find_path(t_all elem, t_room ***matrice, t_room *start, t_path *path, t_tab_path **tab);
-void			bfs(t_all elem, t_room ***matrice, t_room *start);
-void			add_path(t_path **path, t_room *room);
-void			find_paths(t_all elem, t_room ***matrice, t_room *start, t_tab_path **tab);
-void		search_path(t_all elem, t_room ***matrice, t_room *start, t_tab_path **tab);
-int		edmond_karp(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start);
-
+void			push_file(t_files **files, t_room *room, t_path *path);
+t_files			*pop_file(t_files **file);
+void			add_path_to_tab(t_tab_path **tab, t_path *path);
+void			free_file(t_files *file);
 
 /*
 **	li_03 Algo
 */
 
-void			ft_add_weight(t_all elem, t_room ***matrice, int weight, t_room *start);
-void			add_file(t_files **file, t_room *room);
-t_room			*remove_file(t_files **file);
-
-/*
-**	li_04 Algo Tools
-*/
-
-t_path			*ft_bfs(t_all elem, t_room ***matrice, t_path *path);
-t_path		*ft_rec_bfs(t_all elem, t_room ***matrice, t_path *path);
+t_tab_path		*edmond_karp(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start);
 
 /*
 **	li_09a Free and error
@@ -235,6 +223,7 @@ int				ft_free_them(size_t n, ...);
 int				ft_error_tube(char ***tab_tube);
 void			ft_error(int nb);
 void			ft_free_path(t_lst *lst);
+//void			ft_free_room(t_room *room);
 
 /*
 **	li_09b Search and Init Tools
@@ -242,41 +231,46 @@ void			ft_free_path(t_lst *lst);
 
 t_room			*ft_init_start(t_all *elem);
 t_room			*ft_init_end(t_all *elem);
-int				ft_get_start_id(t_all *elem);
-int				ft_get_end_id(t_all *elem);
-t_room			*ft_get_room_by_id(t_all *elem, int room_id);
-void			ft_find_room(t_room **tmp, char *room);
+void			ft_set_matrice(t_room **tmp, t_room **cur, t_room ***matrice);
+t_room			***ft_init_matrice(int number_rooms);
 
 /*
 **	li_09c Matrice Tools
 */
 
-void			print_room(t_all elem, int nb);
-void			print_all_name(t_all elem);
-void			ft_print_matrice(t_room ***matrice, t_all *elem);
-void			ft_set_matrice(t_room **tmp, t_room **cur, t_room ***matrice);
-t_room			***ft_init_matrice(int number_rooms);
-void			ft_print_matrice_weight(t_room ***matrice, t_all *elem);
-int 			ft_limited_factor(t_all *elem, t_room ***matrice);
+
 t_room			***matrice_cpy(t_all elem, t_room ***matrice);
 void			ft_free_matrice(t_room ***matrice);
-int			**create_matrice_flow(t_all elem);
+void			ft_free_matrice_flow(int **matrice);
+int				**create_matrice_flow(t_all elem);
+int				**matrice_flow_cpy(t_all elem, int **matrice);
+
 
 
 /*
 **	li_09d Path Tools
 */
 
-void			empile(t_path **pile, t_room *room);
-t_path			*new_elem_path(t_room *room);
-void			print_path(t_path *path);
-void			print_tab_path(t_tab_path *tab);
-void			save_path(t_tab_path **tab, t_path *path);
-t_path			*ft_init_path(t_room *room);
+void			add_path(t_path **path, t_room *room);
+t_path			*path_cpy(t_path *path);
+void			free_path(t_path *path);
+int				is_not_in_path(t_path *path, t_room *room);
+void			free_tab_path(t_tab_path *tab);
 
+/*
+**	debbug
+*/
 
+void	ft_print_matrice_flow(int **matrice, t_all *elem);
+void	ft_print_matrice(t_room ***matrice, t_all *elem);
+void	ft_print_matrice_weight(t_room ***matrice, t_all *elem);
+void	print_path(t_path *path);
+void	print_tab_path(t_tab_path *tab);
+void	print_path(t_path *path);
+void	print_tab_path(t_tab_path *tab);
 
 #endif
+
 /*
 
 la room start est linked to start a 0 (par defaut -1), la room end est llinked to end a 0

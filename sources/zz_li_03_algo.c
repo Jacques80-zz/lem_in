@@ -1,182 +1,114 @@
 #include "../includes/lem_in.h"
 
-/*
-typedef	struct 		s_room // 
+void			put_flow_in_matrice( int **matrice_flow, t_path *path)
 {
-	int 			room_id;
-	int				number_ants_in_room; //nb_a
-	char 			*name_room; //name
-	int				coord_x_room; // x
-	int				coord_y_room; // y
-	int				*linked_to_start;
-	int				*linked_to_end;
-	int 			*names_path_available; //
-	int				number_path_availbale;
-	int				distance; // *distance ?
-	int				compteur_from_start;
-	int				compteur_from_end;
-	int				you_should_not_pass;
-	int				*linked_to;
-	int				number_rooms_linked;
-	struct s_room	*prev;
-	struct s_room	*next;
-	struct s_room	**tab;
-	t_status		status;
-	t_available		available;
-}
-*/
+	int			i;
+	int			j;
 
-void	ft_print_matrice_weight(t_room ***matrice, t_all *elem)
+	while (path->room->status != END)
+	{
+		i = path->room->room_id;
+		j = path->next->room->room_id;
+		matrice_flow[i][j]++;
+		path = path->next;
+	}
+}
+
+void			delete_bad_link(t_all elem, int **matrice_flow)
 {
-	int i;
-	int j;
+	int			i;
+	int			j;
 
 	i = 0;
-	print_all_name(*elem);
-	while (i < elem->number_rooms)
+	while (i < elem.number_rooms)
 	{
 		j = 0;
-		print_room(*elem, i);
-		while (j < elem->number_rooms)
+		while (j < elem.number_rooms)
 		{
-			if (matrice[i][j])
-				ft_printf("%-10d", matrice[i][j]->weight);
-			else
-				ft_printf("%-10d", 0);
+			if (matrice_flow[i][j] && matrice_flow[j][i])
+			{
+				matrice_flow[i][j] = 0;
+				matrice_flow[j][i] = 0;
+			}
 			j++;
 		}
-		ft_printf("\n");
 		i++;
 	}
-	ft_printf("\n\n\n");
 }
 
-int		ft_anybody_else_here(t_all *elen, t_room ***matrice, int current_room_id)
+t_path			*ft_bfs_(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start, int bfs)
 {
-	int j;
+	int				i;
+	int				j;
+	t_files			*file;
+	t_files			*tmp;
 
-	j = 0;
-	while (j < elem->number_rooms)
+	file = NULL;
+	push_file(&file, start, NULL);
+	while (file)
 	{
-		if (matrice[current_room_id][j] != NULL && matrice[current_room_id][j]->weight < 0)
-			return (1);
+		tmp = pop_file(&file);
+		i = tmp->room->room_id;
+		j = 0;
+		if (tmp->room->status == END)
+			return (tmp->path);
+		while (j < elem.number_rooms)
+		{
+			if (matrice[i][j] && matrice_flow[i][j] != 1 && is_not_in_path(tmp->path, matrice[i][j]) && matrice[i][j]->bfs != bfs)
+			{
+				matrice[i][j]->bfs = bfs;
+				push_file(&file, matrice[i][j], path_cpy(tmp->path));
+			}
+			j++;
+		}
+	}
+	return (NULL);
+}
+
+t_tab_path		*return_tab_path(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start)
+{
+	t_files				*file;
+	t_files				*tmp;
+	t_tab_path			*tab;
+	int					i;
+	int					j;
+
+	file = NULL;
+	push_file(&file, start, NULL);
+	tab = NULL;
+	while (file)
+	{
+		tmp = pop_file(&file);
+		i = tmp->room->room_id;
+		j = 0;
+		if (tmp->room->status == END)
+			add_path_to_tab(&tab, tmp->path);
 		else
-			j++;
-	}
-	if (j == elem->number_rooms)
-		return (0);
-
-}
-
-	int				*tmp_tab_room;
-	int				size_tmp_tab_room;
-
-int		ft_add_weight(t_all *elem, t_room ***matrice, int weight, int current_room_id)
-{
-	int i;
-	int j;
-	int k;
-	t_room *tmp;
-
-	i = current_room_id;
-	j = 0;
-	k = elem->end_id;
-	while (ft_anybody_else_here(elem, matrice, i))
-	{	
-		while (j < elem->number_rooms)
 		{
-			if (matrice[i][j] && matrice[i][j]->weight == -1)
-				{
-					elem->tmp_tab_room[elem->size_tmp_tab_room] = j;
-					elem->size_tmp_tab_room = elem->size_tmp_tab_room + 1;
-					matrice[i][j]->weight == weight;
-				}
-			j++
-		}
-		if (j == elem->number_rooms)
-		{
-			while (elem->size_tmp_tab_room != 0)
+			while (j < elem.number_rooms)
 			{
-				i = elem->tmp_tab_room[elem->size_tmp_tab_room - 1];
-				weight= weight + 1;
-				ft_add_weight(elem, matrice, weight, i)
-				elem->size_tmp_tab_room = elem->size_tmp_tab_room - 1;
+				if (matrice_flow[i][j])
+					push_file(&file, matrice[i][j], path_cpy(tmp->path));
+				j++;
 			}
 		}
 	}
-	ft_print_matrice_weight(matrice, elem);
+	return (tab);
 }
 
-/*
-**
-*/
-/*
-int		*ft_get_path(t_all *elem, int **matrice, int start, int end, int *delay) // TODO ecrire dans une matrice temporaire
+int				edmond_karp(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start)
 {
-	int *tab_of_path;
-	int i;
-	int j;
-	int size;
+	t_tab_path	*tab;
+	t_path		*path;
+	int			bfs;
 
-	size = 0;
-	i = start;
-	j = 0;
-	(void)end;
-	if(!(tab_of_path = malloc(sizeof(int) * (elem->number_rooms * 2048))))
-		return (NULL);
-	tab_of_path[size] = i;
-	//ft_print_matrice(matrice, elem);
-	while (elem->path_found == 0)//i != end && matrice[i][j] < 1)
+	bfs = 0;
+	while ((path = ft_bfs_(elem, matrice, matrice_flow, start, bfs++)))
 	{
-	//	ft_printf("je suis ici\n");
-		while(j < elem->number_rooms && matrice[i][j] != 1)
-		{
-			j++;
-		//	ft_printf("ici j = %d", j);
-		}
-		if (j != elem->number_rooms && matrice[i][j] == 1)
-		{
-			matrice[i][j] = matrice[i][j] + 1;
-			matrice[j][i] = matrice[j][i] + 1;
-			size = size + 1;
-			tab_of_path[size] = j;
-			if ( i == end  || j == end)
-			{
-				elem->path_found = 1;
-				break;
-			//	ft_print_matrice(matrice, elem);	
-			//	return (tab_of_path);
-			}
-			i = 0;
-		}
-		while( i < elem->number_rooms && matrice[i][j] != 1)
-		{
-			i++;
-	//		ft_printf("ici i = %d", i);
-		}
-		if (i != elem->number_rooms && matrice[i][j] == 1)
-		{
-			matrice[i][j] = matrice[i][j] + 1;
-			matrice[j][i] = matrice[j][i] + 1;
-			size = size + 1;
-			tab_of_path[size] = i; 
-			if ( i == end  || j == end)
-			{
-				elem->path_found = 1;
-				break;
-			//	ft_print_matrice(matrice, elem);
-			//	return (tab_of_path); 
-			}
-			j = 0;
-		}
-	//	if (i == elem->number_rooms)
-
+		put_flow_in_matrice(matrice_flow, path);
+		delete_bad_link(elem, matrice_flow);
 	}
-	size = size + 1;
-	tab_of_path[size] = -1;
-	ft_print_matrice(matrice, elem);
-	ft_print_path(tab_of_path);
-	return (tab_of_path);
-	//if ((i == end || j == end)  && matrice[i][j] == 1)
-
-}*/
+	tab = return_tab_path(elem, matrice, matrice_flow, start);
+	print_tab_path(tab);
+	return (1);
+}
