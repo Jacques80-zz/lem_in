@@ -233,6 +233,8 @@ t_room			*ft_init_start(t_all *elem);
 t_room			*ft_init_end(t_all *elem);
 void			ft_set_matrice(t_room **tmp, t_room **cur, t_room ***matrice);
 t_room			***ft_init_matrice(int number_rooms);
+void			ft_find_room(t_room **tmp, char *room);
+
 
 /*
 **	li_09c Matrice Tools
