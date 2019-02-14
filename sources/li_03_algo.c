@@ -42,6 +42,7 @@ t_path			*bfs(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start, 
 	int				j;
 	t_files			*file;
 	t_files			*tmp;
+	t_path 			*path;
 
 	file = NULL;
 	push_file(&file, start, NULL);
@@ -53,7 +54,9 @@ t_path			*bfs(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start, 
 		if (tmp->room->status == END)
 		{
 			free_file(file);
-			return (tmp->path);
+			path = tmp->path;
+			free(tmp);
+			return (path);
 		}
 		while (j < elem.number_rooms)
 		{

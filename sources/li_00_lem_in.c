@@ -165,7 +165,7 @@ int		main(int ac, char **av)
 		ft_free_matrice(elem.matrice);
 		ft_free_matrice_flow(elem.matrice_flow);
 		free_tab_path(tab);
-		ft_free_room((t_lst*)elem.room);
+		free_room(elem.room);
 	}
 	//exit(1);
 }

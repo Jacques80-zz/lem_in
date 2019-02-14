@@ -217,13 +217,13 @@ t_tab_path		*edmond_karp(t_all elem, t_room ***matrice, int **matrice_flow, t_ro
 */
 
 void			ft_free_room(t_lst *lst);
+void			free_room(t_room *room);
 void			ft_free_lst(t_lst *lst, void (*f)(t_lst *lst));
 void			ft_free_all(t_all *elem);
 int				ft_free_them(size_t n, ...);
 int				ft_error_tube(char ***tab_tube);
 void			ft_error(int nb);
 void			ft_free_path(t_lst *lst);
-//void			ft_free_room(t_room *room);
 
 /*
 **	li_09b Search and Init Tools

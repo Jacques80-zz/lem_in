@@ -96,6 +96,19 @@ void	ft_error(int nb)
 	}
 }
 
+void	free_room(t_room *room)
+{
+	t_room	*tmp;
+
+	while (room)
+	{
+		tmp = room->next;
+		free(room->name_room);
+		free(room->tab);
+		room = tmp;
+	}
+}
+
 /*
 **
 */
