@@ -1,5 +1,6 @@
 4
 7 42 42
+8 52 52
 3 2 2
 ##start
 start 4 0
@@ -20,4 +21,4 @@ end-6
 2-end
 3-start
 start-7
-7-end
+end-8

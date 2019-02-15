@@ -46,12 +46,7 @@ typedef enum		e_available // pour room // pertinent pour multipath complexe?
 {
 	VISITED, NO_VISITED, POSSIBLE_PATH, PATH // gerer le possible path
 }					t_available;
-/*
-typedef enum 		e_type
-{
-	INSTRUCT, COMMENT, NB_ANT, ROOM, PIPE, ERROR
-}					t_type;
-*/
+
 typedef struct		s_map
 {
 	struct s_map	*next;
@@ -84,38 +79,7 @@ typedef	struct 		s_room //
 	t_available		available;
 
 }					t_room; 
-/*
-typedef struct 		s_path // a creer
-{
-	int				name_path;
-	int				*number_rooms;
-	int 			is_dead;
-	int 			distance;
-	struct s_path 	*next;
-}					t_path;
-*/ // a voir, nouvelle dans 02.
-//utile? 
-/*
-typedef struct 		s_line
-{
-	int 			number_line;
-	char 			*text;
-	char			**split_text;
-	int 			number_words; // 1 si int nb fourmi si format nom - nom check nom existe sinon voir comment 2 = si pas comment danger 3 = room = texte space int space int
-	t_type			type;
-}					t_line;
 
-typedef struct		s_ret_path
-{
-	t_path			*path;
-	int				size;
-	int				first_ant; (nb path + modulo nb path)
-	int				nb_ant;
-	t_path			**room_ant;
-	int				step;
-}					t_ret_path;
-
-*/
 typedef struct				s_path
 {
 	t_room			*room;
@@ -128,6 +92,19 @@ typedef struct				s_tab_path
 	t_path				*path;
 	struct s_tab_path	*next;
 }							t_tab_path;
+
+typedef struct 				s_round
+{
+	int 			nb;
+	char			*name_room;
+	struct s_round	*next;
+}							t_round;
+
+typedef struct 				s_dispatch 
+{
+	t_round				*round;
+	struct s_dispatch	*next;
+}							t_dispatch;
 
 typedef struct 		s_all
 {
@@ -152,6 +129,9 @@ typedef struct 		s_all
 	int				end_id;
 	int				*tmp_tab_room;
 	int				size_tmp_tab_room;
+
+	t_path 			*shortest_path;
+	int 			flow_max;
 }					t_all;
 
 typedef struct		s_lst
@@ -210,7 +190,7 @@ void			free_file(t_files *file);
 **	li_03 Algo
 */
 
-t_tab_path		*edmond_karp(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start);
+t_tab_path		*edmond_karp(t_all *elem, t_room ***matrice, int **matrice_flow, t_room *start);
 
 /*
 **	li_09a Free and error
@@ -258,6 +238,7 @@ t_path			*path_cpy(t_path *path);
 void			free_path(t_path *path);
 int				is_not_in_path(t_path *path, t_room *room);
 void			free_tab_path(t_tab_path *tab);
+void			put_max_flow(t_all *elem);
 
 /*
 **	debbug

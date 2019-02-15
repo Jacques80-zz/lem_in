@@ -36,17 +36,18 @@ void		ft_free_lst(t_lst *lst, void (*f)(t_lst *lst))
 
 void		ft_free_all(t_all *elem)
 {
-	int		i;
+//	int		i;
 
-	ft_free_lst((t_lst*)elem->room, ft_free_room);
-	free(elem->ant);
-	if (elem->tab_path)
-	{
-		i = -1;
-		while (elem->tab_path[++i])
-			ft_free_lst((t_lst*)elem->tab_path[i], ft_free_path);
-		free(elem->tab_path);
-	}
+	ft_free_lst((t_lst*)elem->room, ft_free_room);	
+//	free(elem->ant);
+	ft_putendl("je suis la");
+//	if (elem->tab_path)
+//	{
+//		i = -1;
+//		while (elem->tab_path[++i])
+//			ft_free_lst((t_lst*)elem->tab_path[i], ft_free_path);
+//		free(elem->tab_path);
+//	}
 }
 
 /*

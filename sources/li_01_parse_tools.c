@@ -11,14 +11,14 @@ void		ft_status_update(t_all *elem, t_room *tmp)
 	if (elem->next_is_start == 1)
 	{
 		tmp->status = START;
-	//	elem->check.start = 1;
+		elem->start_id = tmp->room_id;
 		tmp->linked_to_start = 0;
 		elem->next_is_start = 0;
 	}
 	else if (elem->next_is_end == 1)
 	{
 		tmp->status = END;
-	//	elem->check.end = 1;
+		elem->end_id = tmp->room_id;
 		tmp->linked_to_start = 0;
 		elem->next_is_end = 0;
 	}

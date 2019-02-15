@@ -44,6 +44,9 @@ void			ft_init_elem(t_all *elem)
 	elem->next_is_start = 0;
 	elem->next_is_end = 0;
 	elem->path_found = 0;
+
+	elem->shortest_path = NULL;
+	elem->flow_max = -1;
 }
 
 /*
@@ -125,12 +128,20 @@ int				ft_read_2(t_all *elem, char *file)
 
 void	ft_print_infos(t_all *elem)
 {
+	t_map		*tmp;
+
+	tmp = elem->map;
 	while (elem->map != NULL)
 	{
+		tmp = elem->map->next;
 		ft_printf("%s\n", elem->map->str);
-		elem->map = elem->map->next;
+		free(elem->map->str);
+		free(elem->map);
+		elem->map = tmp;
 	}
 }
+
+/*PENSER A SUPPRIMER ELEM->MAP*/
 
 /*
  **	Le main quoi, d'abord les cas d erreur de ft_read, puis on cherche
@@ -160,8 +171,19 @@ int		main(int ac, char **av)
 	}
 	else
 	{
+		ft_printf("ant = %d\n", elem.number_ants);
+		ft_print_infos(&elem);
 		elem.matrice_flow = create_matrice_flow(elem);
-		tab = edmond_karp(elem, elem.matrice, elem.matrice_flow, ft_init_start(&elem));
+		tab = edmond_karp(&elem, elem.matrice, elem.matrice_flow, ft_init_start(&elem));
+		ft_printf("\nshortest_path :\n");
+		print_path(elem.shortest_path);
+		ft_putendl("=============FIN============");
+
+		/*
+		**
+		*/
+
+		free_path(elem.shortest_path);
 		ft_free_matrice(elem.matrice);
 		ft_free_matrice_flow(elem.matrice_flow);
 		free_tab_path(tab);

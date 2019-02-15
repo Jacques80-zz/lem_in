@@ -62,12 +62,21 @@ t_files			*pop_file(t_files **file)
 void			add_path_to_tab(t_tab_path **tab, t_path *path)
 {
 	t_tab_path				*new;
+	t_tab_path				*tmp;
 
 	if (!(new = malloc(sizeof(t_tab_path))))
 		return ;
 	new->path = path;
-	new->next = *tab;
-	*tab = new;
+	new->next = NULL;
+	if (!*tab)
+		*tab = new;
+	else
+	{
+		tmp = *tab;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
 }
 
 void			free_file(t_files *file)

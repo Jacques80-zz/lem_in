@@ -95,7 +95,10 @@ t_tab_path		*return_tab_path(t_all elem, t_room ***matrice, int **matrice_flow, 
 			while (j < elem.number_rooms)
 			{
 				if (matrice_flow[i][j])
+				{
+					matrice_flow[i][j] = 0;
 					push_file(&file, matrice[i][j], path_cpy(tmp->path));
+				}
 				j++;
 			}
 		free_path(tmp->path);
@@ -104,20 +107,23 @@ t_tab_path		*return_tab_path(t_all elem, t_room ***matrice, int **matrice_flow, 
 	return (tab);
 }
 
-t_tab_path			*edmond_karp(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start)
+t_tab_path			*edmond_karp(t_all *elem, t_room ***matrice, int **matrice_flow, t_room *start)
 {
 	t_tab_path	*tab;
 	t_path		*path;
 	int			bfs_nb;
 
 	bfs_nb = 0;
-	while ((path = bfs(elem, matrice, matrice_flow, start, bfs_nb++)))
+	while ((path = bfs(*elem, matrice, matrice_flow, start, bfs_nb++)))
 	{
 		put_flow_in_matrice(matrice_flow, path);
-		delete_bad_link(elem, matrice_flow);
-		free_path(path);
+		delete_bad_link(*elem, matrice_flow);
+		if (elem->shortest_path == NULL)
+			elem->shortest_path = path;
+		else
+			free_path(path);
 	}
-	tab = return_tab_path(elem, matrice, matrice_flow, start);
+	tab = return_tab_path(*elem, matrice, matrice_flow, start);
 	print_tab_path(tab);
 	return (tab);
 }
