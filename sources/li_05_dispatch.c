@@ -80,7 +80,8 @@ void		ft_dispatch(t_all elem, t_tab_path *tab)
 		tmp = tab;
 		while (tmp && n <= elem.number_ants)
 		{
-			add_ant(&ant, n++, tmp->path);
+			if (tmp->path_size < elem.number_ants - n || tmp == tab || tmp->path_size == tab->path_size)
+				add_ant(&ant, n++, tmp->path);
 			tmp = tmp->next;
 		}
 		move_ant(ant);
