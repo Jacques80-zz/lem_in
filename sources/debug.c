@@ -142,6 +142,8 @@ void	print_tab_path(t_tab_path *tab)
 {
 	while (tab)
 	{
+		ft_printf("======SIZE = %d =======\n", path_size(tab->path));
+		ft_printf("======NB_ANT = %d =======\n\n", tab->nb_ant);
 		print_path(tab->path);
 		tab = tab->next;
 	}

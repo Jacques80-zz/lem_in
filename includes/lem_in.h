@@ -90,21 +90,20 @@ typedef struct				s_path
 typedef struct				s_tab_path
 {
 	t_path				*path;
+	int 				path_size;
+	int 				nb_ant;
+	struct s_tab_path	*prev;
 	struct s_tab_path	*next;
 }							t_tab_path;
 
-typedef struct 				s_round
+typedef struct 				s_ant
 {
-	int 			nb;
-	char			*name_room;
-	struct s_round	*next;
-}							t_round;
-
-typedef struct 				s_dispatch 
-{
-	t_round				*round;
-	struct s_dispatch	*next;
-}							t_dispatch;
+		t_path 			*path;
+		t_path 			*tmp_path;
+		int 			nb;
+		struct s_ant	*prev;
+		struct s_ant	*next;
+}							t_ant;
 
 typedef struct 		s_all
 {
@@ -235,10 +234,25 @@ int				**matrice_flow_cpy(t_all elem, int **matrice);
 
 void			add_path(t_path **path, t_room *room);
 t_path			*path_cpy(t_path *path);
-void			free_path(t_path *path);
+int 			compare_path(t_path *path1, t_path *path2);
 int				is_not_in_path(t_path *path, t_room *room);
+int 			path_size(t_path *path);
+
+/*
+**	li_06_tab_path_tools
+*/
+
 void			free_tab_path(t_tab_path *tab);
-void			put_max_flow(t_all *elem);
+void			free_path(t_path *path);
+t_tab_path		*remove_bad_path(t_tab_path *tab);
+int				tab_size(t_tab_path *tab);
+
+/*
+**	li_05 dipatch
+*/
+
+void	ft_dispatch(t_all elem, t_tab_path *tab);
+
 
 /*
 **	debbug

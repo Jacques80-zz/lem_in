@@ -139,6 +139,7 @@ void	ft_print_infos(t_all *elem)
 		free(elem->map);
 		elem->map = tmp;
 	}
+	ft_putchar('\n');
 }
 
 /*PENSER A SUPPRIMER ELEM->MAP*/
@@ -171,14 +172,12 @@ int		main(int ac, char **av)
 	}
 	else
 	{
-		ft_printf("ant = %d\n", elem.number_ants);
 		ft_print_infos(&elem);
 		elem.matrice_flow = create_matrice_flow(elem);
 		tab = edmond_karp(&elem, elem.matrice, elem.matrice_flow, ft_init_start(&elem));
-		ft_printf("\nshortest_path :\n");
-		print_path(elem.shortest_path);
-		ft_putendl("=============FIN============");
-
+//		print_path(elem.shortest_path);
+//		ft_putendl("=============FIN============");
+		ft_dispatch(elem, tab);
 		/*
 		**
 		*/

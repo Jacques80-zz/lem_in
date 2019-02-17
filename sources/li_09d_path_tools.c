@@ -2,7 +2,9 @@
 
 int				is_not_in_path(t_path *path, t_room *room)
 {
-	while (path)
+	if (room->status == START || room->status == END)
+		return (1);
+	while (path->next)
 	{
 		if (path->room == room)
 			return (0);
@@ -45,27 +47,26 @@ void			add_path(t_path **path, t_room *room)
 
 }
 
-void			free_path(t_path *path)
+int		path_size(t_path *path)
 {
-	t_path 		*tmp;
+	int			i;
 
+	i = 0;
 	while (path)
 	{
-		tmp = path->next;
-		free(path);
-		path = tmp;
+		i++;
+		path = path->next;
 	}
+	return (i);
 }
 
-void			free_tab_path(t_tab_path *tab)
+int 			compare_path(t_path *path1, t_path *path2)
 {
-	t_tab_path		*tmp;
-
-	while (tab)
+	while (path1)
 	{
-		tmp = tab->next;
-		free_path(tab->path);
-		free(tab);
-		tab = tmp;
+		if (!is_not_in_path(path2, path1->room))
+			return (0);
+		path1 = path1->next;
 	}
+	return (1);
 }

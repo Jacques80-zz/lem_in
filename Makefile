@@ -10,6 +10,8 @@ _LI_SRCS	= 	li_00_lem_in.c \
 			  	li_01bis_parse_tools.c \
 			  	li_02_begin.c \
 			  	li_03_algo.c \
+				li_05_dispatch.c \
+				li_06_tab_path_tools.c \
 			  	li_09a_free_and_error.c \
 			  	li_09b_search_and_init_tools.c \
 			  	li_09c_matrice_tools.c \

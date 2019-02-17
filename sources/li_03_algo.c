@@ -124,6 +124,7 @@ t_tab_path			*edmond_karp(t_all *elem, t_room ***matrice, int **matrice_flow, t_
 			free_path(path);
 	}
 	tab = return_tab_path(*elem, matrice, matrice_flow, start);
-	print_tab_path(tab);
+	tab = remove_bad_path(tab);
+//	print_tab_path(tab);
 	return (tab);
 }

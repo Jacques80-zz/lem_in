@@ -67,6 +67,9 @@ void			add_path_to_tab(t_tab_path **tab, t_path *path)
 	if (!(new = malloc(sizeof(t_tab_path))))
 		return ;
 	new->path = path;
+	new->nb_ant = -1;
+	new->path_size = path_size(path);
+	new->prev = NULL;
 	new->next = NULL;
 	if (!*tab)
 		*tab = new;
@@ -75,6 +78,7 @@ void			add_path_to_tab(t_tab_path **tab, t_path *path)
 		tmp = *tab;
 		while (tmp->next)
 			tmp = tmp->next;
+		new->prev = tmp;
 		tmp->next = new;
 	}
 }
