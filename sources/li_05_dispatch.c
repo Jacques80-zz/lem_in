@@ -1,5 +1,44 @@
 #include "../includes/lem_in.h"
 
+int            diff_between_path(t_tab_path *tab, int i)
+{
+    int difference;
+
+    difference = 0;
+    while (tab->prev != NULL)
+        tab = tab->prev;
+    while (i-- > 0 && tab->next)
+        tab = tab->next;
+    if (tab->next)
+    {
+        difference = tab->next->path_size - tab->path_size;
+    }
+    else
+        difference = -1;
+    return (difference);
+}
+
+int         ft_get_how_many_path_are_usefull(t_all elem, t_tab_path *tab, int i, int capacity, int n)
+{
+    int nb_ant;
+
+    nb_ant = elem.number_ants - n;
+    if (diff_between_path(tab, i - 1) != -1)
+        capacity = capacity + (diff_between_path(tab, i) * i);
+    else
+    {
+        return (i);
+    }
+    if (capacity > nb_ant)
+        return (i);
+    else
+    {
+        i++;
+        return (ft_get_how_many_path_are_usefull(elem, tab, i, capacity, n));
+    }
+
+}
+
 void		add_ant(t_ant **ant, int nb, t_path *path)
 {
 	t_ant		*new;
@@ -29,7 +68,7 @@ void		move_ant(t_ant *ant)
 	while (ant)
 	{
 		ant->path = ant->path->next;
-		ft_printf("L%d-%s", ant->nb, ant->path->room->name_room);
+		//ft_printf("L%d-%s", ant->nb, ant->path->room->name_room);
 		ant->next ? ft_putchar(' ') : ft_putchar('\n');
 		ant = ant->next;
 	}
@@ -71,6 +110,8 @@ void		ft_dispatch(t_all elem, t_tab_path *tab)
 	t_tab_path	*tmp;
 	int			n;
 	int			i;
+	int			nb;
+	int			ret;
 
 	ant = NULL;
 	n = 1;
@@ -78,11 +119,14 @@ void		ft_dispatch(t_all elem, t_tab_path *tab)
 	while (n <= elem.number_ants)
 	{
 		tmp = tab;
+		nb = 1;
+		ret = ft_get_how_many_path_are_usefull(elem, tab, 1, 0, n);
 		while (tmp && n <= elem.number_ants)
 		{
-			if (tmp->path_size < elem.number_ants - n || tmp == tab || tmp->path_size == tab->path_size)
+			if (nb <= ret)
 				add_ant(&ant, n++, tmp->path);
 			tmp = tmp->next;
+			nb++;
 		}
 		move_ant(ant);
 		remove_ant(&ant);

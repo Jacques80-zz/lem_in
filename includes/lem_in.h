@@ -92,6 +92,7 @@ typedef struct				s_tab_path
 	t_path				*path;
 	int 				path_size;
 	int 				nb_ant;
+	int 				cumul;
 	struct s_tab_path	*prev;
 	struct s_tab_path	*next;
 }							t_tab_path;
