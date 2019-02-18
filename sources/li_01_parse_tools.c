@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   li_01_parse_tools.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdouniol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/18 05:30:46 by jdouniol          #+#    #+#             */
+/*   Updated: 2019/02/18 05:30:49 by jdouniol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/lem_in.h"
 
 /*
-**	
+**	ft_status_update permet de mettre le status des rooms start et end
+**	il met ensuite NO_VISITED qui signifie que l algo n est pas encore parcouru
 */
 
 void		ft_status_update(t_all *elem, t_room *tmp)
@@ -12,17 +24,14 @@ void		ft_status_update(t_all *elem, t_room *tmp)
 	{
 		tmp->status = START;
 		elem->start_id = tmp->room_id;
-		tmp->linked_to_start = 0;
 		elem->next_is_start = 0;
 	}
 	else if (elem->next_is_end == 1)
 	{
 		tmp->status = END;
 		elem->end_id = tmp->room_id;
-		tmp->linked_to_start = 0;
 		elem->next_is_end = 0;
 	}
-	tmp->weight = -1;
 	tmp->available = NO_VISITED;
 	if (elem->room == NULL)
 	{
@@ -53,7 +62,7 @@ int				ft_room(t_all *elem, char **tab_coor)
 	int		i;
 	int		j;
 	t_room	*tmp;
-	int 	room_id;
+	int		room_id;
 
 	room_id = elem->number_rooms;
 	i = 0;
@@ -68,11 +77,9 @@ int				ft_room(t_all *elem, char **tab_coor)
 		return (ERROR);
 	elem->number_rooms = elem->number_rooms + 1;
 	tmp->room_id = room_id;
-	tmp->weight = -1;
 	tmp->available = NO_VISITED;
 	tmp->name_room = ft_strnew(ft_strlen(tab_coor[0]));
 	tmp->name_room = ft_strcpy(tmp->name_room, tab_coor[0]);
-	tmp->number_ants_in_room = 0;
 	tmp->tab = NULL;
 	tmp->prev = NULL;
 	tmp->next = NULL;
@@ -140,7 +147,7 @@ int		ft_get_instructions(t_all *elem, char *line)
 		elem->next_is_start = 1;
 		return (SUCCESS);
 	}
-	else if (ft_strcmp(line, "##end") == 0 )//&& a->check.end == 0) //limiter a ##end\n ?  // est ce juste avec plusieurs end?
+	else if (ft_strcmp(line, "##end") == 0)//&& a->check.end == 0) //limiter a ##end\n ?  // est ce juste avec plusieurs end?
 	{
 		elem->next_is_end = 1;
 		return (SUCCESS);

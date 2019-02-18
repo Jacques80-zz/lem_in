@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   li_01bis_parse_tools.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdouniol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/18 05:30:57 by jdouniol          #+#    #+#             */
+/*   Updated: 2019/02/18 05:31:02 by jdouniol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lem_in.h"
 
 /*
@@ -40,6 +52,7 @@ int		ft_realloc_room_tab(t_room ***tab, t_room *room)
 int		ft_tube_aux(t_all *elem, t_room **tmp, t_room **cur)
 {
 	t_room ***matrice;
+
 	if (*tmp == NULL || *cur == NULL)
 		return (ERROR);
 	if (ft_realloc_room_tab(&(*tmp)->tab, *cur) == ERROR)
@@ -66,13 +79,13 @@ int		ft_tube_aux(t_all *elem, t_room **tmp, t_room **cur)
 
 /*
 **	Appelé quand 1 seule str dans la ligne, qui ne commence pas par # et
-**	qui contient '-'. Condition d'erreur ne permettant pas plus d'une 
+**	qui contient '-'. Condition d'erreur ne permettant pas plus d'une
 **	liaison (et qui suppose qu'une room ne peut pas contenir de '-'
 **	si la room n existe pas tmp ou cur sera set a NULL et tube aux reverra une
 **	erreur
 */
 
-int				ft_tube(t_all *elem, char *line)
+int		ft_tube(t_all *elem, char *line)
 {
 	t_room	*tmp;
 	t_room	*cur;
@@ -88,9 +101,9 @@ int				ft_tube(t_all *elem, char *line)
 		return (ERROR);
 	tmp = elem->room;
 	cur = elem->room;
-	ft_find_room(&tmp, tab_tube[0]); 
+	ft_find_room(&tmp, tab_tube[0]);
 	ft_find_room(&cur, tab_tube[1]);
-	if (ft_tube_aux(elem, &tmp, &cur) == ERROR) 
+	if (ft_tube_aux(elem, &tmp, &cur) == ERROR)
 		return (ft_error_tube(&tab_tube));
 	i = -1;
 	while (tab_tube[++i])
@@ -100,7 +113,7 @@ int				ft_tube(t_all *elem, char *line)
 
 /*
 **	Outil permettant simplement de verifier que les coordonnees des salles et
-**	le nombre de fourmis tiennent bien dans un int 
+**	le nombre de fourmis tiennent bien dans un int
 */
 
 int		ft_check_nb(char *s, int *nb)
@@ -132,10 +145,8 @@ int		ft_check_nb_ants(t_all *elem, char *str, int *i)
 {
 	if (str[0] == '#')
 		return (SUCCESS);
-	if (ft_check_nb(str, /*(int*)*/&elem->number_ants) == ERROR)
+	if (ft_check_nb(str, &elem->number_ants) == ERROR)
 		return (ERROR);
 	++(*i);
 	return (SUCCESS);
 }
-
-

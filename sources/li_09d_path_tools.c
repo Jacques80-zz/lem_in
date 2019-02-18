@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   li_09d_path_tools.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdouniol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/18 05:32:56 by jdouniol          #+#    #+#             */
+/*   Updated: 2019/02/18 05:32:57 by jdouniol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lem_in.h"
 
-int				is_not_in_path(t_path *path, t_room *room)
+int		is_not_in_path(t_path *path, t_room *room)
 {
 	if (room->status == START || room->status == END)
 		return (1);
@@ -13,7 +25,7 @@ int				is_not_in_path(t_path *path, t_room *room)
 	return (1);
 }
 
-t_path			*path_cpy(t_path *path)
+t_path	*path_cpy(t_path *path)
 {
 	t_path			*new;
 
@@ -26,7 +38,7 @@ t_path			*path_cpy(t_path *path)
 	return (new);
 }
 
-void			add_path(t_path **path, t_room *room)
+void	add_path(t_path **path, t_room *room)
 {
 	t_path		*new;
 	t_path		*tmp;
@@ -44,7 +56,6 @@ void			add_path(t_path **path, t_room *room)
 			tmp = tmp->next;
 		tmp->next = new;
 	}
-
 }
 
 int		path_size(t_path *path)
@@ -60,7 +71,7 @@ int		path_size(t_path *path)
 	return (i);
 }
 
-int 			compare_path(t_path *path1, t_path *path2)
+int		compare_path(t_path *path1, t_path *path2)
 {
 	while (path1)
 	{

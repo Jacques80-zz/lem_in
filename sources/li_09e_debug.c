@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   li_09e_debug.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdouniol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/18 05:33:07 by jdouniol          #+#    #+#             */
+/*   Updated: 2019/02/18 05:33:09 by jdouniol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lem_in.h"
 
 void	print_room_flow(t_all elem, int nb)
@@ -117,7 +129,7 @@ void	ft_print_matrice_weight(t_room ***matrice, t_all *elem)
 		while (j < elem->number_rooms)
 		{
 			if (matrice[i][j])
-				ft_printf("%-10d", matrice[i][j]->weight);
+				ft_printf("%-10d", 1); // j ai mis 1 ici plutot que matrice[i][j]->weight qui n exsiste plus
 			else
 				ft_printf("%-10s", "~");
 			j++;
@@ -147,4 +159,42 @@ void	print_tab_path(t_tab_path *tab)
 		print_path(tab->path);
 		tab = tab->next;
 	}
+}
+
+/*if (ac == 2 && ft_read_2(&elem, av[1]) == FAIL)
+{
+	ft_free_all(&elem);
+	ft_printf("Error\n");
+	return (EXIT_FAILURE);
+}*/
+
+int		ft_read_2(t_all *elem, char *file)
+{
+	int		i;
+	char	*line;
+	int 	fd;
+
+	ft_init_elem(elem);
+	i = GNL_LINE_READ;
+	line = NULL;
+	fd = open(file, 'r');
+	while (i == GNL_LINE_READ)
+	{
+		line = NULL;
+		if ((i = get_next_line(fd, &line)) == GNL_ERROR)
+			return (FAIL);
+		if (i == GNL_END)
+		{
+			free(line);
+			break ;
+		}
+		if (ft_get_instructions(elem, line) == ERROR)
+		{
+			free(line);
+			return (ERROR);//( Si carte reseolvable ? ERROR : FAIL); //cas ou la carte esr resolvable malgre une ligne d'erreur
+		}
+		ft_save_map(elem, line);
+		free(line);
+	}
+	return (SUCCESS);//(Si carte resolvable) ? SUCCESS : FAIL); //  if path found retourne success sinon fail
 }

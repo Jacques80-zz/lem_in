@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   li_06_tab_path_tools.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdouniol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/18 05:32:11 by jdouniol          #+#    #+#             */
+/*   Updated: 2019/02/18 05:32:13 by jdouniol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lem_in.h"
 
-void			free_tab_path(t_tab_path *tab)
+void		free_tab_path(t_tab_path *tab)
 {
-	t_tab_path		*tmp;
+	t_tab_path	*tmp;
 
 	while (tab)
 	{
@@ -13,10 +25,9 @@ void			free_tab_path(t_tab_path *tab)
 	}
 }
 
-
-void			free_path(t_path *path)
+void		free_path(t_path *path)
 {
-	t_path 		*tmp;
+	t_path	*tmp;
 
 	while (path)
 	{
@@ -28,7 +39,7 @@ void			free_path(t_path *path)
 
 t_tab_path	*create_new_tab(t_tab_path *tab)
 {
-	t_tab_path			*new;
+	t_tab_path	*new;
 
 	new = NULL;
 	while (tab)
@@ -42,7 +53,7 @@ t_tab_path	*create_new_tab(t_tab_path *tab)
 
 int			tab_size(t_tab_path *tab)
 {
-	int				i;
+	int	i;
 
 	i = 0;
 	while (tab)
@@ -69,7 +80,6 @@ t_tab_path	*remove_bad_path(t_tab_path *tab)
 				continue ;
 			if (!compare_path(tab->path, tmp->path))
 			{
-
 				free_path(tmp->path);
 				tmp->path = NULL;
 			}
@@ -80,4 +90,3 @@ t_tab_path	*remove_bad_path(t_tab_path *tab)
 	free_tab_path(tmp_tab);
 	return (new);
 }
-

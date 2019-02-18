@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   li_03_algo.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdouniol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/18 05:31:20 by jdouniol          #+#    #+#             */
+/*   Updated: 2019/02/18 05:31:22 by jdouniol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lem_in.h"
 
-void			put_flow_in_matrice( int **matrice_flow, t_path *path)
+void		put_flow_in_matrice(int **matrice_flow, t_path *path)
 {
 	int			i;
 	int			j;
@@ -14,7 +26,7 @@ void			put_flow_in_matrice( int **matrice_flow, t_path *path)
 	}
 }
 
-void			delete_bad_link(t_all elem, int **matrice_flow)
+void		delete_bad_link(t_all elem, int **matrice_flow)
 {
 	int			i;
 	int			j;
@@ -36,7 +48,7 @@ void			delete_bad_link(t_all elem, int **matrice_flow)
 	}
 }
 
-t_path			*bfs(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start, int bfs)
+t_path		*bfs(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start, int bfs) // TODO trop de parametres et trop de lignes, et certianes lignes trop grande
 {
 	int				i;
 	int				j;
@@ -73,7 +85,7 @@ t_path			*bfs(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start, 
 	return (NULL);
 }
 
-t_tab_path		*return_tab_path(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start)
+t_tab_path	*return_tab_path(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start)
 {
 	t_files				*file;
 	t_files				*tmp;
@@ -107,7 +119,7 @@ t_tab_path		*return_tab_path(t_all elem, t_room ***matrice, int **matrice_flow, 
 	return (tab);
 }
 
-t_tab_path			*edmond_karp(t_all *elem, t_room ***matrice, int **matrice_flow, t_room *start)
+t_tab_path	*edmond_karp(t_all *elem, t_room ***matrice, int **matrice_flow, t_room *start)
 {
 	t_tab_path	*tab;
 	t_path		*path;
@@ -124,7 +136,9 @@ t_tab_path			*edmond_karp(t_all *elem, t_room ***matrice, int **matrice_flow, t_
 			free_path(path);
 	}
 	tab = return_tab_path(*elem, matrice, matrice_flow, start);
+	ft_printf("tab size = %d", tab_size(tab));
 	tab = remove_bad_path(tab); // TODO leak quand pas de chemin dispo
+	ft_printf("tab size = %d", tab_size(tab));
 //	print_tab_path(tab);
 	return (tab);
 }

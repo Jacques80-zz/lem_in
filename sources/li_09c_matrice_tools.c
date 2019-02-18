@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   li_09c_matrice_tools.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdouniol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/18 05:32:47 by jdouniol          #+#    #+#             */
+/*   Updated: 2019/02/18 05:32:49 by jdouniol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lem_in.h"
 
 int			**create_matrice_flow(t_all elem)
@@ -24,8 +36,6 @@ int			**create_matrice_flow(t_all elem)
 	matrice[i] = 0;
 	return (matrice);
 }
-
-
 
 t_room		***matrice_cpy(t_all elem, t_room ***matrice)
 {

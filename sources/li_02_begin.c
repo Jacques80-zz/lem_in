@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   li_02_begin.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdouniol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/18 05:31:11 by jdouniol          #+#    #+#             */
+/*   Updated: 2019/02/18 05:31:13 by jdouniol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lem_in.h"
 
 /*
- **	Est appellee a chaque ligne valide
- **	si le malloc echoue, on utilise ft_error
- **	cas si 1ere ligne
- **	cas pour toutes les lignes suivantes 
- */
+**	Est appellee a chaque ligne valide
+**	si le malloc echoue, on utilise ft_error
+**	cas si 1ere ligne
+**	cas pour toutes les lignes suivantes
+*/
 
 void	ft_save_map(t_all *elem, char *line)
 {
@@ -28,7 +40,7 @@ void	ft_save_map(t_all *elem, char *line)
 	last->next = new;
 }
 
-void			push_file(t_files **files, t_room *room, t_path *path)
+void	push_file(t_files **files, t_room *room, t_path *path)
 {
 	t_files		*new;
 	t_files		*tmp;
@@ -50,7 +62,7 @@ void			push_file(t_files **files, t_room *room, t_path *path)
 	}
 }
 
-t_files			*pop_file(t_files **file)
+t_files	*pop_file(t_files **file)
 {
 	t_files		*tmp;
 
@@ -59,7 +71,7 @@ t_files			*pop_file(t_files **file)
 	return (tmp);
 }
 
-void			add_path_to_tab(t_tab_path **tab, t_path *path)
+void	add_path_to_tab(t_tab_path **tab, t_path *path)
 {
 	t_tab_path				*new;
 	t_tab_path				*tmp;
@@ -67,9 +79,7 @@ void			add_path_to_tab(t_tab_path **tab, t_path *path)
 	if (!(new = malloc(sizeof(t_tab_path))))
 		return ;
 	new->path = path;
-	new->nb_ant = -1;
 	new->path_size = path_size(path);
-	new->cumul = new->path_size;
 	new->prev = NULL;
 	new->next = NULL;
 	if (!*tab)
@@ -81,11 +91,10 @@ void			add_path_to_tab(t_tab_path **tab, t_path *path)
 			tmp = tmp->next;
 		new->prev = tmp;
 		tmp->next = new;
-		new->cumul += tmp->cumul;
 	}
 }
 
-void			free_file(t_files *file)
+void	free_file(t_files *file)
 {
 	t_files		*tmp;
 
