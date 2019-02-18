@@ -36,7 +36,6 @@ validité du chemin
 */
 
 
-
 typedef enum		e_status // pour room
 {
 	START, END, NOT
@@ -57,26 +56,26 @@ typedef struct		s_map
 typedef	struct 		s_room // 
 {
 	int 			room_id;
-	int				number_ants_in_room; //nb_a
+	int				number_ants_in_room; // TODO a kick
 	char 			*name_room; //name
 	int				coord_x_room; // x
 	int				coord_y_room; // y
-	int				*linked_to_start;
-	int				*linked_to_end;
-	int 			*names_path_available; //
-	int				number_path_availbale;
-	int				weight; // *distance ?
-	int				compteur_from_start;
-	int				compteur_from_end;
-	int				you_should_not_pass;
-	int				*linked_to;
-	int				number_rooms_linked;
+	int				*linked_to_start; // TODO a kick
+	int				*linked_to_end; // TODO a kick
+	int 			*names_path_available; // TODO a kick
+	int				number_path_availbale;	// TODO a kick
+	int				weight; // *distance ? 	// TODO a kick
+	int				compteur_from_start;	// TODO a kick
+	int				compteur_from_end;	// TODO a kick
+	int				you_should_not_pass; // TODO a kick
+	int				*linked_to;	// TODO a kick
+	int				number_rooms_linked;	// TODO a kick
 	int				bfs;
 	struct s_room	*prev;
 	struct s_room	*next;
 	struct s_room	**tab;
 	t_status		status;
-	t_available		available;
+	t_available		available; // TODO a kick
 
 }					t_room; 
 
@@ -92,7 +91,8 @@ typedef struct				s_tab_path
 	t_path				*path;
 	int 				path_size;
 	int 				nb_ant;
-	int 				cumul;
+	int 				difference;
+	int					capacity;
 	struct s_tab_path	*prev;
 	struct s_tab_path	*next;
 }							t_tab_path;
@@ -110,25 +110,25 @@ typedef struct 		s_all
 {
 	int 			number_ants;
 	int				number_rooms;
-	int				limited_factor; // a voir si utile et comment il peut l etre 
-	int 			nbr_lines_in_file;
+	int				limited_factor; // TODO a kick
+	int 			nbr_lines_in_file; // TODO a kick
 //	t_line			*line; // lourd pour rien
 	t_room			*room;
-	int				path_found;
-	t_tab_path		**tab_path;
+	int				path_found;	// TODO a kick
+	t_tab_path		**tab_path; // TODO a kick
 	int				next_is_start;
 	int				next_is_end;
-	t_room			**ant;
+	t_room			**ant; // TODO a kick
 	t_map			*map;
 	t_room			*cur;
 	t_room			***matrice;
 	int				**matrice_flow;
 	int 			matrice_init;
-	int 			all_rooms_are_parsed;
+	int 			all_rooms_are_parsed; // TODO a kick
 	int				start_id;
 	int				end_id;
-	int				*tmp_tab_room;
-	int				size_tmp_tab_room;
+	int				*tmp_tab_room; // TODO a kick
+	int				size_tmp_tab_room; // TODO a kick
 
 	t_path 			*shortest_path;
 	int 			flow_max;

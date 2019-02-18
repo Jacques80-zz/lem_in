@@ -170,11 +170,12 @@ int		main(int ac, char **av)
 		ft_printf("Error\n");
 		return (EXIT_FAILURE);
 	}
-	else
+	else // TODO kick else et mettre check error.
 	{
 		ft_print_infos(&elem);
 		elem.matrice_flow = create_matrice_flow(elem);
-		tab = edmond_karp(&elem, elem.matrice, elem.matrice_flow, ft_init_start(&elem));
+		tab = edmond_karp(&elem, elem.matrice, elem.matrice_flow, ft_init_start(&elem)); // mettre check error a la suite de edmond karp, verifier elem.shortest_path pour savoir si chemin existe. 
+		
 //		print_path(elem.shortest_path);
 //		ft_putendl("=============FIN============");
 		ft_dispatch(elem, tab);
