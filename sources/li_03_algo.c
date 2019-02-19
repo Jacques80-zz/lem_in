@@ -19,6 +19,8 @@ void		put_flow_in_matrice(int **matrice_flow, t_path *path)
 
 	while (path->room->status != END)
 	{
+		if (path->room->status != START)
+			path->room->available = VISITED;
 		i = path->room->room_id;
 		j = path->next->room->room_id;
 		matrice_flow[i][j]++;
@@ -30,8 +32,10 @@ void		delete_bad_link(t_all elem, int **matrice_flow)
 {
 	int			i;
 	int			j;
+	t_room		***matrice;
 
 	i = 0;
+	matrice = elem.matrice;
 	while (i < elem.number_rooms)
 	{
 		j = 0;
@@ -41,6 +45,8 @@ void		delete_bad_link(t_all elem, int **matrice_flow)
 			{
 				matrice_flow[i][j] = 0;
 				matrice_flow[j][i] = 0;
+				matrice[i][j]->available = NO_VISITED;
+				matrice[j][i]->available = NO_VISITED;
 			}
 			j++;
 		}
@@ -72,7 +78,7 @@ t_path		*bfs(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start, i
 		}
 		while (j < elem.number_rooms)
 		{
-			if (matrice[i][j] && matrice_flow[i][j] != 1 && matrice[i][j]->bfs != bfs)
+			if (matrice[i][j] && matrice[i][j]->available != VISITED && matrice_flow[i][j] != 1 && matrice[i][j]->bfs != bfs)
 			{
 				matrice[i][j]->bfs = bfs;
 				push_file(&file, matrice[i][j], path_cpy(tmp->path));
@@ -106,9 +112,10 @@ t_tab_path	*return_tab_path(t_all elem, t_room ***matrice, int **matrice_flow, t
 		else
 			while (j < elem.number_rooms)
 			{
-				if (matrice_flow[i][j])
+				if (matrice_flow[i][j] && matrice[i][j] != VISITED)
 				{
 					matrice_flow[i][j] = 0;
+					matrice[i][j]->available = VISITED;
 					push_file(&file, matrice[i][j], path_cpy(tmp->path));
 				}
 				j++;
@@ -117,6 +124,26 @@ t_tab_path	*return_tab_path(t_all elem, t_room ***matrice, int **matrice_flow, t
 		free(tmp);
 	}
 	return (tab);
+}
+
+int 		check_matrice_flow(t_all elem, int **matrice_flow)
+{
+	int 		i;
+	int 		j;
+
+	i = 0;
+	while (i < elem.number_rooms)
+	{
+		j = 0;
+		while (j < elem.number_rooms)
+		{
+			if (matrice_flow[i][j])
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
 }
 
 t_tab_path	*edmond_karp(t_all *elem, t_room ***matrice, int **matrice_flow, t_room *start)
@@ -138,6 +165,8 @@ t_tab_path	*edmond_karp(t_all *elem, t_room ***matrice, int **matrice_flow, t_ro
 	tab = return_tab_path(*elem, matrice, matrice_flow, start);
 	ft_printf("tab size = %d", tab_size(tab));
 	tab = remove_bad_path(tab); // TODO leak quand pas de chemin dispo
+	if (check_matrice_flow(*elem, matrice_flow))
+		ft_putendl("y a un flow qui reste");
 	ft_printf("tab size = %d", tab_size(tab));
 //	print_tab_path(tab);
 	return (tab);
