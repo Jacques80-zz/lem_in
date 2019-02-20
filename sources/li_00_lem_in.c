@@ -11,9 +11,9 @@
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
-# include <stdarg.h>
+#include <stdarg.h>
 
-int 		check_map(t_all elem)
+int			check_map(t_all elem)
 {
 	if (elem.start_id == -1 || elem.end_id == -1)
 		ft_error(1);
@@ -22,21 +22,23 @@ int 		check_map(t_all elem)
 	return (1);
 }
 
+void		ft_free(t_all *elem, t_tab_path *tab)
+{
+	free_path(elem->shortest_path);
+	ft_free_matrice(elem->matrice);
+	ft_free_matrice_flow(elem->matrice_flow);
+	free_tab_path(tab);
+	free_room(elem->room);
+}
 
-/*
- **	Le main quoi, d'abord les cas d erreur de ft_read, puis on cherche
- **	si un chemin est possible, si oui, on active le dispatch, si non
- **	on free le tout avant de quitter
- */
-
-int		main(int ac, char **av)
+int			main(int ac, char **av)
 {
 	t_all		elem;
 	t_tab_path	*tab;
 
-	(void)av;
-	(void)ac;
 	tab = NULL;
+	(void)ac;
+	(void)av;
 	if (ft_read(&elem) == FAIL)
 	{
 		ft_free_all(&elem);
@@ -44,16 +46,12 @@ int		main(int ac, char **av)
 		return (EXIT_FAILURE);
 	}
 	check_map(elem);
-	elem.matrice_flow = create_matrice_flow(elem); // verifier ici presence de start et end
-	tab = edmond_karp(&elem, elem.matrice, elem.matrice_flow, ft_init_start(&elem)); // mettre check error a la suite de edmond karp, verifier elem.shortest_path pour savoir si chemin existe. 
+	elem.matrice_flow = create_matrice_flow(elem);
+	tab = edmond_karp(&elem, elem.matrice,
+	elem.matrice_flow, ft_init_start(&elem));
 	if (!elem.shortest_path)
 		ft_error(1);
 	ft_print_infos(&elem);
 	ft_dispatch(elem, tab);
-	free_path(elem.shortest_path);
-	ft_free_matrice(elem.matrice);
-	ft_free_matrice_flow(elem.matrice_flow);
-	free_tab_path(tab);
-	free_room(elem.room);
-	//exit(1);
+	ft_free(&elem, tab);
 }

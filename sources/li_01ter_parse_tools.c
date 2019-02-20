@@ -30,6 +30,7 @@ void			ft_init_elem(t_all *elem)
 	elem->shortest_path = NULL;
 	elem->start_id = -1;
 	elem->end_id = -1;
+	elem->bfs = 0;
 }
 
 /*
@@ -66,10 +67,10 @@ int				ft_read(t_all *elem)
 		if (ft_get_instructions(elem, line) == ERROR)
 		{
 			free(line);
-			return (ERROR);//( Si carte reseolvable ? ERROR : FAIL); //cas ou la carte esr resolvable malgre une ligne d'erreur
+			return (ERROR);
 		}
 		ft_save_map(elem, line);
 		free(line);
 	}
-	return (SUCCESS);//(Si carte resolvable) ? SUCCESS : FAIL); //  if path found retourne success sinon fail
+	return (SUCCESS);
 }

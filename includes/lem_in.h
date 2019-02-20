@@ -91,6 +91,7 @@ typedef struct			s_all
 	int					start_id;
 	int					end_id;
 	t_path				*shortest_path;
+	int					bfs;
 }						t_all;
 
 typedef struct			s_lst
@@ -173,6 +174,8 @@ int						ft_free_them(size_t n, ...);
 int						ft_error_tube(char ***tab_tube);
 void					ft_error(int nb);
 void					ft_free_path(t_lst *lst);
+void					free_bfs(t_files *tmp);
+
 
 /*
 **	li_09b Search and Init Tools

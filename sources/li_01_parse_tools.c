@@ -20,13 +20,14 @@
 void		ft_status_update(t_all *elem, t_room *tmp)
 {
 	tmp->status = NOT;
-	if (elem->next_is_start == 1)
+	tmp->bfs = -1;
+	if (elem->next_is_start == 1 && elem->start_id == -1)
 	{
 		tmp->status = START;
 		elem->start_id = tmp->room_id;
 		elem->next_is_start = 0;
 	}
-	else if (elem->next_is_end == 1)
+	else if (elem->next_is_end == 1 && elem->end_id == -1)
 	{
 		tmp->status = END;
 		elem->end_id = tmp->room_id;
@@ -45,17 +46,17 @@ void		ft_status_update(t_all *elem, t_room *tmp)
 	}
 }
 
-int 		check_room(t_room *room, char **tab)
+int			check_room(t_room *room, char **tab)
 {
-	int 		x;
-	int 		y;
+	int			x;
+	int			y;
 
 	x = ft_atol(tab[1]);
 	y = ft_atol(tab[2]);
 	while (room)
 	{
-		if (room->coord_x_room == x
-			|| room->coord_y_room == y
+		if ((room->coord_x_room == x
+			&& room->coord_y_room == y)
 			|| !ft_strcmp(room->name_room, tab[0]))
 			return (0);
 		room = room->next;
@@ -75,14 +76,12 @@ int 		check_room(t_room *room, char **tab)
 **	si ni start ni end, l etat est NOT et par defaut available est NO_VISITED
 */
 
-int				ft_room(t_all *elem, char **tab_coor)
+int			ft_room(t_all *elem, char **tab_coor)
 {
 	int		i;
 	int		j;
 	t_room	*tmp;
-	int		room_id;
 
-	room_id = elem->number_rooms;
 	i = 0;
 	while (tab_coor[++i] && i < 3)
 		if (ft_check_nb(tab_coor[i], &j) == ERROR)
@@ -96,29 +95,16 @@ int				ft_room(t_all *elem, char **tab_coor)
 		free(tmp);
 		return (ERROR);
 	}
-	elem->number_rooms = elem->number_rooms + 1;
-	tmp->room_id = room_id;
+	tmp->room_id = elem->number_rooms++;
 	tmp->available = NO_VISITED;
 	tmp->name_room = ft_strdup(tab_coor[0]);
 	tmp->tab = NULL;
 	tmp->next = NULL;
-	tmp->bfs = -1;
 	ft_status_update(elem, tmp);
 	return (SUCCESS);
 }
 
-
-/*
-**	Si nous sommes la c est que la ligne n est ni un commentaire
-**	ni une instruction, ni un nombre de fourmies
-**	On commence par verifier s il s agit d un pipe si oui on envoie la ligne
-**	a ft_tube
-**	avec strsplit et ' ' on separe chaque str bornee par un espace
-**	si il y a 3 champs, on utilise ft_room avec ce tableau de char
-**	on free ce tableau de char cree pour l occasion  
-*/
-
-int		ft_one_line_tube_or_room(t_all *elem, char *line)
+int			ft_one_line_tube_or_room(t_all *elem, char *line)
 {
 	char	**tab;
 	int		i;
@@ -129,7 +115,8 @@ int		ft_one_line_tube_or_room(t_all *elem, char *line)
 		return (ft_tube(elem, line));
 	if (!(tab = ft_strsplit(line, ' ')))
 		return (ERROR);
-	while (tab[++i]);
+	while (tab[++i])
+		;
 	if (i == 3)
 	{
 		ret = ft_room(elem, tab);
@@ -153,7 +140,7 @@ int		ft_one_line_tube_or_room(t_all *elem, char *line)
 **	Si rien de tout envoie la ligne a ft_one_line_tube_or_room
 */
 
-int		ft_get_instructions(t_all *elem, char *line)
+int			ft_get_instructions(t_all *elem, char *line)
 {
 	static int	i = 0;
 
@@ -161,12 +148,12 @@ int		ft_get_instructions(t_all *elem, char *line)
 		return (ERROR);
 	else if (i == 0)
 		return (ft_check_nb_ants(elem, line, &i));
-	else if (ft_strcmp(line, "##start") == 0)//&& a->check.start == 0) //limiter a ##start\n ? // est ce juste avec plusieurs start?
+	else if (ft_strcmp(line, "##start") == 0)
 	{
 		elem->next_is_start = 1;
 		return (SUCCESS);
 	}
-	else if (ft_strcmp(line, "##end") == 0)//&& a->check.end == 0) //limiter a ##end\n ?  // est ce juste avec plusieurs end?
+	else if (ft_strcmp(line, "##end") == 0)
 	{
 		elem->next_is_end = 1;
 		return (SUCCESS);

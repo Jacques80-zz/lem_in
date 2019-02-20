@@ -44,11 +44,6 @@ int		ft_realloc_room_tab(t_room ***tab, t_room *room)
 	return (SUCCESS);
 }
 
-/*
-**	Verfie que le nom de room associé au tube existe
-**	Garanti le malloc des nouveaux tableaux de rooms
-*/
-
 int		ft_tube_aux(t_all *elem, t_room **tmp, t_room **cur)
 {
 	t_room ***matrice;
@@ -69,11 +64,9 @@ int		ft_tube_aux(t_all *elem, t_room **tmp, t_room **cur)
 	else
 	{
 		matrice = elem->matrice;
-//		ft_print_matrice(matrice, elem);
 		ft_set_matrice(tmp, cur, matrice);
 		elem->matrice = matrice;
 	}
-//	ft_print_matrice(elem->matrice, elem);
 	return (SUCCESS);
 }
 
@@ -122,7 +115,8 @@ int		ft_check_nb(char *s, int *nb)
 	long long	long_nb;
 
 	i = (s[0] == '-') ? 0 : -1;
-	while (ft_isdigit(s[++i]) && s[i]);
+	while (ft_isdigit(s[++i]) && s[i])
+		;
 	if (s[i] != '\0')
 		return (ERROR);
 	if (i > 12)

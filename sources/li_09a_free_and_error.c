@@ -117,11 +117,8 @@ void	free_room(t_room *room)
 	}
 }
 
-/*
-**	ft_free_path
-*/
-
-void	ft_free_path(t_lst *lst)
+void	free_bfs(t_files *tmp)
 {
-	(void)lst;
+	free_path(tmp->path);
+	free(tmp);
 }

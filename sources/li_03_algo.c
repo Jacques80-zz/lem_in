@@ -45,8 +45,6 @@ void		delete_bad_link(t_all elem, int **matrice_flow)
 			{
 				matrice_flow[i][j] = 0;
 				matrice_flow[j][i] = 0;
-				//matrice[i][j]->available = VISITED;
-				//matrice[j][i]->available = VISITED;
 			}
 			j++;
 		}
@@ -54,7 +52,7 @@ void		delete_bad_link(t_all elem, int **matrice_flow)
 	}
 }
 
-t_path 		*return_bfs(t_files *file, t_files *tmp)
+t_path		*return_bfs(t_files *file, t_files *tmp)
 {
 	t_path			*path;
 
@@ -64,7 +62,7 @@ t_path 		*return_bfs(t_files *file, t_files *tmp)
 	return (path);
 }
 
-t_path		*bfs(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start, int bfs) // TODO trop de parametres et trop de lignes, et certianes lignes trop grande
+t_path		*bfs(t_all elem, t_room ***matrice, int **flow, t_room *start)
 {
 	int				i;
 	int				j;
@@ -73,29 +71,27 @@ t_path		*bfs(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start, i
 
 	file = NULL;
 	push_file(&file, start, NULL);
-	while (file)
+	while (file && (tmp = pop_file(&file)))
 	{
-		tmp = pop_file(&file);
 		i = tmp->room->room_id;
 		j = -1;
 		if (tmp->room->status == END)
 			return (return_bfs(file, tmp));
 		while (++j < elem.number_rooms)
 			if (matrice[i][j] && matrice[i][j]->available != VISITED
-				&& matrice_flow[i][j] != 1 && matrice[i][j]->bfs != bfs)
+				&& flow[i][j] != 1 && matrice[i][j]->bfs != elem.bfs)
 			{
 				if (matrice[i][j]->available == POSSIBLE_PATH)
 					matrice[i][j]->available = VISITED;
-				matrice[i][j]->bfs = bfs;
+				matrice[i][j]->bfs = elem.bfs;
 				push_file(&file, matrice[i][j], path_cpy(tmp->path));
 			}
-		free_path(tmp->path);
-		free(tmp);
+		free_bfs(tmp);
 	}
 	return (NULL);
 }
 
-t_tab_path	*return_tab_path(t_all elem, t_room ***matrice, int **matrice_flow, t_room *start)
+t_tab_path	*return_tab_path(t_all elem, t_room ***mat, int **flow, t_room *s)
 {
 	t_files				*file;
 	t_files				*tmp;
@@ -104,7 +100,7 @@ t_tab_path	*return_tab_path(t_all elem, t_room ***matrice, int **matrice_flow, t
 	int					j;
 
 	file = NULL;
-	push_file(&file, start, NULL);
+	push_file(&file, s, NULL);
 	tab = NULL;
 	while (file && (tmp = pop_file(&file)))
 	{
@@ -114,36 +110,34 @@ t_tab_path	*return_tab_path(t_all elem, t_room ***matrice, int **matrice_flow, t
 			add_path_to_tab(&tab, path_cpy(tmp->path));
 		else
 			while (++j < elem.number_rooms)
-				if (matrice_flow[i][j])
+				if (flow[i][j])
 				{
-					matrice_flow[i][j] = 0;
-					push_file(&file, matrice[i][j], path_cpy(tmp->path));
+					flow[i][j] = 0;
+					push_file(&file, mat[i][j], path_cpy(tmp->path));
 				}
-		free_path(tmp->path);
-		free(tmp);
+		free_bfs(tmp);
 	}
 	return (tab);
 }
 
-t_tab_path	*edmond_karp(t_all *elem, t_room ***matrice, int **matrice_flow, t_room *start)
+t_tab_path	*edmond_karp(t_all *elem, t_room ***matrice, int **flow, t_room *s)
 {
 	t_tab_path	*tab;
 	t_path		*path;
-	int			bfs_nb;
 
-	bfs_nb = 0;
 	if (!matrice)
 		return (NULL);
-	while ((path = bfs(*elem, matrice, matrice_flow, start, bfs_nb++)))
+	while ((path = bfs(*elem, matrice, flow, s)))
 	{
-		put_flow_in_matrice(matrice_flow, path);
-		delete_bad_link(*elem, matrice_flow);
+		put_flow_in_matrice(flow, path);
+		delete_bad_link(*elem, flow);
 		if (elem->shortest_path == NULL)
 			elem->shortest_path = path;
 		else
 			free_path(path);
+		elem->bfs++;
 	}
-	tab = return_tab_path(*elem, matrice, matrice_flow, start);
-	tab = remove_bad_path(tab); // TODO leak quand pas de chemin dispo
+	tab = return_tab_path(*elem, matrice, flow, s);
+	tab = remove_bad_path(tab);
 	return (tab);
 }

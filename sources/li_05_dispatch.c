@@ -28,7 +28,7 @@ int		diff_between_path(t_tab_path *tab, int i)
 	return (difference);
 }
 
-int		ft_get_how_many_path_are_usefull(t_all elem, t_tab_path *tab, int i, int capacity) // TODO trop de parametres
+int		ft_nb_path(t_all elem, t_tab_path *tab, int i, int capacity)
 {
 	int nb_ant;
 
@@ -42,7 +42,7 @@ int		ft_get_how_many_path_are_usefull(t_all elem, t_tab_path *tab, int i, int ca
 	else
 	{
 		i++;
-		return (ft_get_how_many_path_are_usefull(elem, tab, i, capacity));
+		return (ft_nb_path(elem, tab, i, capacity));
 	}
 }
 
@@ -70,8 +70,6 @@ void	add_ant(t_ant **ant, int nb, t_path *path)
 	}
 }
 
-
-
 void	remove_ant(t_ant **ant)
 {
 	t_ant		*tmp;
@@ -87,9 +85,8 @@ void	remove_ant(t_ant **ant)
 			tmp->prev = NULL;
 	}
 	tmp_ant = *ant;
-	while (tmp_ant)
+	while (tmp_ant && (tmp = tmp_ant->next) + 1)
 	{
-		tmp = tmp_ant->next;
 		if (tmp_ant->path->room->status == END)
 		{
 			tmp_ant->prev->next = tmp;
@@ -104,7 +101,7 @@ void	remove_ant(t_ant **ant)
 
 void	move_ant(t_ant **ptr_ant)
 {
-	t_ant 		*ant;
+	t_ant		*ant;
 
 	ant = *ptr_ant;
 	while (ant)
@@ -140,11 +137,10 @@ void	ft_dispatch_short(t_all elem, t_path *path)
 {
 	t_ant		*ant;
 	int			i;
-	
+
 	ant = NULL;
 	i = 0;
 	ft_putchar('\n');
-	ft_printf("je suis la\n");
 	while (elem.number_ants && ++i)
 	{
 		add_ant(&ant, elem.number_ants--, path);
@@ -155,26 +151,24 @@ void	ft_dispatch_short(t_all elem, t_path *path)
 	ft_printf("number lines: %d\n", i);
 }
 
-void	ft_dispatch(t_all elem, t_tab_path *tab) // TODO trop de lignes, trop de variables
+void	ft_dispatch(t_all elem, t_tab_path *tab)
 {
 	t_ant		*ant;
 	t_tab_path	*tmp;
-	int			i;
 	int			nb;
 	int			ret;
 
 	ant = NULL;
-	i = 0;
 	if (path_size(elem.shortest_path) - 2 > elem.number_ants)
 		return (ft_dispatch_short(elem, elem.shortest_path));
 	ft_putchar('\n');
-	while (elem.number_ants && ++i)
+	while (elem.number_ants)
 	{
 		tmp = tab;
 		nb = 1;
 		while (tmp && elem.number_ants)
 		{
-			ret = ft_get_how_many_path_are_usefull(elem, tab, 1, 0);
+			ret = ft_nb_path(elem, tab, 1, 0);
 			if (nb <= ret)
 				add_ant(&ant, elem.number_ants--, tmp->path);
 			tmp = tmp->next;
@@ -182,7 +176,6 @@ void	ft_dispatch(t_all elem, t_tab_path *tab) // TODO trop de lignes, trop de va
 		}
 		move_ant(&ant);
 	}
-	while (ant && i++)
+	while (ant)
 		move_ant(&ant);
-	ft_printf("number lines: %d\n", i);
 }
