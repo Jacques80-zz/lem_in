@@ -71,6 +71,8 @@ t_tab_path	*remove_bad_path(t_tab_path *tab)
 	t_tab_path		*new;
 
 	tmp_tab = tab;
+	if (!tab)
+		return (NULL);
 	while (tab->next)
 	{
 		tmp = tab;

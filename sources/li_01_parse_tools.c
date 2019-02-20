@@ -45,6 +45,24 @@ void		ft_status_update(t_all *elem, t_room *tmp)
 	}
 }
 
+int 		check_room(t_room *room, char **tab)
+{
+	int 		x;
+	int 		y;
+
+	x = ft_atol(tab[1]);
+	y = ft_atol(tab[2]);
+	while (room)
+	{
+		if (room->coord_x_room == x
+			|| room->coord_y_room == y
+			|| !ft_strcmp(room->name_room, tab[0]))
+			return (0);
+		room = room->next;
+	}
+	return (1);
+}
+
 /*
 **	ft_room est appele lorsque la ligne contient 3 champs separes par un
 ** 	ou plusieurs espaces
@@ -69,24 +87,26 @@ int				ft_room(t_all *elem, char **tab_coor)
 	while (tab_coor[++i] && i < 3)
 		if (ft_check_nb(tab_coor[i], &j) == ERROR)
 			return (ERROR);
-	if (!(tmp = (t_room *)malloc(sizeof(t_room))))
+	if (!(tmp = (t_room *)ft_memalloc(sizeof(t_room))))
 		return (ERROR);
 	tmp->coord_x_room = ft_atoi(tab_coor[1]);
 	tmp->coord_y_room = ft_atoi(tab_coor[2]);
-	if (tab_coor[0][0] == 'L')
+	if (tab_coor[0][0] == 'L' || !check_room(elem->room, tab_coor))
+	{
+		free(tmp);
 		return (ERROR);
+	}
 	elem->number_rooms = elem->number_rooms + 1;
 	tmp->room_id = room_id;
 	tmp->available = NO_VISITED;
-	tmp->name_room = ft_strnew(ft_strlen(tab_coor[0]));
-	tmp->name_room = ft_strcpy(tmp->name_room, tab_coor[0]);
+	tmp->name_room = ft_strdup(tab_coor[0]);
 	tmp->tab = NULL;
-	tmp->prev = NULL;
 	tmp->next = NULL;
 	tmp->bfs = -1;
 	ft_status_update(elem, tmp);
 	return (SUCCESS);
 }
+
 
 /*
 **	Si nous sommes la c est que la ligne n est ni un commentaire
@@ -109,8 +129,7 @@ int		ft_one_line_tube_or_room(t_all *elem, char *line)
 		return (ft_tube(elem, line));
 	if (!(tab = ft_strsplit(line, ' ')))
 		return (ERROR);
-	while (tab[++i])
-		;
+	while (tab[++i]);
 	if (i == 3)
 	{
 		ret = ft_room(elem, tab);

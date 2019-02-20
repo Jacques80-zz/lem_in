@@ -91,7 +91,6 @@ typedef struct			s_all
 	int					start_id;
 	int					end_id;
 	t_path				*shortest_path;
-	int					flow_max;
 }						t_all;
 
 typedef struct			s_lst
@@ -106,6 +105,14 @@ typedef struct			s_files
 	int					n;
 	struct s_files		*next;
 }						t_files;
+
+typedef struct 			s_check
+{
+	int 				x;
+	int 				y;
+	char				*name;
+	struct s_check		*next;
+}						t_check;
 
 /*
 **	li_00 initialisation

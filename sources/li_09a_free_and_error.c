@@ -112,6 +112,7 @@ void	free_room(t_room *room)
 		tmp = room->next;
 		free(room->name_room);
 		free(room->tab);
+		free(room);
 		room = tmp;
 	}
 }

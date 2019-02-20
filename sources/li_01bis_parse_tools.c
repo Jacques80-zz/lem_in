@@ -122,8 +122,7 @@ int		ft_check_nb(char *s, int *nb)
 	long long	long_nb;
 
 	i = (s[0] == '-') ? 0 : -1;
-	while (ft_isdigit(s[++i]) && s[i])
-		;
+	while (ft_isdigit(s[++i]) && s[i]);
 	if (s[i] != '\0')
 		return (ERROR);
 	if (i > 12)

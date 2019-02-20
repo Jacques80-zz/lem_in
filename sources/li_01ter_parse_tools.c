@@ -28,7 +28,8 @@ void			ft_init_elem(t_all *elem)
 	elem->next_is_start = 0;
 	elem->next_is_end = 0;
 	elem->shortest_path = NULL;
-	elem->flow_max = -1;
+	elem->start_id = -1;
+	elem->end_id = -1;
 }
 
 /*
