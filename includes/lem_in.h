@@ -19,14 +19,14 @@
 
 # include "libft.h"
 
-typedef enum			e_status // pour room
+typedef enum			e_status
 {
 	START, END, NOT
 }						t_status;
 
-typedef enum			e_available // pour room // pertinent pour multipath complexe?
+typedef enum			e_available
 {
-	VISITED, NO_VISITED, POSSIBLE_PATH, PATH // gerer le possible path
+	VISITED, NO_VISITED, POSSIBLE_PATH, PATH
 }						t_available;
 
 typedef struct			s_map
@@ -46,7 +46,7 @@ typedef	struct			s_room
 	struct s_room		*next;
 	struct s_room		**tab;
 	t_status			status;
-	t_available			available; // TODO a kick
+	t_available			available;
 }						t_room;
 
 typedef struct			s_path
@@ -106,14 +106,6 @@ typedef struct			s_files
 	int					n;
 	struct s_files		*next;
 }						t_files;
-
-typedef struct 			s_check
-{
-	int 				x;
-	int 				y;
-	char				*name;
-	struct s_check		*next;
-}						t_check;
 
 /*
 **	li_00 initialisation
@@ -176,7 +168,6 @@ void					ft_error(int nb);
 void					ft_free_path(t_lst *lst);
 void					free_bfs(t_files *tmp);
 
-
 /*
 **	li_09b Search and Init Tools
 */
@@ -229,11 +220,9 @@ void					ft_print_infos(t_all *elem);
 */
 
 t_path					*return_bfs(t_files *file, t_files *tmp);
-int						ft_nb_path(t_all elem, t_tab_path *tab, int i, int capacity);
+int						ft_nb_path(t_all elem, t_tab_path *tab, int i, int c);
 void					add_ant(t_ant **ant, int nb, t_path *path);
 void					ft_print_infos(t_all *elem);
-
-
 
 /*
 **	debbug

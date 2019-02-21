@@ -61,7 +61,6 @@ void	ft_dispatch_short(t_all elem, t_path *path)
 	t_ant		*ant;
 
 	ant = NULL;
-	ft_putchar('\n');
 	while (elem.number_ants)
 	{
 		add_ant(&ant, elem.number_ants--, path);
@@ -77,14 +76,11 @@ void	ft_dispatch(t_all elem, t_tab_path *tab)
 	t_tab_path	*tmp;
 	int			nb;
 	int			ret;
-	int			i;
 
-	i = 0;
 	ant = NULL;
 	if (path_size(elem.shortest_path) - 2 > elem.number_ants)
 		return (ft_dispatch_short(elem, elem.shortest_path));
-	ft_putchar('\n');
-	while (elem.number_ants && ++i)
+	while (elem.number_ants)
 	{
 		tmp = tab;
 		nb = 1;
@@ -98,7 +94,6 @@ void	ft_dispatch(t_all elem, t_tab_path *tab)
 		}
 		move_ant(&ant);
 	}
-	while (ant && ++i)
+	while (ant)
 		move_ant(&ant);
-	ft_printf("line = %d\n", i);
 }

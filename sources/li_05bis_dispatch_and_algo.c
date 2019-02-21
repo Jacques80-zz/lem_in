@@ -22,25 +22,6 @@ t_path		*return_bfs(t_files *file, t_files *tmp)
 	return (path);
 }
 
-/*
-**	Imprime toute la map jusqu'a la derniere ligne valide
-*/
-
-void		ft_print_infos(t_all *elem)
-{
-	t_map		*tmp;
-
-	tmp = elem->map;
-	while (elem->map != NULL)
-	{
-		tmp = elem->map->next;
-		ft_printf("%s\n", elem->map->str);
-		free(elem->map->str);
-		free(elem->map);
-		elem->map = tmp;
-	}
-}
-
 int			diff_between_path(t_tab_path *tab, int i)
 {
 	int difference;

@@ -13,6 +13,26 @@
 #include "../includes/lem_in.h"
 
 /*
+**	Imprime toute la map jusqu'a la derniere ligne valide
+*/
+
+void		ft_print_infos(t_all *elem)
+{
+	t_map		*tmp;
+
+	tmp = elem->map;
+	while (elem->map != NULL)
+	{
+		tmp = elem->map->next;
+		ft_printf("%s\n", elem->map->str);
+		free(elem->map->str);
+		free(elem->map);
+		elem->map = tmp;
+	}
+	ft_printf("\n");
+}
+
+/*
 **	ft_init_elem est appele au debut de ft_read
 **	elle met tous les int a 0 et les tableaux (char ou room) a NULL
 */
