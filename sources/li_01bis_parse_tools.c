@@ -86,11 +86,13 @@ int		ft_tube(t_all *elem, char *line)
 	int		i;
 
 	i = 0;
+	if (elem->start_id == -1 || elem->end_id == -1)
+		return (ERROR);
 	if (!(tab_tube = ft_strsplit(line, '-')))
 		return (ERROR);
 	while (tab_tube[++i])
 		;
-	if (i != 2)
+	if (i != 2 || !ft_strcmp(tab_tube[0], tab_tube[1]))
 		return (ERROR);
 	tmp = elem->room;
 	cur = elem->room;
@@ -136,9 +138,13 @@ int		ft_check_nb(char *s, int *nb)
 
 int		ft_check_nb_ants(t_all *elem, char *str, int *i)
 {
+	if (!ft_strncmp(str, "##start", 7))
+		return (ERROR);
 	if (str[0] == '#')
 		return (SUCCESS);
 	if (ft_check_nb(str, &elem->number_ants) == ERROR)
+		return (ERROR);
+	if (elem->number_ants > INT_MAX || elem->number_ants <= 0)
 		return (ERROR);
 	++(*i);
 	return (SUCCESS);

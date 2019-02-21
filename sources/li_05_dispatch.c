@@ -136,19 +136,16 @@ void	ft_print_infos(t_all *elem)
 void	ft_dispatch_short(t_all elem, t_path *path)
 {
 	t_ant		*ant;
-	int			i;
 
 	ant = NULL;
-	i = 0;
 	ft_putchar('\n');
-	while (elem.number_ants && ++i)
+	while (elem.number_ants)
 	{
 		add_ant(&ant, elem.number_ants--, path);
 		move_ant(&ant);
 	}
-	while (ant && i++)
+	while (ant)
 		move_ant(&ant);
-	ft_printf("number lines: %d\n", i);
 }
 
 void	ft_dispatch(t_all elem, t_tab_path *tab)

@@ -21,14 +21,16 @@ void		ft_status_update(t_all *elem, t_room *tmp)
 {
 	tmp->status = NOT;
 	tmp->bfs = -1;
-	if (elem->next_is_start == 1 && elem->start_id == -1)
+	if (elem->next_is_start == 1)
 	{
+		elem->start_id != -1 ? ft_error(1) : 1;
 		tmp->status = START;
 		elem->start_id = tmp->room_id;
 		elem->next_is_start = 0;
 	}
-	else if (elem->next_is_end == 1 && elem->end_id == -1)
+	else if (elem->next_is_end == 1)
 	{
+		elem->end_id != -1 ? ft_error(1) : 1;
 		tmp->status = END;
 		elem->end_id = tmp->room_id;
 		elem->next_is_end = 0;
@@ -148,13 +150,17 @@ int			ft_get_instructions(t_all *elem, char *line)
 		return (ERROR);
 	else if (i == 0)
 		return (ft_check_nb_ants(elem, line, &i));
-	else if (ft_strcmp(line, "##start") == 0)
+	else if (ft_strncmp(line, "##start", 7) == 0)
 	{
+		if (elem->start_id != -1 || elem->next_is_start || elem->next_is_end)
+			return (ERROR);
 		elem->next_is_start = 1;
 		return (SUCCESS);
 	}
-	else if (ft_strcmp(line, "##end") == 0)
+	else if (ft_strncmp(line, "##end", 5) == 0)
 	{
+		if (elem->end_id != -1 || elem->next_is_start || elem->next_is_end)
+			return (ERROR);
 		elem->next_is_end = 1;
 		return (SUCCESS);
 	}
