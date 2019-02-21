@@ -3,7 +3,7 @@ NAME_LEM_IN = lem-in
 LEM_IN		=	lem-in
 
 CC			=	gcc
-CFLAGS		=	-Wall -Werror -Wextra -g  #-O3 #3 -fsanitize=address
+CFLAGS		=	-Wall -Werror -Wextra -g #-O3 #3 -fsanitize=address
 
 _LI_SRCS	= 	li_00_lem_in.c \
 			  	li_01_parse_tools.c \
@@ -12,14 +12,14 @@ _LI_SRCS	= 	li_00_lem_in.c \
 			  	li_02_begin.c \
 			  	li_03_algo.c \
 				li_05_dispatch.c \
+				li_05bis_dispatch_and_algo.c \
 				li_06_tab_path_tools.c \
 			  	li_09a_free_and_error.c \
 			  	li_09bis_free_and_error.c \
 			  	li_09b_search_and_init_tools.c \
 			  	li_09c_matrice_tools.c \
-			  	li_09d_path_tools.c \
-				li_05bis_dispatch_and_algo.c
-
+			  	li_09d_path_tools.c 
+			
 _LIBFT		=	libft.a
 
 SRCS_DIR	=	sources
