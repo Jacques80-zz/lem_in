@@ -42,7 +42,7 @@ int			main(int ac, char **av)
 	if (ft_read(&elem) == FAIL)
 	{
 		ft_free_all(&elem);
-		ft_printf("Error\n");
+		ft_printf("ERROR\n");
 		return (EXIT_FAILURE);
 	}
 	check_map(elem);

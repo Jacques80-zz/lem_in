@@ -3,7 +3,11 @@ NAME_LEM_IN = lem-in
 LEM_IN		=	lem-in
 
 CC			=	gcc
+<<<<<<< HEAD
 CFLAGS		=	-Wall -Werror -Wextra -g #-O3 #3 -fsanitize=address
+=======
+CFLAGS		=	-Wall -Werror -Wextra -g  -Ofast
+>>>>>>> be618291a79f761ca6ac00ca6aef021d67b527b4
 
 _LI_SRCS	= 	li_00_lem_in.c \
 			  	li_01_parse_tools.c \

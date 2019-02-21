@@ -12,10 +12,6 @@
 
 #include "../includes/lem_in.h"
 
-/*
-**	ft_free_room
-*/
-
 void	ft_free_room(t_lst *lst)
 {
 	t_room	*room;
@@ -24,10 +20,6 @@ void	ft_free_room(t_lst *lst)
 	free(room->name_room);
 	free(room->tab);
 }
-
-/*
-**	ft_free_list
-*/
 
 void	ft_free_lst(t_lst *lst, void (*f)(t_lst *lst))
 {
@@ -42,18 +34,10 @@ void	ft_free_lst(t_lst *lst, void (*f)(t_lst *lst))
 	}
 }
 
-/*
-**	ft_free_all
-*/
-
 void	ft_free_all(t_all *elem)
 {
 	ft_free_lst((t_lst*)elem->room, ft_free_room);
 }
-
-/*
-**	ft_free_them
-*/
 
 int		ft_free_them(size_t n, ...)
 {

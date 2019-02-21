@@ -12,11 +12,6 @@
 
 #include "../includes/lem_in.h"
 
-/*
-**	ft_status_update permet de mettre le status des rooms start et end
-**	il met ensuite NO_VISITED qui signifie que l algo n est pas encore parcouru
-*/
-
 void		ft_status_update(t_all *elem, t_room *tmp)
 {
 	tmp->bfs = -1;
@@ -63,18 +58,6 @@ int			check_room(t_room *room, char **tab)
 	}
 	return (1);
 }
-
-/*
-**	ft_room est appele lorsque la ligne contient 3 champs separes par un
-** 	ou plusieurs espaces
-**	si tab_coor de 1 et 2 n 'est pas un int (ferme d un \0) erreur
-**	On alloue la zone memoire necessaire a un tableau de room ici tmp
-**	avec atoi on sette les coordonnees x et y de la piece
-**	avec strcpy on sette le nom de la piece
-**	on initialise le reste des infos utiles a 0 (nb ant) ou a null
-**	si on attend apres start ou end on changera l etat avec ft_status_update
-**	si ni start ni end, l etat est NOT et par defaut available est NO_VISITED
-*/
 
 int			ft_room(t_all *elem, char **tab_coor)
 {
@@ -130,16 +113,6 @@ int			ft_one_line_tube_or_room(t_all *elem, char *line)
 	free(tab);
 	return (ret);
 }
-
-/*
-**	ft_get_instructions est appelee a chaque ligne lue par ft_read
-**	Elle retourne ERROR si la ligne lue est non valide
-**	Si les fourmies n'ont pas encore ete settees => ft_check_nb_ants
-**	Si elle lit start, set next_is_start a 1
-**	Sinon si elle lit end, set next_is_start a 1
-**	sinon si elle lit un # au premier caractere la ligne est ignoree
-**	Si rien de tout envoie la ligne a ft_one_line_tube_or_room
-*/
 
 int			ft_get_instructions(t_all *elem, char *line)
 {

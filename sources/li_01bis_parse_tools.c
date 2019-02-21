@@ -12,10 +12,6 @@
 
 #include "../includes/lem_in.h"
 
-/*
-**	Réalloue la mémoire nécessaire à l'implémentation d'un nouveau pipe
-*/
-
 int		ft_realloc_room_tab(t_room ***tab, t_room *room)
 {
 	t_room	**new;
@@ -70,14 +66,6 @@ int		ft_tube_aux(t_all *elem, t_room **tmp, t_room **cur)
 	return (SUCCESS);
 }
 
-/*
-**	Appelé quand 1 seule str dans la ligne, qui ne commence pas par # et
-**	qui contient '-'. Condition d'erreur ne permettant pas plus d'une
-**	liaison (et qui suppose qu'une room ne peut pas contenir de '-'
-**	si la room n existe pas tmp ou cur sera set a NULL et tube aux reverra une
-**	erreur
-*/
-
 int		ft_tube(t_all *elem, char *line)
 {
 	t_room	*tmp;
@@ -106,11 +94,6 @@ int		ft_tube(t_all *elem, char *line)
 	return (ft_free_them(1, tab_tube) ? SUCCESS : SUCCESS);
 }
 
-/*
-**	Outil permettant simplement de verifier que les coordonnees des salles et
-**	le nombre de fourmis tiennent bien dans un int
-*/
-
 int		ft_check_nb(char *s, int *nb)
 {
 	int			i;
@@ -129,12 +112,6 @@ int		ft_check_nb(char *s, int *nb)
 	*nb = (int)long_nb;
 	return (SUCCESS);
 }
-
-/*
-**	Est appele pour la premiere ligne (hors commentaire)
-**	utilise check_nb pour verifier que le nombre est bien un int
-**	et ecrire a l'adresse elem->nb_ants la quantite de fourmies a envoyer
-*/
 
 int		ft_check_nb_ants(t_all *elem, char *str, int *i)
 {

@@ -12,10 +12,6 @@
 
 #include "../includes/lem_in.h"
 
-/*
-**	ft_error_tube
-*/
-
 int		ft_error_tube(char ***tab_tube)
 {
 	int		i;
@@ -27,10 +23,6 @@ int		ft_error_tube(char ***tab_tube)
 	return (ERROR);
 }
 
-/*
-**	ft_error
-*/
-
 void	ft_error(int nb)
 {
 	if (nb)
@@ -39,10 +31,6 @@ void	ft_error(int nb)
 		exit(1);
 	}
 }
-
-/*
-**	free_room
-*/
 
 void	free_room(t_room *room)
 {
