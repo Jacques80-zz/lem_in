@@ -19,7 +19,6 @@
 
 void		ft_status_update(t_all *elem, t_room *tmp)
 {
-	tmp->status = NOT;
 	tmp->bfs = -1;
 	if (elem->next_is_start == 1)
 	{
@@ -35,7 +34,6 @@ void		ft_status_update(t_all *elem, t_room *tmp)
 		elem->end_id = tmp->room_id;
 		elem->next_is_end = 0;
 	}
-	tmp->available = NO_VISITED;
 	if (elem->room == NULL)
 	{
 		elem->room = tmp;
@@ -99,6 +97,7 @@ int			ft_room(t_all *elem, char **tab_coor)
 	}
 	tmp->room_id = elem->number_rooms++;
 	tmp->available = NO_VISITED;
+	tmp->status = NOT;
 	tmp->name_room = ft_strdup(tab_coor[0]);
 	tmp->tab = NULL;
 	tmp->next = NULL;

@@ -225,6 +225,17 @@ void					ft_dispatch(t_all elem, t_tab_path *tab);
 void					ft_print_infos(t_all *elem);
 
 /*
+**	li_05bis dispatch and algo tools
+*/
+
+t_path					*return_bfs(t_files *file, t_files *tmp);
+int						ft_nb_path(t_all elem, t_tab_path *tab, int i, int capacity);
+void					add_ant(t_ant **ant, int nb, t_path *path);
+void					ft_print_infos(t_all *elem);
+
+
+
+/*
 **	debbug
 */
 

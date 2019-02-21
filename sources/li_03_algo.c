@@ -52,16 +52,6 @@ void		delete_bad_link(t_all elem, int **matrice_flow)
 	}
 }
 
-t_path		*return_bfs(t_files *file, t_files *tmp)
-{
-	t_path			*path;
-
-	free_file(file);
-	path = tmp->path;
-	free(tmp);
-	return (path);
-}
-
 t_path		*bfs(t_all elem, t_room ***matrice, int **flow, t_room *start)
 {
 	int				i;
